@@ -26,7 +26,7 @@ const p = getProducto(id);
   >
     <span class="prod-thumb" aria-hidden="true" style={p.imagen ? `background-image:url('${p.imagen}');background-size:cover;background-position:center` : ''}></span>
     <span class="prod-body">
-      <span class="prod-cat">{p.categoria}</span>
+      <span class="prod-cat">{p.categoria}{p.natural && <span class="prod-nat">🌿 Natural</span>}</span>
       <span class="prod-name">{p.nombre}</span>
       <span class="prod-desc">{p.descripcion}</span>
     </span>
@@ -49,6 +49,7 @@ const p = getProducto(id);
   .prod-thumb{width:64px;height:64px;border-radius:14px;
     background:linear-gradient(135deg,var(--accent),var(--accent-deep))}
   .prod-cat{display:block;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep)}
+  .prod-nat{display:inline-block;margin-left:8px;background:#E8F3E4;color:#4f7a3e;padding:2px 8px;border-radius:100px;letter-spacing:.04em}
   .prod-name{display:block;font-family:'Fraunces',serif;font-weight:500;font-size:1.18rem;margin:3px 0}
   .prod-desc{display:block;font-size:.9rem;color:var(--ink-soft)}
   .prod-side{text-align:right;white-space:nowrap}

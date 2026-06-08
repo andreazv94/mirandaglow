@@ -10,6 +10,10 @@ export async function GET({ site }) {
     '/',
     '/test',
     '/blog',
+    '/sobre',
+    '/aviso-legal',
+    '/privacidad',
+    '/cookies',
     ...posts.map((p) => `/blog/${p.slug}`),
   ];
 

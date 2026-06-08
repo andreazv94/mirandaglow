@@ -1,0 +1,25 @@
+---
+import Layout from './Layout.astro';
+const { title, fecha } = Astro.props;
+---
+<Layout title={`${title} — Miranda Glow`} description={title}>
+  <article class="legal wrap">
+    <h1>{title}</h1>
+    {fecha && <p class="legal-fecha">Última actualización: {fecha}</p>}
+    <div class="legal-body">
+      <slot />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .legal{max-width:780px;padding:70px 28px 100px}
+  .legal h1{font-size:clamp(2rem,4.5vw,2.8rem);margin-bottom:10px}
+  .legal-fecha{color:var(--ink-soft);font-size:.88rem;margin-bottom:40px}
+  .legal-body :global(h2){font-family:'Fraunces',serif;font-weight:500;font-size:1.4rem;margin:38px 0 14px}
+  .legal-body :global(p){margin-bottom:16px;color:#3a4f53;line-height:1.7}
+  .legal-body :global(ul){margin:0 0 16px 22px}
+  .legal-body :global(li){margin-bottom:8px;color:#3a4f53}
+  .legal-body :global(a){color:var(--accent-deep)}
+  .legal-body :global(strong){color:var(--ink)}
+</style>

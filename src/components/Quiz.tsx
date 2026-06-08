@@ -132,7 +132,7 @@ export default function Quiz() {
           <a key={p.id} className="prod" href={p.url} target="_blank" rel="sponsored nofollow noopener">
             <span className="stepn"><small>PASO</small><b>{i + 1}</b></span>
             <span className="pinfo">
-              <span className="cat">{p.categoria}</span>
+              <span className="cat">{p.categoria}{p.natural && <span className="nat-badge">🌿 Natural</span>}</span>
               <b>{p.nombre}</b>
               <span className="d">{p.descripcion}</span>
               <span className="freq">⟳ {p.frecuencia}</span>
@@ -217,6 +217,7 @@ function Styles() {
       .rutina-tip{text-align:left;background:var(--bg-deep);border-radius:14px;padding:18px 22px;font-size:.92rem;color:var(--ink-soft);line-height:1.6}
       .rutina-tip b{color:var(--ink)}
       .freq{display:inline-block;margin-top:8px;font-size:.8rem;color:var(--accent-deep);background:var(--bg-deep);padding:3px 10px;border-radius:100px}
+      .nat-badge{display:inline-block;margin-left:8px;background:#E8F3E4;color:#4f7a3e;padding:2px 8px;border-radius:100px;letter-spacing:.04em;font-size:.7rem}
       .prod{display:grid;grid-template-columns:64px 1fr auto;gap:20px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 24px;margin-bottom:14px;text-decoration:none;color:var(--ink);transition:transform .25s}
       .prod:hover{transform:translateX(4px)}
       .prod .stepn{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Fraunces',serif}

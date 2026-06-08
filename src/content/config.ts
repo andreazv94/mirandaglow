@@ -15,6 +15,8 @@ const blog = defineCollection({
     // Imagen de portada. Ruta dentro de /public, ej: '/img/blog/acne.jpg'
     // Si no se indica, se muestra un degradado de marca.
     imagen: z.string().optional(),
+    // true si el artículo trata sobre skincare natural (para el filtro)
+    natural: z.boolean().optional(),
   }),
 });
 

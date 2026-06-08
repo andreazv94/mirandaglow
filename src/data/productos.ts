@@ -32,6 +32,7 @@ export type Producto = {
   frecuencia: string;
   orden: number;
   imagen?: string;
+  natural?: boolean; // true si es de cosmética natural / ingredientes naturales
 };
 
 export const productos: Record<string, Producto> = {
@@ -60,6 +61,7 @@ export const productos: Record<string, Producto> = {
     momento: 'ambos',
     frecuencia: 'Mañana y noche',
     orden: 1,
+    natural: true,
   },
   vitC: {
     id: 'vitC',
@@ -99,6 +101,7 @@ export const productos: Record<string, Producto> = {
     momento: 'ambos',
     frecuencia: 'Mañana y noche',
     orden: 2,
+    natural: true,
   },
   retinol: {
     id: 'retinol',
@@ -151,6 +154,7 @@ export const productos: Record<string, Producto> = {
     momento: 'ambos',
     frecuencia: 'Mañana y noche',
     orden: 4,
+    natural: true,
   },
   spf: {
     id: 'spf',

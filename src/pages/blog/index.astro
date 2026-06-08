@@ -29,6 +29,11 @@ const tipoLabel: Record<string, string> = { seca: 'Piel seca', grasa: 'Piel gras
         <button class="fbtn activo" data-tipo="piel" data-val="todos">Todas</button>
         {tiposPiel.map((t) => <button class="fbtn" data-tipo="piel" data-val={t}>{tipoLabel[t] || t}</button>)}
       </div>
+      <div class="filtro-grupo">
+        <span class="filtro-label">Enfoque</span>
+        <button class="fbtn activo" data-tipo="natural" data-val="todos">Todos</button>
+        <button class="fbtn" data-tipo="natural" data-val="si">🌿 Solo naturales</button>
+      </div>
     </div>
 
     <div class="posts" id="posts">
@@ -38,6 +43,7 @@ const tipoLabel: Record<string, string> = { seca: 'Piel seca', grasa: 'Piel gras
           href={`/blog/${post.slug}`}
           data-concern={post.data.concern || ''}
           data-piel={(post.data.tipoPiel || []).join(',')}
+          data-natural={post.data.natural ? 'si' : 'no'}
         >
           <span
             class={`thumb${post.data.imagen ? '' : ' placeholder'}`}
@@ -60,7 +66,7 @@ const tipoLabel: Record<string, string> = { seca: 'Piel seca', grasa: 'Piel gras
 <script>
   // Filtrado en cliente. Cada botón fija el filtro de su grupo (necesidad / piel)
   // y mostramos solo las tarjetas que cumplan ambos.
-  let filtro = { concern: 'todos', piel: 'todos' };
+  let filtro = { concern: 'todos', piel: 'todos', natural: 'todos' };
 
   function aplicar() {
     const cards = document.querySelectorAll<HTMLElement>('.post-card');
@@ -69,7 +75,8 @@ const tipoLabel: Record<string, string> = { seca: 'Piel seca', grasa: 'Piel gras
       const okConcern = filtro.concern === 'todos' || c.dataset.concern === filtro.concern;
       const pieles = (c.dataset.piel || '').split(',');
       const okPiel = filtro.piel === 'todos' || pieles.includes(filtro.piel);
-      const show = okConcern && okPiel;
+      const okNatural = filtro.natural === 'todos' || c.dataset.natural === 'si';
+      const show = okConcern && okPiel && okNatural;
       c.style.display = show ? '' : 'none';
       if (show) visibles++;
     });
@@ -79,7 +86,7 @@ const tipoLabel: Record<string, string> = { seca: 'Piel seca', grasa: 'Piel gras
 
   document.querySelectorAll<HTMLElement>('.fbtn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const tipo = btn.dataset.tipo === 'concern' ? 'concern' : 'piel';
+      const tipo = btn.dataset.tipo as 'concern' | 'piel' | 'natural';
       const val = btn.dataset.val || 'todos';
       filtro[tipo] = val;
       // marca el botón activo dentro de su grupo
