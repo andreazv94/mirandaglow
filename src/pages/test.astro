@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Quiz from '../components/Quiz.tsx';
+---
+<Layout title="Test de piel — Miranda Glow" description="Haz el test y descubre tu rutina de skincare personalizada en un minuto.">
+  <section class="test-wrap wrap">
+    <!-- client:load = el quiz se hidrata en el navegador (es interactivo).
+         El resto de la web sigue siendo HTML estático y rápido. -->
+    <Quiz client:load />
+  </section>
+</Layout>
+
+<style>
+  .test-wrap{padding:70px 28px 100px}
+</style>

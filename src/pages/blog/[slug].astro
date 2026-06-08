@@ -1,0 +1,52 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Genera una página estática por cada .mdx de src/content/blog
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+<Layout title={`${post.data.titulo} — Miranda Glow`} description={post.data.descripcion}>
+  <article class="article wrap">
+    <header class="art-head">
+      {post.data.concern && <span class="tag">{post.data.concern}</span>}
+      <h1>{post.data.titulo}</h1>
+      <time>{post.data.fecha.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+
+    <aside class="art-cta">
+      <h3>¿No sabes por dónde empezar?</h3>
+      <p>Haz el test y recibe tu rutina personalizada en un minuto.</p>
+      <a class="btn" href="/test">Descubre tu rutina →</a>
+    </aside>
+  </article>
+</Layout>
+
+<style>
+  .article{max-width:760px;padding:60px 28px 90px}
+  .art-head{margin-bottom:44px}
+  .tag{display:inline-block;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:14px}
+  .art-head h1{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:14px;line-height:1.1}
+  .art-head time{font-size:.85rem;color:var(--ink-soft)}
+  .prose{font-size:1.07rem;line-height:1.75}
+  .prose :global(h2){font-family:'Fraunces',serif;font-size:1.7rem;margin:44px 0 16px}
+  .prose :global(h3){font-family:'Fraunces',serif;font-size:1.3rem;margin:32px 0 12px}
+  .prose :global(p){margin-bottom:20px;color:#3a4f53}
+  .prose :global(ul),.prose :global(ol){margin:0 0 20px 22px}
+  .prose :global(li){margin-bottom:8px}
+  .prose :global(a){color:var(--accent-deep)}
+  .art-cta{margin-top:60px;background:var(--bg-deep);border-radius:var(--radius);padding:40px;text-align:center}
+  .art-cta h3{font-family:'Fraunces',serif;font-size:1.5rem;margin-bottom:10px}
+  .art-cta p{color:var(--ink-soft);margin-bottom:22px}
+</style>
