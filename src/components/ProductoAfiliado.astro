@@ -1,0 +1,61 @@
+---
+// ============================================================
+//  TARJETA DE PRODUCTO AFILIADO
+// ============================================================
+//  Úsalo así dentro de cualquier artículo .mdx:
+//     import ProductoAfiliado from '../../components/ProductoAfiliado.astro';
+//     <ProductoAfiliado id="vitC" />
+//
+//  - Pone automáticamente rel="sponsored nofollow" (lo exige Google
+//    para enlaces de afiliado; si no lo pones, te puede penalizar).
+//  - target="_blank" para que no pierdas la visita de tu web.
+//  - Si cambias el enlace en productos.ts, se actualiza en todos lados.
+// ============================================================
+import { getProducto } from '../data/productos';
+
+interface Props { id: string; }
+const { id } = Astro.props;
+const p = getProducto(id);
+---
+{p ? (
+  <a
+    class="prod-card"
+    href={p.url}
+    target="_blank"
+    rel="sponsored nofollow noopener"
+  >
+    <span class="prod-thumb" aria-hidden="true" style={p.imagen ? `background-image:url('${p.imagen}');background-size:cover;background-position:center` : ''}></span>
+    <span class="prod-body">
+      <span class="prod-cat">{p.categoria}</span>
+      <span class="prod-name">{p.nombre}</span>
+      <span class="prod-desc">{p.descripcion}</span>
+    </span>
+    <span class="prod-side">
+      <span class="prod-price">{p.precio}</span>
+      <span class="prod-cta">Ver en {p.tienda} →</span>
+    </span>
+  </a>
+) : (
+  <span style="color:#c00">[Producto «{id}» no encontrado en productos.ts]</span>
+)}
+
+<style>
+  .prod-card{
+    display:grid;grid-template-columns:64px 1fr auto;gap:20px;align-items:center;
+    background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 24px;
+    margin:22px 0;text-decoration:none;color:var(--ink);transition:transform .25s, box-shadow .25s;
+  }
+  .prod-card:hover{transform:translateX(4px);box-shadow:var(--shadow)}
+  .prod-thumb{width:64px;height:64px;border-radius:14px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-deep))}
+  .prod-cat{display:block;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep)}
+  .prod-name{display:block;font-family:'Fraunces',serif;font-weight:500;font-size:1.18rem;margin:3px 0}
+  .prod-desc{display:block;font-size:.9rem;color:var(--ink-soft)}
+  .prod-side{text-align:right;white-space:nowrap}
+  .prod-price{display:block;font-family:'Fraunces',serif;font-size:1.1rem}
+  .prod-cta{display:block;font-size:.78rem;color:var(--accent-deep);margin-top:2px}
+  @media(max-width:640px){
+    .prod-card{grid-template-columns:52px 1fr;gap:14px}
+    .prod-side{grid-column:2;text-align:left;margin-top:6px}
+  }
+</style>

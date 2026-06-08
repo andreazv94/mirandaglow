@@ -1,0 +1,20 @@
+# build
+dist/
+.astro/
+
+# deps
+node_modules/
+
+# entornos
+.env
+.env.production
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / SO
+.DS_Store
+.vscode/
+tokengit.txt
+*.txt

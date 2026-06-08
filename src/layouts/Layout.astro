@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = 'Miranda Glow — Tu rutina de skincare, hecha para ti',
+  description = 'Responde unas preguntas y recibe una rutina de cuidado facial pensada para tu piel, tu presupuesto y tus objetivos.',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <!-- Open Graph para que se vea bien al compartir en redes -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400&family=Outfit:wght@300..600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="page">
+    <div class="wrap">
+      <nav>
+        <a class="logo" href="/"><span class="dot"></span>Miranda<span class="glow">Glow</span></a>
+        <div class="navlinks">
+          <a href="/test">Hacer el test</a>
+          <a href="/blog">Guías</a>
+          <a href="/#concerns">Tu piel</a>
+        </div>
+      </nav>
+    </div>
+
+    <slot />
+
+    <footer>
+      <div class="wrap">
+        <div class="foot-grid">
+          <a class="logo" href="/"><span class="dot"></span>Miranda<span class="glow">Glow</span></a>
+          <div>Cómo funciona · Guías · Sobre nosotras · Contacto</div>
+        </div>
+        <p class="disc">Miranda Glow nace del cariño por el cuidado bien hecho (y de una gata llamada Miranda). Participamos en programas de afiliación: algunos enlaces a productos pueden generar una comisión sin coste adicional para ti. Nuestras recomendaciones se basan en ingredientes y en su adecuación a tu perfil, no en la comisión. Esta web no sustituye el consejo de un dermatólogo.</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

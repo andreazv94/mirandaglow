@@ -1,0 +1,52 @@
+/* ============================================================
+   MIRANDA GLOW — estilos globales (paleta opalita)
+   ============================================================ */
+:root{
+  --bg:#F0F6F7;
+  --bg-deep:#E2EEF0;
+  --ink:#2E4347;
+  --ink-soft:#647B80;
+  --accent:#5FB6C4;
+  --accent-deep:#3E97A8;
+  --sage:#A9D8DC;
+  --cream:#FFFFFF;
+  --line:#D6E6E8;
+  --radius:22px;
+  --shadow:0 18px 50px -22px rgba(60,130,145,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);
+  line-height:1.6;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(55% 45% at 16% 10%, rgba(95,182,196,.20), transparent 60%),
+    radial-gradient(45% 40% at 88% 30%, rgba(255,200,210,.16), transparent 60%),
+    radial-gradient(55% 50% at 80% 85%, rgba(169,216,220,.30), transparent 62%);
+}
+.page{position:relative;z-index:1}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+h1,h2,h3,.display{font-family:'Fraunces',serif;font-weight:400;line-height:1.05;letter-spacing:-.01em}
+.serif-i{font-style:italic}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
+.logo{font-family:'Fraunces',serif;font-size:1.7rem;letter-spacing:.02em;display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink)}
+.logo .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block}
+.logo .glow{font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-deep);align-self:center;margin-left:-2px}
+.navlinks{display:flex;gap:30px;align-items:center;font-size:.95rem;color:var(--ink-soft)}
+.navlinks a{color:inherit;text-decoration:none;transition:color .2s}
+.navlinks a:hover{color:var(--ink)}
+.btn{font-family:'Outfit',sans-serif;font-size:.95rem;cursor:pointer;border:none;background:var(--ink);color:var(--cream);padding:13px 26px;border-radius:100px;transition:transform .25s ease, background .25s;letter-spacing:.01em;text-decoration:none;display:inline-block}
+.btn:hover{transform:translateY(-2px);background:var(--accent-deep)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.4px solid var(--line)}
+.btn.ghost:hover{background:var(--cream)}
+
+footer{padding:60px 0 40px;color:var(--ink-soft);font-size:.9rem;position:relative;z-index:1}
+.foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;border-top:1px solid var(--line);padding-top:36px}
+.disc{margin-top:24px;font-size:.78rem;opacity:.75;max-width:64ch}
+
+@media(max-width:860px){ .navlinks{display:none} }

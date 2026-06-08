@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout>
+  <header class="hero wrap">
+    <div>
+      <span class="eyebrow">Skincare personalizado</span>
+      <h1>Tu piel es única.<br>Tu rutina <span class="serif-i">también</span> debería serlo.</h1>
+      <p>Responde unas preguntas y recibe una rutina de cuidado facial pensada para tu piel, tu presupuesto y tus objetivos. Sin marketing, sin ruido.</p>
+      <div class="hero-cta">
+        <a class="btn" href="/test">Descubre tu rutina →</a>
+        <a class="btn ghost" href="#como">Ver cómo funciona</a>
+      </div>
+      <div class="trust"><span class="stars">★★★★★</span> Recomendaciones basadas en ingredientes, no en modas</div>
+    </div>
+    <div class="hero-art">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="hero-card">
+        <div class="pic"></div>
+        <div><strong>Tu rutina en 60 segundos</strong><small>3–5 productos · ordenados · explicados</small></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="strip">
+    <span class="run">
+      <span>· Limpieza ·</span><span>Vitamina C</span><span>Retinol</span><span>SPF cada día</span><span>Ácido hialurónico</span><span>Niacinamida</span><span>Barrera cutánea</span>
+      <span>· Limpieza ·</span><span>Vitamina C</span><span>Retinol</span><span>SPF cada día</span><span>Ácido hialurónico</span><span>Niacinamida</span><span>Barrera cutánea</span>
+    </span>
+  </div>
+
+  <section class="block wrap" id="como">
+    <div class="sec-head">
+      <h2>Tres pasos. Cero confusión.</h2>
+      <p>Dejamos atrás el "prueba y error" de comprar productos al azar.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">01</div><h3>Cuéntanos tu piel</h3><p>Tipo de piel, preocupaciones, edad y presupuesto. Ocho preguntas, un minuto.</p></div>
+      <div class="step"><div class="num">02</div><h3>Te diseñamos la rutina</h3><p>Seleccionamos productos por sus ingredientes y los ordenamos: mañana y noche, paso a paso.</p></div>
+      <div class="step"><div class="num">03</div><h3>Compra donde quieras</h3><p>Te enlazamos cada producto en tiendas de confianza. Tú eliges dónde comprarlo.</p></div>
+    </div>
+  </section>
+
+  <section class="block concerns" id="concerns">
+    <div class="wrap">
+      <div class="sec-head"><h2>¿Qué le preocupa a tu piel?</h2><p>Toca lo que te suene y empieza tu diagnóstico.</p></div>
+      <div class="chips">
+        <a class="chip" href="/test">Acné y granitos</a>
+        <a class="chip" href="/test">Manchas</a>
+        <a class="chip" href="/test">Líneas de expresión</a>
+        <a class="chip" href="/test">Sequedad</a>
+        <a class="chip" href="/test">Brillos y poros</a>
+        <a class="chip" href="/test">Rojeces</a>
+        <a class="chip" href="/test">Falta de luminosidad</a>
+        <a class="chip" href="/test">Sensibilidad</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap">
+    <div class="cta-band">
+      <h2>¿Lista para conocer tu piel?</h2>
+      <p>Tu rutina personalizada te espera. Gratis, sin registro y en un minuto.</p>
+      <a class="btn" href="/test">Hacer el test ahora →</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:26px}
+  .eyebrow::before{content:"";width:26px;height:1.4px;background:var(--accent)}
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;padding:48px 28px 90px}
+  .hero h1{font-size:clamp(2.7rem,5.6vw,4.6rem);margin-bottom:24px}
+  .hero p{font-size:1.13rem;color:var(--ink-soft);max-width:33ch;margin-bottom:34px}
+  .hero-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .trust{margin-top:34px;display:flex;align-items:center;gap:14px;font-size:.86rem;color:var(--ink-soft)}
+  .stars{color:var(--accent);letter-spacing:2px}
+  .hero-art{position:relative;aspect-ratio:4/4.4;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:linear-gradient(150deg,#DCEEF0,#BFE2E6 45%,#9ECFD6 75%,#E9D6E0)}
+  .hero-art .blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.6}
+  .b1{width:230px;height:230px;background:radial-gradient(circle at 35% 35%,#EAF6F7,#8FCAD2);top:-40px;right:-30px}
+  .b2{width:180px;height:180px;background:radial-gradient(circle at 40% 40%,#F6DCE6,#A9D8DC);bottom:30px;left:-30px;opacity:.6}
+  .hero-card{position:absolute;left:24px;right:24px;bottom:24px;background:rgba(255,255,255,.86);backdrop-filter:blur(8px);border-radius:16px;padding:18px 20px;display:flex;gap:14px;align-items:center;box-shadow:0 10px 30px -12px rgba(60,120,135,.4)}
+  .hero-card .pic{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--sage));flex:none}
+  .hero-card small{color:var(--ink-soft);font-size:.78rem;display:block}
+  .hero-card strong{font-family:'Fraunces',serif;font-weight:500}
+  .strip{background:var(--ink);color:var(--bg);padding:14px 0;overflow:hidden;white-space:nowrap;position:relative;z-index:1}
+  .strip .run{display:inline-block;animation:run 22s linear infinite;font-family:'Fraunces',serif;font-style:italic;font-size:1.05rem}
+  .strip .run span{margin:0 26px;opacity:.85}
+  @keyframes run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  section.block{padding:96px 0}
+  .sec-head{text-align:center;max-width:620px;margin:0 auto 60px}
+  .sec-head h2{font-size:clamp(2rem,4vw,3.1rem);margin-bottom:16px}
+  .sec-head p{color:var(--ink-soft)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;max-width:1180px;margin:0 auto}
+  .step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:38px 30px;transition:transform .3s}
+  .step:hover{transform:translateY(-6px)}
+  .step .num{font-family:'Fraunces',serif;font-size:2.6rem;color:var(--accent);line-height:1}
+  .step h3{font-size:1.35rem;margin:18px 0 10px}
+  .step p{color:var(--ink-soft);font-size:.97rem}
+  .concerns{background:var(--bg-deep)}
+  .chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:760px;margin:0 auto}
+  .chip{background:#fff;border:1px solid var(--line);padding:12px 22px;border-radius:100px;font-size:.96rem;cursor:pointer;transition:all .22s;text-decoration:none;color:var(--ink)}
+  .chip:hover{background:var(--ink);color:var(--cream);transform:translateY(-2px)}
+  .cta-band{margin:0 auto;max-width:1180px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--cream);border-radius:30px;padding:70px 40px;text-align:center;box-shadow:var(--shadow)}
+  .cta-band h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:18px}
+  .cta-band p{opacity:.92;max-width:46ch;margin:0 auto 30px}
+  .cta-band .btn{background:var(--cream);color:var(--ink)}
+  .cta-band .btn:hover{background:#fff}
+  @media(max-width:860px){.hero{grid-template-columns:1fr;gap:36px}.hero p{max-width:none}.steps{grid-template-columns:1fr}}
+</style>
