@@ -1,0 +1,97 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Sobre Miranda Glow — quiénes somos" description="La historia detrás de Miranda Glow: skincare honesto, recomendado por ingredientes y no por modas.">
+  <section class="sobre wrap">
+    <header class="sobre-head">
+      <span class="eyebrow">Nuestra historia</span>
+      <h1>Skincare sin ruido,<br><span class="serif-i">recomendado con cariño</span></h1>
+    </header>
+
+    <div class="sobre-hero">
+      <div class="sh-art" aria-hidden="true">
+        <span class="sh-blob b1"></span>
+        <span class="sh-blob b2"></span>
+        <span class="sh-emoji">🐱</span>
+      </div>
+      <div class="sh-text">
+        <p class="lead">Miranda Glow nació de una idea sencilla: el cuidado de la piel no tendría que ser tan complicado.</p>
+        <p>
+          {/* 👇 PERSONALIZA ESTO: cuenta tu historia real. Por qué empezaste,
+              tu interés por la estética y la belleza, si investigaste por tu
+              propia piel... Cuanto más personal y honesto, más conecta. */}
+          Entre tanto producto, tanta promesa y tanta tendencia, es fácil perderse y acabar
+          gastando dinero en cosas que no necesitamos. Yo me cansé de ese ruido y empecé a
+          estudiar de qué están hechos realmente los productos, qué ingredientes funcionan
+          y cuáles son puro marketing. Miranda Glow es el resultado de esa búsqueda: un sitio
+          para encontrar tu rutina sin agobios.
+        </p>
+        <p>
+          {/* 👇 EL TOQUE DE MIRANDA LA GATA: dale el detalle personal que quieras. */}
+          ¿Y por qué "Miranda"? Es el nombre de mi gata, que me acompaña en cada artículo que
+          escribo. Me pareció bonito que la marca llevara su nombre: algo cercano, de casa,
+          sin pretensiones.
+        </p>
+      </div>
+    </div>
+
+    <div class="valores">
+      <div class="valor">
+        <span class="v-ico">🧪</span>
+        <h3>Por ingredientes, no por modas</h3>
+        <p>Recomendamos según lo que de verdad funciona para tu piel, no según lo que esté de moda en redes esta semana.</p>
+      </div>
+      <div class="valor">
+        <span class="v-ico">💬</span>
+        <h3>Honestidad ante todo</h3>
+        <p>Participamos en programas de afiliación, y lo decimos claro. Nuestras recomendaciones nunca dependen de la comisión.</p>
+      </div>
+      <div class="valor">
+        <span class="v-ico">✨</span>
+        <h3>Sencillez</h3>
+        <p>No necesitas veinte pasos. Necesitas los correctos para ti, en el orden correcto. De eso nos encargamos.</p>
+      </div>
+    </div>
+
+    <div class="sobre-cta">
+      <h2>¿Empezamos por tu piel?</h2>
+      <p>Haz el test y descubre tu rutina personalizada en un minuto.</p>
+      <a class="btn" href="/test">Descubre tu rutina →</a>
+    </div>
+
+    <p class="nota-legal">
+      Miranda Glow ofrece información general sobre cuidado de la piel y no sustituye el consejo de un dermatólogo. Ante cualquier problema concreto, consulta con un profesional.
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .sobre{padding:70px 28px 100px;max-width:920px}
+  .sobre-head{text-align:center;margin-bottom:56px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:22px}
+  .eyebrow::before{content:"";width:26px;height:1.4px;background:var(--accent)}
+  .sobre-head h1{font-size:clamp(2.2rem,5vw,3.4rem)}
+  .sobre-hero{display:grid;grid-template-columns:.8fr 1.2fr;gap:46px;align-items:center;margin-bottom:70px}
+  .sh-art{position:relative;aspect-ratio:1;border-radius:var(--radius);overflow:hidden;background:linear-gradient(150deg,#DCEEF0,#BFE2E6 55%,#E9D6E0);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+  .sh-blob{position:absolute;border-radius:50%;filter:blur(2px)}
+  .sh-art .b1{width:150px;height:150px;background:radial-gradient(circle at 35% 35%,#EAF6F7,#8FCAD2);top:-30px;right:-20px;opacity:.7}
+  .sh-art .b2{width:120px;height:120px;background:radial-gradient(circle at 40% 40%,#F6DCE6,#A9D8DC);bottom:-20px;left:-10px;opacity:.6}
+  .sh-emoji{font-size:4rem;position:relative;z-index:1}
+  .sh-text .lead{font-family:'Fraunces',serif;font-size:1.5rem;line-height:1.3;margin-bottom:22px}
+  .sh-text p{color:var(--ink-soft);margin-bottom:18px;line-height:1.75}
+  .valores{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:70px}
+  .valor{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:32px 26px;text-align:center}
+  .v-ico{font-size:2rem;display:block;margin-bottom:14px}
+  .valor h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.2rem;margin-bottom:10px}
+  .valor p{font-size:.93rem;color:var(--ink-soft)}
+  .sobre-cta{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--cream);border-radius:30px;padding:60px 40px;text-align:center;box-shadow:var(--shadow);margin-bottom:40px}
+  .sobre-cta h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:14px}
+  .sobre-cta p{opacity:.92;margin-bottom:26px}
+  .sobre-cta .btn{background:var(--cream);color:var(--ink)}
+  .sobre-cta .btn:hover{background:#fff}
+  .nota-legal{font-size:.82rem;color:var(--ink-soft);text-align:center;opacity:.8}
+  @media(max-width:760px){
+    .sobre-hero{grid-template-columns:1fr;gap:30px}
+    .valores{grid-template-columns:1fr}
+  }
+</style>

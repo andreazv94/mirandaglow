@@ -47,6 +47,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0
 
 footer{padding:60px 0 40px;color:var(--ink-soft);font-size:.9rem;position:relative;z-index:1}
 .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:30px;border-top:1px solid var(--line);padding-top:36px}
+.foot-links{display:flex;gap:22px;flex-wrap:wrap}
+.foot-links a{color:var(--ink-soft);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:var(--ink)}
 .disc{margin-top:24px;font-size:.78rem;opacity:.75;max-width:64ch}
 
 @media(max-width:860px){ .navlinks{display:none} }
