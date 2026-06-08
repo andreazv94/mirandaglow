@@ -24,7 +24,7 @@ const p = getProducto(id);
     target="_blank"
     rel="sponsored nofollow noopener"
   >
-    <span class="prod-thumb" aria-hidden="true"></span>
+    <span class="prod-thumb" aria-hidden="true" style={p.imagen ? `background-image:url('${p.imagen}');background-size:cover;background-position:center` : ''}></span>
     <span class="prod-body">
       <span class="prod-cat">{p.categoria}</span>
       <span class="prod-name">{p.nombre}</span>

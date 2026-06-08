@@ -21,6 +21,7 @@ const { Content } = await post.render();
       <h1>{post.data.titulo}</h1>
       <time>{post.data.fecha.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
     </header>
+    <div class={`art-cover${post.data.imagen ? '' : ' placeholder'}`} style={post.data.imagen ? `background-image:url('${post.data.imagen}')` : ''}></div>
     <div class="prose">
       <Content />
     </div>
@@ -35,7 +36,9 @@ const { Content } = await post.render();
 
 <style>
   .article{max-width:760px;padding:60px 28px 90px}
-  .art-head{margin-bottom:44px}
+  .art-head{margin-bottom:28px}
+  .art-cover{height:340px;border-radius:var(--radius);margin-bottom:40px;background-size:cover;background-position:center;box-shadow:var(--shadow)}
+  .art-cover.placeholder{background:linear-gradient(135deg,var(--sage),var(--accent))}
   .tag{display:inline-block;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:14px}
   .art-head h1{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:14px;line-height:1.1}
   .art-head time{font-size:.85rem;color:var(--ink-soft)}

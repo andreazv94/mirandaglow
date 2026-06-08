@@ -5,6 +5,11 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf()
 );
+
+// Recopila las necesidades y tipos de piel presentes, para los botones de filtro
+const necesidades = [...new Set(posts.map((p) => p.data.concern).filter(Boolean))] as string[];
+const tiposPiel = [...new Set(posts.flatMap((p) => p.data.tipoPiel || []))];
+const tipoLabel: Record<string, string> = { seca: 'Piel seca', grasa: 'Piel grasa', mixta: 'Piel mixta', normal: 'Piel normal', sensible: 'Piel sensible' };
 ---
 <Layout title="Guías de skincare — Miranda Glow" description="Guías, comparativas y rutinas de cuidado de la piel explicadas con criterio.">
   <section class="blog-index wrap">
@@ -12,10 +17,33 @@ const posts = (await getCollection('blog')).sort(
       <h1>Guías de skincare</h1>
       <p>Comparativas, rutinas y respuestas claras. Sin postureo, por ingredientes.</p>
     </header>
-    <div class="posts">
+
+    <div class="filtros">
+      <div class="filtro-grupo">
+        <span class="filtro-label">Necesidad</span>
+        <button class="fbtn activo" data-tipo="concern" data-val="todos">Todas</button>
+        {necesidades.map((n) => <button class="fbtn" data-tipo="concern" data-val={n}>{n}</button>)}
+      </div>
+      <div class="filtro-grupo">
+        <span class="filtro-label">Tipo de piel</span>
+        <button class="fbtn activo" data-tipo="piel" data-val="todos">Todas</button>
+        {tiposPiel.map((t) => <button class="fbtn" data-tipo="piel" data-val={t}>{tipoLabel[t] || t}</button>)}
+      </div>
+    </div>
+
+    <div class="posts" id="posts">
       {posts.map((post) => (
-        <a class="post-card" href={`/blog/${post.slug}`}>
-          <span class="thumb" aria-hidden="true"></span>
+        <a
+          class="post-card"
+          href={`/blog/${post.slug}`}
+          data-concern={post.data.concern || ''}
+          data-piel={(post.data.tipoPiel || []).join(',')}
+        >
+          <span
+            class={`thumb${post.data.imagen ? '' : ' placeholder'}`}
+            style={post.data.imagen ? `background-image:url('${post.data.imagen}')` : ''}
+            aria-hidden="true"
+          ></span>
           <span class="pc-body">
             {post.data.concern && <span class="tag">{post.data.concern}</span>}
             <h2>{post.data.titulo}</h2>
@@ -25,21 +53,63 @@ const posts = (await getCollection('blog')).sort(
         </a>
       ))}
     </div>
+    <p class="sin-resultados" id="sinResultados" style="display:none">No hay guías que coincidan con ese filtro todavía. ¡Pronto habrá más!</p>
   </section>
 </Layout>
 
+<script>
+  // Filtrado en cliente. Cada botón fija el filtro de su grupo (necesidad / piel)
+  // y mostramos solo las tarjetas que cumplan ambos.
+  let filtro = { concern: 'todos', piel: 'todos' };
+
+  function aplicar() {
+    const cards = document.querySelectorAll<HTMLElement>('.post-card');
+    let visibles = 0;
+    cards.forEach((c) => {
+      const okConcern = filtro.concern === 'todos' || c.dataset.concern === filtro.concern;
+      const pieles = (c.dataset.piel || '').split(',');
+      const okPiel = filtro.piel === 'todos' || pieles.includes(filtro.piel);
+      const show = okConcern && okPiel;
+      c.style.display = show ? '' : 'none';
+      if (show) visibles++;
+    });
+    const sr = document.getElementById('sinResultados');
+    if (sr) sr.style.display = visibles === 0 ? 'block' : 'none';
+  }
+
+  document.querySelectorAll<HTMLElement>('.fbtn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tipo = btn.dataset.tipo === 'concern' ? 'concern' : 'piel';
+      const val = btn.dataset.val || 'todos';
+      filtro[tipo] = val;
+      // marca el botón activo dentro de su grupo
+      btn.parentElement?.querySelectorAll('.fbtn').forEach((b) => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      aplicar();
+    });
+  });
+</script>
+
 <style>
   .blog-index{padding:70px 28px 100px}
-  .bi-head{text-align:center;max-width:620px;margin:0 auto 56px}
+  .bi-head{text-align:center;max-width:620px;margin:0 auto 40px}
   .bi-head h1{font-size:clamp(2.2rem,5vw,3.4rem);margin-bottom:14px}
   .bi-head p{color:var(--ink-soft)}
+  .filtros{max-width:1180px;margin:0 auto 44px;display:flex;flex-direction:column;gap:16px}
+  .filtro-grupo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .filtro-label{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);min-width:96px}
+  .fbtn{background:#fff;border:1.4px solid var(--line);color:var(--ink);padding:9px 18px;border-radius:100px;font-size:.9rem;cursor:pointer;font-family:inherit;transition:all .2s}
+  .fbtn:hover{border-color:var(--accent)}
+  .fbtn.activo{background:var(--ink);color:var(--cream);border-color:var(--ink)}
   .posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:26px;max-width:1180px;margin:0 auto}
   .post-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .3s, box-shadow .3s}
   .post-card:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
-  .thumb{display:block;height:170px;background:linear-gradient(135deg,var(--sage),var(--accent))}
+  .thumb{display:block;height:170px;background-size:cover;background-position:center}
+  .thumb.placeholder{background:linear-gradient(135deg,var(--sage),var(--accent))}
   .pc-body{display:block;padding:24px}
   .tag{display:inline-block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:10px}
   .pc-body h2{font-size:1.35rem;margin-bottom:10px;line-height:1.2}
   .pc-body p{font-size:.95rem;color:var(--ink-soft);margin-bottom:14px}
   .pc-body time{font-size:.82rem;color:var(--ink-soft)}
+  .sin-resultados{text-align:center;color:var(--ink-soft);margin-top:40px}
 </style>

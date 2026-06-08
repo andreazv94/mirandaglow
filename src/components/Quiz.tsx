@@ -118,20 +118,44 @@ export default function Quiz() {
   if (done) {
     const routine = buildRoutine(answers);
     const tipo = answers[0] as string;
-    const obj = (answers[1] as string[]) || [];
     const tipoTxt: Record<string, string> = { seca: 'Piel seca', grasa: 'Piel grasa', mixta: 'Piel mixta', normal: 'Piel normal' };
+
+    // Reparte la rutina en mañana y noche según el momento de cada producto,
+    // y ordena cada bloque por el orden de aplicación (limpieza → ... → SPF).
+    const manana = routine.filter((p) => p.momento === 'am' || p.momento === 'ambos').sort((a, b) => a.orden - b.orden);
+    const noche = routine.filter((p) => p.momento === 'pm' || p.momento === 'ambos').sort((a, b) => a.orden - b.orden);
+
+    const Bloque = ({ titulo, icono, lista }: { titulo: string; icono: string; lista: typeof routine }) => (
+      <div className="rutina-bloque">
+        <div className="rb-head"><span className="rb-ico">{icono}</span><h3>{titulo}</h3></div>
+        {lista.map((p, i) => (
+          <a key={p.id} className="prod" href={p.url} target="_blank" rel="sponsored nofollow noopener">
+            <span className="stepn"><small>PASO</small><b>{i + 1}</b></span>
+            <span className="pinfo">
+              <span className="cat">{p.categoria}</span>
+              <b>{p.nombre}</b>
+              <span className="d">{p.descripcion}</span>
+              <span className="freq">⟳ {p.frecuencia}</span>
+            </span>
+            <span className="price">{p.precio}<small>Ver en {p.tienda} →</small></span>
+          </a>
+        ))}
+      </div>
+    );
+
     return (
       <div className="q-result">
         <span className="badge">{tipoTxt[tipo] || 'Tu piel'}</span>
         <h2>Tu rutina personalizada</h2>
-        <p className="sub">Basada en tus respuestas. Cada producto se abre en su tienda.</p>
-        {routine.map((p, i) => (
-          <a key={p.id} className="prod" href={p.url} target="_blank" rel="sponsored nofollow noopener">
-            <span className="stepn"><small>PASO</small><b>{i + 1}</b></span>
-            <span className="pinfo"><span className="cat">{p.categoria}</span><b>{p.nombre}</b><span className="d">{p.descripcion}</span></span>
-            <span className="price">{p.precio}<small>Ver en {p.tienda} →</small></span>
-          </a>
-        ))}
+        <p className="sub">Sigue el orden de cada paso. Los productos se abren en su tienda.</p>
+
+        <Bloque titulo="Rutina de mañana" icono="☀" lista={manana} />
+        <Bloque titulo="Rutina de noche" icono="☾" lista={noche} />
+
+        <div className="rutina-tip">
+          <b>Consejo:</b> introduce los productos de uno en uno, dejando unos días entre cada nuevo activo, para que tu piel se adapte. Si algo te irrita, espácialo o suspéndelo.
+        </div>
+
         <button className="btn ghost" onClick={restart} style={{ marginTop: 24 }}>Repetir el test</button>
         <Styles />
       </div>
@@ -185,7 +209,14 @@ function Styles() {
       .q-nav{margin-top:34px;display:flex;justify-content:center;align-items:center;gap:24px}
       .link-back{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:.95rem;text-decoration:underline;font-family:inherit}
       .badge{display:inline-block;background:var(--sage);color:#234;padding:7px 18px;border-radius:100px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:18px}
-      .q-result .sub{color:var(--ink-soft);margin-bottom:26px}
+      .q-result .sub{color:var(--ink-soft);margin-bottom:30px}
+      .rutina-bloque{text-align:left;margin-bottom:34px}
+      .rb-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+      .rb-ico{width:38px;height:38px;border-radius:50%;background:var(--bg-deep);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+      .rb-head h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.4rem}
+      .rutina-tip{text-align:left;background:var(--bg-deep);border-radius:14px;padding:18px 22px;font-size:.92rem;color:var(--ink-soft);line-height:1.6}
+      .rutina-tip b{color:var(--ink)}
+      .freq{display:inline-block;margin-top:8px;font-size:.8rem;color:var(--accent-deep);background:var(--bg-deep);padding:3px 10px;border-radius:100px}
       .prod{display:grid;grid-template-columns:64px 1fr auto;gap:20px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 24px;margin-bottom:14px;text-decoration:none;color:var(--ink);transition:transform .25s}
       .prod:hover{transform:translateX(4px)}
       .prod .stepn{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Fraunces',serif}
