@@ -16,3 +16,9 @@ npm-debug.log*
 # editor / SO
 .DS_Store
 .vscode/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
