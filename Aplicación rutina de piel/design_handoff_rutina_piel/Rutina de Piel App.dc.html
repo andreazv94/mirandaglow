@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/nocturne-d086de09-7315-4d67-b336-d421433cc82c/styles.css">
+<script src="_ds/nocturne-d086de09-7315-4d67-b336-d421433cc82c/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:#0f111c;font-family:Inter,system-ui,sans-serif;color:#e9e9ed}
+a{color:var(--color-accent);text-decoration:none}
+a:hover{color:var(--color-accent-300)}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(233,233,237,.08)}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#e9e9ed;color:#161826;border-radius:4px;text-decoration:none}
+.dv-tname{font:500 13px/1.2 Inter,system-ui,sans-serif;color:#e9e9ed}
+.dv-opts{display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(233,233,237,.12);color:#e9e9ed;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 Inter,system-ui,sans-serif;color:rgba(233,233,237,.55)}
+.dv-opt:target .dv-oid{background:var(--color-accent);color:#161826}
+.dv-next{margin:26px 0 0;font:12px/1.6 Inter,system-ui,sans-serif;color:rgba(233,233,237,.5)}
+.dv-note{max-width:62ch;font:13px/1.65 Inter,system-ui,sans-serif;color:rgba(233,233,237,.62);margin:0 0 22px}
+.mini{width:340px;height:660px;border-radius:34px;background:var(--color-bg);box-shadow:var(--shadow-md);overflow:hidden;display:flex;flex-direction:column;position:relative}
+.mini-top{height:34px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:11px;color:rgba(233,233,237,.5)}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Avisos, primer día y la pasada de Android</span></div>
+<p class="dv-note">El prototipo <a class="dv-oid" href="#1a">1a</a> ya incluye lo nuevo: modo ritual paso a paso, semana de activos, detalle de producto con ingredientes y conflictos, progreso con comparador antes/después y perfil con los recordatorios. Aquí van las piezas que viven fuera de la app: las notificaciones, el primer día sin nada y cómo se traduce a Android.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Notificaciones en la pantalla de bloqueo · tono cálido</div>
+<div class="mini" style="padding:0">
+  <div style="flex:1;background:linear-gradient(180deg,#1b1e2e,#101220);padding:44px 16px 24px;display:flex;flex-direction:column;gap:10px">
+    <div style="text-align:center;color:var(--color-neutral-300)">
+      <div style="font-size:13px;letter-spacing:.02em">martes 1 de septiembre</div>
+      <div style="font-size:64px;font-weight:500;line-height:1.05;margin-top:2px">22:04</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="padding:13px;border-radius:14px;background:rgba(35,37,50,.85);box-shadow:inset 0 0 0 1px rgba(233,233,237,.08)">
+      <div style="display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--color-neutral-500)"><span style="white-space:nowrap">MIRANDA GLOW</span><span>ahora</span></div>
+      <div style="font-size:14px;font-weight:500;margin-top:5px">Toca rutina de noche</div>
+      <div style="font-size:13px;line-height:1.5;color:var(--color-neutral-300);margin-top:3px">Ayer usaste retinol, así que hoy vamos suaves: niacinamida y crema. Son tres pasos.</div>
+    </div>
+    <div style="padding:13px;border-radius:14px;background:rgba(35,37,50,.7);box-shadow:inset 0 0 0 1px rgba(233,233,237,.06)">
+      <div style="display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--color-neutral-500)"><span style="white-space:nowrap">MIRANDA GLOW</span><span>8:00</span></div>
+      <div style="font-size:14px;font-weight:500;margin-top:5px">Buenos días</div>
+      <div style="font-size:13px;line-height:1.5;color:var(--color-neutral-300);margin-top:3px">Cuatro pasos y sales de casa con el protector puesto.</div>
+    </div>
+    <div style="padding:13px;border-radius:14px;background:rgba(35,37,50,.55);box-shadow:inset 0 0 0 1px rgba(233,233,237,.05)">
+      <div style="display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--color-neutral-500)"><span style="white-space:nowrap">MIRANDA GLOW</span><span>dom</span></div>
+      <div style="font-size:14px;font-weight:500;margin-top:5px">La foto de la semana</div>
+      <div style="font-size:13px;line-height:1.5;color:var(--color-neutral-300);margin-top:3px">Misma luz, cara lavada. Se tarda diez segundos y luego se nota.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Primer día · estante vacío, sin culpa</div>
+<div class="mini">
+  <div class="mini-top"><span>9:41</span><span>▮▮▮</span></div>
+  <div style="flex:1;padding:8px 20px 26px;display:flex;flex-direction:column">
+    <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent)">Mi estante</div>
+    <h3 style="margin:4px 0 0;font-size:26px">Mis productos</h3>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px;padding:20px 0">
+      <div style="display:flex;gap:10px">
+        <div style="width:52px;height:66px;border-radius:6px;box-shadow:inset 0 0 0 1px var(--color-divider)"></div>
+        <div style="width:52px;height:66px;border-radius:6px;box-shadow:inset 0 0 0 1px var(--color-divider);opacity:.6"></div>
+        <div style="width:52px;height:66px;border-radius:6px;box-shadow:inset 0 0 0 1px var(--color-divider);opacity:.3"></div>
+      </div>
+      <div style="font-size:18px;font-weight:500;line-height:1.25;max-width:24ch">Aún no tienes nada guardado</div>
+      <div style="font-size:13.5px;line-height:1.6;color:var(--color-neutral-400);max-width:30ch">Haz una foto a lo que ya usas, aunque sea un solo bote. Con eso ya podemos ordenarte los pasos y avisarte de las mezclas que no van juntas.</div>
+    </div>
+    <button class="btn btn-primary btn-block" style="min-height:48px;font-size:15px">Escanear mi primer producto</button>
+    <div style="text-align:center;margin-top:12px;font-size:12.5px;color:var(--color-neutral-500)">Prefiero elegir de una lista</div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="2c">
+<div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Android · resultado del escaneo con aviso de conflicto</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ true }}" hint-size="360px,800px">
+<div style="min-height:100%;background:var(--color-bg);padding:8px 16px 24px;display:flex;flex-direction:column;gap:12px">
+  <div style="padding:10px 0 6px;font-size:20px;font-weight:500">Escanear producto</div>
+  <div style="height:210px;border-radius:16px;background:linear-gradient(170deg,#1c1f31,#101220);display:grid;place-items:center">
+    <div style="width:120px;height:150px;border-radius:8px;box-shadow:0 0 0 1px var(--color-accent), 0 0 40px color-mix(in srgb, var(--color-accent) 28%, transparent)"></div>
+  </div>
+  <div style="padding:14px;border-radius:16px;background:var(--color-surface)">
+    <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Identificado · 94%</div>
+    <div style="font-size:18px;font-weight:500;margin-top:6px">Exfoliante con ácido salicílico</div>
+    <div style="font-size:12.5px;line-height:1.55;color:var(--color-neutral-400);margin-top:4px">Encaja en el paso de tratamiento de la noche, justo después del limpiador.</div>
+    <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+      <span class="tag tag-accent">Noche</span>
+      <span class="tag tag-neutral">BHA</span>
+    </div>
+  </div>
+  <div style="display:flex;gap:11px;padding:13px;border-radius:16px;background:var(--color-accent-900)">
+    <div style="width:3px;flex:none;border-radius:99px;background:var(--color-accent)"></div>
+    <div style="font-size:12.5px;line-height:1.55;color:var(--color-accent-100)">Ya usas retinol: no lo mezcles con el exfoliante la misma noche. Si lo guardas, te dejamos el retinol el martes y el viernes, y el exfoliante el jueves.</div>
+  </div>
+  <div style="flex:1"></div>
+  <button class="btn btn-primary btn-block" style="min-height:48px;border-radius:99px;font-size:15px">Guardar en mi estante</button>
+  <button class="btn btn-secondary btn-block" style="min-height:48px;border-radius:99px">Otra foto</button>
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="2d">
+<div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>Android · perfil y recordatorios (interruptores Material)</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ true }}" hint-size="360px,800px">
+<div style="min-height:100%;background:var(--color-bg);padding:8px 16px 24px;display:flex;flex-direction:column;gap:12px">
+  <div style="padding:10px 0 6px;font-size:20px;font-weight:500">Perfil y avisos</div>
+  <div style="padding:14px;border-radius:16px;background:var(--color-surface)">
+    <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Tu diagnóstico</div>
+    <div style="font-size:14px;margin-top:6px;line-height:1.5">Piel mixta · 2 objetivos · 5 productos en rutina</div>
+    <div style="font-size:13px;color:var(--color-accent);margin-top:8px">Repetir el test</div>
+  </div>
+  <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-500)">Recordatorios</div>
+  <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:var(--color-surface)">
+    <div style="flex:1"><div style="font-size:14px;font-weight:500">Rutina de noche</div><div style="font-size:11.5px;color:var(--color-neutral-500);margin-top:2px">22:00, con el activo del día</div></div>
+    <div style="width:44px;height:26px;border-radius:99px;background:var(--color-accent-800);box-shadow:inset 0 0 0 1px var(--color-accent);position:relative;flex:none"><div style="position:absolute;top:3px;left:22px;width:20px;height:20px;border-radius:50%;background:var(--color-accent)"></div></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:var(--color-surface)">
+    <div style="flex:1"><div style="font-size:14px;font-weight:500">Reaplicar protector solar</div><div style="font-size:11.5px;color:var(--color-neutral-500);margin-top:2px">A media tarde, si has salido</div></div>
+    <div style="width:44px;height:26px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--color-divider);position:relative;flex:none"><div style="position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--color-neutral-600)"></div></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;background:var(--color-surface)">
+    <div style="flex:1"><div style="font-size:14px;font-weight:500">Resumen del domingo</div><div style="font-size:11.5px;color:var(--color-neutral-500);margin-top:2px">Cómo ha ido la semana</div></div>
+    <div style="width:44px;height:26px;border-radius:99px;background:var(--color-accent-800);box-shadow:inset 0 0 0 1px var(--color-accent);position:relative;flex:none"><div style="position:absolute;top:3px;left:22px;width:20px;height:20px;border-radius:50%;background:var(--color-accent)"></div></div>
+  </div>
+  <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-500);margin-top:4px">Tono de los avisos</div>
+  <div style="display:flex;gap:8px">
+    <div style="flex:1;padding:10px;text-align:center;font-size:13px;border-radius:99px;color:var(--color-accent);box-shadow:inset 0 0 0 1px var(--color-accent)">Cálido</div>
+    <div style="flex:1;padding:10px;text-align:center;font-size:13px;border-radius:99px;color:var(--color-neutral-400);box-shadow:inset 0 0 0 1px var(--color-divider)">Directo</div>
+  </div>
+</div>
+</x-import>
+</div>
+
+</div>
+<p class="dv-next">Prueba a pedirme: "cambia los textos de los avisos" · "el comparador de fotos a pantalla completa" · "empecemos el paquete para desarrollo".</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">App de rutina de piel — prototipo y variaciones de la pantalla de hoy</span></div>
+<p class="dv-note">Supuestos: el catálogo y el motor de recomendación vienen del quiz de la web (categorías sin marca, precios fuera por ahora). El diagnóstico genera la rutina, cada sugerencia se acepta o se rechaza, y la foto del producto lo identifica y lo coloca en un paso. Estilo visual: Nocturne (oscuro, acento blurple, botones con contorno).</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Prototipo interactivo — iOS · diagnóstico, lista de hoy, modo ritual paso a paso, escaneo con aviso de conflictos, semana de activos y detalle de producto</div>
+<x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{ true }}" hint-size="402px,874px">
+<div style="min-height:100%;background:var(--color-bg);display:flex;flex-direction:column">
+
+<sc-if value="{{ enOnboarding }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;display:flex;flex-direction:column;padding:74px 20px 28px">
+  <div style="height:3px;border-radius:99px;background:rgba(233,233,237,.12);overflow:hidden">
+    <div style="{{ barraQuiz }}"></div>
+  </div>
+  <div style="margin-top:18px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent)">{{ quizContador }}</div>
+  <h3 style="margin:10px 0 4px;font-size:25px;line-height:1.15">{{ quizPregunta }}</h3>
+  <div style="font-size:12px;color:var(--color-neutral-400);min-height:18px">{{ quizAyuda }}</div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-top:18px">
+    <sc-for list="{{ quizOpts }}" as="o" hint-placeholder-count="4">
+      <div onClick="{{ o.onPick }}" style="{{ o.style }}" style-hover="background:color-mix(in srgb, var(--color-text) 5%, var(--color-surface))">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:500">{{ o.t }}</div>
+          <div style="font-size:11.5px;color:var(--color-neutral-400);margin-top:1px">{{ o.s }}</div>
+        </div>
+        <sc-if value="{{ o.sel }}" hint-placeholder-val="{{ false }}">
+          <div style="width:20px;height:20px;flex:none;border-radius:50%;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;font-size:12px;font-weight:600">✓</div>
+        </sc-if>
+      </div>
+    </sc-for>
+  </div>
+  <div style="flex:1"></div>
+  <div style="display:flex;align-items:center;gap:14px;padding-top:20px">
+    <sc-if value="{{ quizPuedeVolver }}" hint-placeholder-val="{{ false }}">
+      <button class="btn btn-ghost" onClick="{{ onQuizAtras }}">Atrás</button>
+    </sc-if>
+    <button class="btn btn-primary" style="flex:1;min-height:46px;font-size:15px" onClick="{{ onQuizSeguir }}">{{ quizCta }}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ generando }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px">
+  <div style="width:56px;height:56px;border-radius:50%;border:1px solid var(--color-accent);box-shadow:0 0 42px color-mix(in srgb, var(--color-accent) 45%, transparent)"></div>
+  <div style="font-size:17px;font-weight:500">Armando tu rutina</div>
+  <div style="font-size:12.5px;color:var(--color-neutral-400);text-align:center;max-width:26ch">Cruzamos tu tipo de piel, tus objetivos y tu tolerancia a los activos.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ enApp }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column">
+
+<div style="padding:70px 20px 12px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px">
+  <div>
+    <sc-if value="{{ verVolver }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ onVolverHoy }}" style="font-size:12.5px;color:var(--color-accent);cursor:pointer;margin-bottom:5px">‹ Hoy</div>
+    </sc-if>
+    <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent)">{{ cabeceraKicker }}</div>
+    <h3 style="margin:4px 0 0;font-size:28px">{{ cabeceraTitulo }}</h3>
+  </div>
+  <span class="tag tag-neutral" onClick="{{ onReiniciar }}" style="cursor:pointer;white-space:nowrap;flex:none">{{ pieles }}</span>
+</div>
+
+<div style="flex:1;padding:0 20px 120px;display:flex;flex-direction:column;gap:14px">
+
+  <sc-if value="{{ tabHoy }}" hint-placeholder-val="{{ true }}">
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <sc-if value="{{ verNotificacion }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:11px;padding:12px 13px;border-radius:8px;background:var(--color-accent-900);box-shadow:inset 0 0 0 1px var(--color-accent-800)">
+        <div style="width:3px;flex:none;border-radius:99px;background:var(--color-accent)"></div>
+        <div style="flex:1">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-300)">Recordatorio de anoche</div>
+          <div style="font-size:13.5px;line-height:1.5;margin-top:4px;color:var(--color-accent-100)">{{ notificacion }}</div>
+        </div>
+        <div onClick="{{ onCerrarNotif }}" style="font-size:15px;color:var(--color-neutral-500);cursor:pointer;padding:0 2px">×</div>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;align-items:center;gap:14px;padding:13px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-neutral-400)">
+          <span>{{ progresoTexto }}</span><span>{{ racha }}</span>
+        </div>
+        <div style="height:4px;border-radius:99px;background:rgba(233,233,237,.1);margin-top:8px;overflow:hidden">
+          <div style="{{ barraProgreso }}"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px">
+      <div onClick="{{ onAM }}" style="{{ estiloAM }}" style-hover="background:color-mix(in srgb, var(--color-accent) 10%, transparent)">Mañana</div>
+      <div onClick="{{ onPM }}" style="{{ estiloPM }}" style-hover="background:color-mix(in srgb, var(--color-accent) 10%, transparent)">Noche</div>
+    </div>
+
+    <button class="btn btn-primary btn-block" style="min-height:48px;font-size:15px" onClick="{{ onRitualEmpezar }}">Empezar la rutina paso a paso</button>
+
+    <sc-for list="{{ pasos }}" as="p" hint-placeholder-count="4">
+      <div style="display:flex;gap:12px;padding:13px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)" style-hover="background:color-mix(in srgb, var(--color-text) 4%, var(--color-surface))">
+        <div onClick="{{ p.onToggle }}" style="padding:9px;margin:-7px -9px -9px -9px;cursor:pointer;flex:none">
+          <div style="{{ p.circulo }}">
+            <sc-if value="{{ p.done }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:14px;font-weight:600;color:var(--color-bg)">✓</span>
+            </sc-if>
+          </div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">{{ p.etiqueta }}</div>
+          <div style="{{ p.titulo }}" onClick="{{ p.onDetalle }}">{{ p.nombre }}</div>
+          <div style="font-size:12px;line-height:1.5;color:var(--color-neutral-400);margin-top:3px">{{ p.descripcion }}</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:9px">
+            <span class="tag tag-neutral">{{ p.frecuencia }}</span>
+            <span class="tag tag-outline">{{ p.activo }}</span>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+
+    <sc-if value="{{ verSugerencia }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:14px;border-radius:8px;background:var(--color-surface);box-shadow:inset 0 0 0 1px var(--color-accent-800)">
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Sugerencia para ti</div>
+        <div style="font-size:14px;line-height:1.5;margin-top:6px">{{ sugerencia }}</div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-primary" style="flex:1;min-height:44px" onClick="{{ onAceptarSug }}">{{ sugerenciaCta }}</button>
+          <button class="btn btn-secondary" style="min-height:44px" onClick="{{ onRechazarSug }}">No, gracias</button>
+        </div>
+      </div>
+    </sc-if>
+    <div style="display:flex;gap:8px;margin-top:2px">
+      <button class="btn btn-secondary" style="flex:1;min-height:44px" onClick="{{ onTabSemana }}">Semana de activos</button>
+      <button class="btn btn-secondary" style="flex:1;min-height:44px" onClick="{{ onTabTratamientos }}">Tratamientos</button>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ tabEstante }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="font-size:12.5px;color:var(--color-neutral-400)">{{ estanteResumen }}</div>
+    <sc-if value="{{ verEstanteVacio }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:22px 16px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--color-divider);display:flex;flex-direction:column;gap:12px">
+        <div style="font-size:17px;font-weight:500">Aún no tienes nada guardado</div>
+        <div style="font-size:13px;line-height:1.6;color:var(--color-neutral-400)">Haz una foto a lo que ya usas, aunque sea un solo bote. Con eso ordenamos los pasos y te avisamos de las mezclas que no van juntas.</div>
+        <button class="btn btn-primary" style="min-height:44px" onClick="{{ onTabEscanear }}">Escanear mi primer producto</button>
+      </div>
+    </sc-if>
+    <sc-for list="{{ estante }}" as="e" hint-placeholder-count="5">
+      <div onClick="{{ e.onDetalle }}" style="display:flex;gap:12px;padding:12px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm);align-items:center;cursor:pointer" style-hover="background:color-mix(in srgb, var(--color-text) 5%, var(--color-surface))">
+        <div style="width:44px;height:56px;flex:none;border-radius:5px;background:linear-gradient(160deg,var(--color-neutral-800),var(--color-neutral-900));box-shadow:inset 0 0 0 1px rgba(233,233,237,.08);display:grid;place-items:center;font-size:9px;color:var(--color-neutral-500);text-align:center;line-height:1.2">foto</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:500">{{ e.nombre }}</div>
+          <div style="font-size:11.5px;color:var(--color-neutral-400);margin-top:2px">{{ e.detalle }}</div>
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+            <span class="tag tag-accent">{{ e.momento }}</span>
+            <span class="tag tag-neutral">{{ e.activo }}</span>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+    <div style="display:flex;gap:11px;padding:13px;border-radius:8px;background:var(--color-accent-900);box-shadow:inset 0 0 0 1px var(--color-accent-800);margin-top:4px">
+      <div style="width:3px;flex:none;border-radius:99px;background:var(--color-accent)"></div>
+      <div style="font-size:12.5px;line-height:1.55;color:var(--color-accent-100)">Ojo con mezclar retinol y ácido salicílico la misma noche: los alternamos por ti en el calendario.</div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ tabEscanear }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="height:300px;border-radius:14px;background:linear-gradient(170deg,#1c1f31,#101220);box-shadow:inset 0 0 0 1px rgba(233,233,237,.08);position:relative;display:grid;place-items:center">
+      <div style="width:172px;height:214px;border-radius:8px;box-shadow:0 0 0 1px var(--color-accent), 0 0 46px color-mix(in srgb, var(--color-accent) 30%, transparent)"></div>
+      <div style="position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:11.5px;color:var(--color-neutral-400)">{{ escaneoPie }}</div>
+    </div>
+
+    <sc-if value="{{ escaneoCamara }}" hint-placeholder-val="{{ true }}">
+      <button class="btn btn-primary btn-block" style="min-height:48px;font-size:15px" onClick="{{ onCapturar }}">Hacer la foto</button>
+    </sc-if>
+
+    <sc-if value="{{ escaneoAnalizando }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+        <div style="width:22px;height:22px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1px var(--color-accent);background:color-mix(in srgb, var(--color-accent) 18%, transparent)"></div>
+        <div style="font-size:13.5px;color:var(--color-neutral-300)">Leyendo la etiqueta y buscando el producto…</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ escaneoResultado }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:14px;border-radius:8px;background:var(--color-surface);box-shadow:inset 0 0 0 1px var(--color-accent-800)">
+        <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Identificado · 94% de confianza</div>
+        <div style="font-size:18px;font-weight:500;margin-top:6px">{{ detectadoNombre }}</div>
+        <div style="font-size:12.5px;line-height:1.55;color:var(--color-neutral-400);margin-top:4px">{{ detectadoTexto }}</div>
+        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+          <span class="tag tag-accent">{{ detectadoMomento }}</span>
+          <span class="tag tag-neutral">{{ detectadoActivo }}</span>
+        </div>
+        <sc-if value="{{ verConflictoEscaneo }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;gap:11px;padding:12px;border-radius:8px;background:var(--color-accent-900);margin-top:12px">
+            <div style="width:3px;flex:none;border-radius:99px;background:var(--color-accent)"></div>
+            <div style="font-size:12.5px;line-height:1.55;color:var(--color-accent-100)">{{ conflictoEscaneo }}</div>
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <button class="btn btn-primary" style="flex:1;min-height:44px" onClick="{{ onGuardarEscaneo }}">Guardar en mi estante</button>
+          <button class="btn btn-secondary" style="min-height:44px" onClick="{{ onOtraFoto }}">Otra foto</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ tabTratamientos }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="font-size:12.5px;line-height:1.55;color:var(--color-neutral-400)">{{ tratIntro }}</div>
+    <sc-for list="{{ tratamientos }}" as="t" hint-placeholder-count="3">
+      <div style="padding:14px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">{{ t.categoria }}</div>
+          <span class="tag tag-neutral">{{ t.estado }}</span>
+        </div>
+        <div style="font-size:17px;font-weight:500;margin-top:6px">{{ t.nombre }}</div>
+        <div style="font-size:12.5px;line-height:1.55;color:var(--color-neutral-400);margin-top:4px">{{ t.porque }}</div>
+        <div style="font-size:12px;color:var(--color-accent-300);margin-top:8px">{{ t.pauta }}</div>
+        <sc-if value="{{ t.pendiente }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;gap:8px;margin-top:13px">
+            <button class="btn btn-primary" style="flex:1;min-height:44px" onClick="{{ t.onAceptar }}">Añadir a la rutina</button>
+            <button class="btn btn-secondary" style="min-height:44px" onClick="{{ t.onDescartar }}">Ahora no</button>
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ tabProgreso }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:12.5px;line-height:1.55;color:var(--color-neutral-400)">Misma luz, misma distancia, cara lavada. Te avisamos cada domingo para la foto.</div>
+    <div style="position:relative;height:300px;border-radius:12px;overflow:hidden;background:linear-gradient(150deg,#1c1f31,#121523);display:grid;place-items:center;font-size:11px;color:var(--color-neutral-500)">
+      <span>foto del 20 de julio</span>
+      <div style="{{ estiloDespues }}"><span>foto de hoy</span></div>
+      <div style="{{ estiloLinea }}"></div>
+      <div style="{{ estiloTirador }}">‹›</div>
+      <div style="position:absolute;top:10px;left:12px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-400)">Antes</div>
+      <div style="position:absolute;top:10px;right:12px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Hoy</div>
+    </div>
+    <input type="range" min="0" max="100" value="{{ comparador }}" onChange="{{ onComparador }}" style="width:100%;accent-color:var(--color-accent)">
+    <div style="display:flex;gap:10px">
+      <div style="flex:1;padding:13px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+        <div style="font-size:22px">6</div>
+        <div style="font-size:11px;color:var(--color-neutral-500)">semanas de fotos</div>
+      </div>
+      <div style="flex:1;padding:13px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+        <div style="font-size:22px">86%</div>
+        <div style="font-size:11px;color:var(--color-neutral-500)">rutinas completadas</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:11px;padding:13px;border-radius:8px;background:var(--color-accent-900)">
+      <div style="width:3px;flex:none;border-radius:99px;background:var(--color-accent)"></div>
+      <div style="font-size:12.5px;line-height:1.55;color:var(--color-accent-100)">Desde que la niacinamida entró en la rutina, las cinco últimas semanas registran menos brillos en la zona T.</div>
+    </div>
+    <button class="btn btn-primary btn-block" style="min-height:46px">Hacer la foto de esta semana</button>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ tabPerfil }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="padding:14px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+      <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Tu diagnóstico</div>
+      <div style="font-size:14px;margin-top:6px;line-height:1.5">{{ perfilResumen }}</div>
+      <button class="btn btn-ghost" style="margin-top:8px;padding-left:0" onClick="{{ onReiniciar }}">Repetir el test</button>
+    </div>
+
+    <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-500)">Recordatorios</div>
+    <sc-for list="{{ ajustes }}" as="a" hint-placeholder-count="4">
+      <div style="display:flex;align-items:center;gap:12px;padding:13px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:500">{{ a.label }}</div>
+          <div style="font-size:11.5px;color:var(--color-neutral-500);margin-top:2px">{{ a.sub }}</div>
+        </div>
+        <div onClick="{{ a.onToggle }}" style="{{ a.sw }}"><div style="{{ a.knob }}"></div></div>
+      </div>
+    </sc-for>
+
+    <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-500);margin-top:4px">Tono de los avisos</div>
+    <div style="display:flex;gap:8px">
+      <div onClick="{{ onTonoCalido }}" style="{{ estiloTonoCalido }}" style-hover="background:color-mix(in srgb, var(--color-accent) 10%, transparent)">Cálido</div>
+      <div onClick="{{ onTonoDirecto }}" style="{{ estiloTonoDirecto }}" style-hover="background:color-mix(in srgb, var(--color-accent) 10%, transparent)">Directo</div>
+    </div>
+    <div style="font-size:12px;line-height:1.55;color:var(--color-neutral-500)">Así suena ahora: “{{ notificacion }}”</div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ tabSemana }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:12.5px;line-height:1.55;color:var(--color-neutral-400)">{{ semanaIntro }}</div>
+    <div style="padding:14px 13px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+      <div style="display:flex;gap:5px;padding-left:112px">
+        <sc-for list="{{ semanaDias }}" as="d" hint-placeholder-count="7">
+          <div style="{{ d.style }}">{{ d.letra }}</div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px">
+        <sc-for list="{{ semanaFilas }}" as="f" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:5px">
+            <div style="width:112px;flex:none;padding-right:10px">
+              <div style="font-size:13px;font-weight:500">{{ f.activo }}</div>
+              <div style="font-size:10.5px;color:var(--color-neutral-500)">{{ f.nota }}</div>
+            </div>
+            <sc-for list="{{ f.celdas }}" as="c" hint-placeholder-count="7">
+              <div style="{{ c.style }}"></div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:flex;gap:11px;padding:13px;border-radius:8px;background:var(--color-accent-900)">
+      <div style="width:3px;flex:none;border-radius:99px;background:var(--color-accent)"></div>
+      <div style="font-size:12.5px;line-height:1.55;color:var(--color-accent-100)">Si te salta una noche de activo no pasa nada: la movemos al día siguiente y te avisamos.</div>
+    </div>
+    <button class="btn btn-secondary btn-block" style="min-height:44px">Ajustar la frecuencia</button>
+  </div>
+  </sc-if>
+
+</div>
+
+<div style="position:sticky;bottom:0;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(14px);box-shadow:0 -1px 0 rgba(233,233,237,.1);padding:9px 12px 26px;display:flex;align-items:flex-end;gap:4px">
+  <div onClick="{{ onTabHoy }}" style="{{ navHoy }}" style-hover="color:var(--color-accent-300)">
+    <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"></path></svg>
+    <span>Hoy</span>
+  </div>
+  <div onClick="{{ onTabEstante }}" style="{{ navEstante }}" style-hover="color:var(--color-accent-300)">
+    <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"></path></svg>
+    <span>Estante</span>
+  </div>
+  <div onClick="{{ onTabEscanear }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer">
+    <div style="width:46px;height:46px;border-radius:50%;border:1px solid var(--color-accent);color:var(--color-accent);display:grid;place-items:center;box-shadow:0 0 26px color-mix(in srgb, var(--color-accent) 26%, transparent);margin-top:-16px">
+      <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,120a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V128H40a8,8,0,0,1,0-16h80V32a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,120Z"></path></svg>
+    </div>
+    <span style="font-size:10px;color:var(--color-accent)">Escanear</span>
+  </div>
+  <div onClick="{{ onTabProgreso }}" style="{{ navProgreso }}" style-hover="color:var(--color-accent-300)">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"></rect><circle cx="9" cy="9.5" r="1.8"></circle><path d="M4 18l5-5 3.5 3.5L15 14l5 4.5"></path></svg>
+    <span>Progreso</span>
+  </div>
+  <div onClick="{{ onTabPerfil }}" style="{{ navPerfil }}" style-hover="color:var(--color-accent-300)">
+    <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"></path></svg>
+    <span>Perfil</span>
+  </div>
+</div>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ verRitual }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:100%;display:flex;flex-direction:column;padding:66px 22px 30px;background:var(--color-bg)">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="display:flex;gap:5px;flex:1">
+      <sc-for list="{{ ritualDots }}" as="d" hint-placeholder-count="4">
+        <div style="{{ d.style }}"></div>
+      </sc-for>
+    </div>
+    <div onClick="{{ onCerrarRitual }}" style="font-size:18px;color:var(--color-neutral-500);cursor:pointer;line-height:1">×</div>
+  </div>
+  <div style="margin-top:24px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent)">{{ ritualEtiqueta }}</div>
+  <h3 style="margin:8px 0 0;font-size:31px;line-height:1.1">{{ ritualNombre }}</h3>
+  <div style="margin-top:14px;font-size:14px;line-height:1.6;color:var(--color-neutral-300);max-width:30ch">{{ ritualIndicacion }}</div>
+  <div style="margin-top:20px;height:210px;border-radius:12px;background:linear-gradient(150deg,#1e2133,#131624);box-shadow:inset 0 0 0 1px rgba(233,233,237,.07);display:grid;place-items:center;font-size:11px;color:var(--color-neutral-600)">foto del producto</div>
+  <div style="display:flex;gap:6px;margin-top:14px;flex-wrap:wrap">
+    <span class="tag tag-neutral">{{ ritualFrecuencia }}</span>
+    <span class="tag tag-outline">{{ ritualActivo }}</span>
+  </div>
+  <div style="flex:1;min-height:20px"></div>
+  <button class="btn btn-primary btn-block" style="min-height:50px;font-size:15px" onClick="{{ onRitualHecho }}">{{ ritualCta }}</button>
+  <div onClick="{{ onRitualSaltar }}" style="text-align:center;margin-top:12px;font-size:12.5px;color:var(--color-neutral-500);cursor:pointer">Saltar este paso hoy</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ verDetalle }}" hint-placeholder-val="{{ false }}">
+<div style="min-height:100%;display:flex;flex-direction:column;padding:66px 20px 30px;background:var(--color-bg)">
+  <div onClick="{{ onCerrarDetalle }}" style="font-size:13px;color:var(--color-accent);cursor:pointer">‹ Volver</div>
+  <div style="margin-top:18px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent)">{{ detCategoria }}</div>
+  <h3 style="margin:8px 0 0;font-size:27px;line-height:1.15">{{ detNombre }}</h3>
+  <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap">
+    <span class="tag tag-accent">{{ detMomento }}</span>
+    <span class="tag tag-neutral">{{ detFrecuencia }}</span>
+    <span class="tag tag-outline">{{ detEnRutina }}</span>
+  </div>
+  <div style="margin-top:16px;font-size:13.5px;line-height:1.6;color:var(--color-neutral-300)">{{ detDescripcion }}</div>
+  <div style="margin-top:18px;height:170px;border-radius:12px;background:linear-gradient(150deg,#1e2133,#131624);box-shadow:inset 0 0 0 1px rgba(233,233,237,.07);display:grid;place-items:center;font-size:11px;color:var(--color-neutral-600)">tu foto del producto</div>
+  <div style="margin-top:20px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-500)">Ingredientes principales</div>
+  <div style="margin-top:7px;font-size:13px;line-height:1.7;color:var(--color-neutral-300)">{{ detIngredientes }}</div>
+  <div style="margin-top:20px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-neutral-500)">Compatibilidad</div>
+  <sc-for list="{{ detConflictos }}" as="c" hint-placeholder-count="1">
+    <div style="display:flex;gap:11px;padding:12px;border-radius:8px;background:var(--color-accent-900);margin-top:8px">
+      <div style="width:3px;flex:none;border-radius:99px;background:var(--color-accent)"></div>
+      <div style="font-size:12.5px;line-height:1.55;color:var(--color-accent-100)">{{ c.texto }}</div>
+    </div>
+  </sc-for>
+  <sc-if value="{{ detSinConflictos }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:8px;font-size:13px;color:var(--color-neutral-400)">Se lleva bien con todo lo que tienes ahora en la rutina.</div>
+  </sc-if>
+  <div style="flex:1;min-height:20px"></div>
+  <button class="btn btn-secondary btn-block" style="min-height:44px" onClick="{{ onDetCta }}">{{ detCta }}</button>
+</div>
+</sc-if>
+
+</div>
+</x-import>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Rutina de hoy — lista de pasos (lo más directo)</div>
+<div class="mini">
+  <div class="mini-top"><span>9:41</span><span>▮▮▮</span></div>
+  <div style="padding:6px 18px 0">
+    <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent)">Martes · Noche</div>
+    <h3 style="margin:4px 0 14px;font-size:26px">Rutina de hoy</h3>
+    <div style="display:flex;gap:6px;margin-bottom:14px">
+      <div style="flex:1;padding:8px;text-align:center;font-size:13px;border-radius:8px;color:var(--color-neutral-400);box-shadow:inset 0 0 0 1px var(--color-divider)">Mañana</div>
+      <div style="flex:1;padding:8px;text-align:center;font-size:13px;border-radius:8px;color:var(--color-accent);box-shadow:inset 0 0 0 1px var(--color-accent)">Noche</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:11px;align-items:center;padding:12px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+        <div style="width:24px;height:24px;flex:none;border-radius:50%;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;font-size:13px;font-weight:600">✓</div>
+        <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:500;opacity:.55;text-decoration:line-through">Gel limpiador suave</div><div style="font-size:11px;color:var(--color-neutral-500)">Paso 1 · Limpieza</div></div>
+      </div>
+      <div style="display:flex;gap:11px;align-items:center;padding:12px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+        <div style="width:24px;height:24px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--color-divider)"></div>
+        <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:500">Sérum de niacinamida 10%</div><div style="font-size:11px;color:var(--color-neutral-500)">Paso 2 · Tratamiento · una vez al día</div></div>
+      </div>
+      <div style="display:flex;gap:11px;align-items:center;padding:12px;border-radius:8px;background:var(--color-surface);box-shadow:var(--shadow-sm)">
+        <div style="width:24px;height:24px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--color-divider)"></div>
+        <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:500">Crema hidratante ligera</div><div style="font-size:11px;color:var(--color-neutral-500)">Paso 3 · Hidratación</div></div>
+      </div>
+      <div style="display:flex;gap:11px;align-items:center;padding:12px;border-radius:8px;box-shadow:inset 0 0 0 1px var(--color-divider)">
+        <div style="width:24px;height:24px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--color-divider)"></div>
+        <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:500;color:var(--color-neutral-500)">Retinol encapsulado 0,3%</div><div style="font-size:11px;color:var(--color-accent-300)">Hoy descansa · lo usaste anoche</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Rutina de hoy — un paso a la vez, modo ritual</div>
+<div class="mini">
+  <div class="mini-top"><span>21:10</span><span>▮▮▮</span></div>
+  <div style="flex:1;display:flex;flex-direction:column;padding:8px 20px 24px">
+    <div style="display:flex;gap:5px">
+      <div style="flex:1;height:3px;border-radius:99px;background:var(--color-accent)"></div>
+      <div style="flex:1;height:3px;border-radius:99px;background:var(--color-accent)"></div>
+      <div style="flex:1;height:3px;border-radius:99px;background:rgba(233,233,237,.14)"></div>
+      <div style="flex:1;height:3px;border-radius:99px;background:rgba(233,233,237,.14)"></div>
+    </div>
+    <div style="margin-top:22px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-accent)">Paso 3 de 4 · Tratamiento</div>
+    <h3 style="margin:8px 0 0;font-size:31px;line-height:1.1">Sérum de<br>niacinamida 10%</h3>
+    <div style="margin:16px 0 0;font-size:13.5px;line-height:1.6;color:var(--color-neutral-300);max-width:30ch">Dos gotas sobre la piel aún húmeda. Controla los brillos y calma las rojeces de la zona T.</div>
+    <div style="margin-top:18px;height:190px;border-radius:12px;background:linear-gradient(150deg,#1e2133,#131624);box-shadow:inset 0 0 0 1px rgba(233,233,237,.07);display:grid;place-items:center;font-size:11px;color:var(--color-neutral-600)">foto del producto</div>
+    <div style="display:flex;gap:6px;margin-top:14px;flex-wrap:wrap">
+      <span class="tag tag-neutral">Espera 1 min</span>
+      <span class="tag tag-outline">Compatible con tu crema</span>
+    </div>
+    <div style="flex:1"></div>
+    <button class="btn btn-primary btn-block" style="min-height:50px;font-size:15px">Hecho, siguiente paso</button>
+    <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--color-neutral-500)">Saltar este paso hoy</div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Rutina de hoy — el día en una línea de tiempo</div>
+<div class="mini">
+  <div class="mini-top"><span>9:41</span><span>▮▮▮</span></div>
+  <div style="padding:6px 18px 0;overflow:hidden">
+    <h3 style="margin:4px 0 2px;font-size:26px">Tu martes</h3>
+    <div style="font-size:12px;color:var(--color-neutral-400);margin-bottom:16px">2 de 6 pasos · racha de 11 días</div>
+    <div style="display:flex;gap:14px">
+      <div style="width:1px;background:linear-gradient(to bottom,transparent,var(--color-divider) 20px,var(--color-divider) calc(100% - 40px),transparent);flex:none;margin-left:5px"></div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:18px;margin-left:-25px">
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <div style="width:11px;height:11px;border-radius:50%;background:var(--color-accent);flex:none;margin-top:5px"></div>
+          <div><div style="font-size:11px;color:var(--color-neutral-500)">08:00 · Mañana</div><div style="font-size:14.5px;font-weight:500;opacity:.55;text-decoration:line-through">Limpiador · Vitamina C · SPF50</div></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <div style="width:11px;height:11px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--color-accent);flex:none;margin-top:5px"></div>
+          <div>
+            <div style="font-size:11px;color:var(--color-accent)">13:30 · Retoque</div>
+            <div style="font-size:14.5px;font-weight:500">Reaplicar protector solar</div>
+            <div style="font-size:11.5px;color:var(--color-neutral-400);margin-top:2px">Te avisamos si has salido de casa</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <div style="width:11px;height:11px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--color-divider);flex:none;margin-top:5px"></div>
+          <div>
+            <div style="font-size:11px;color:var(--color-neutral-500)">22:00 · Noche</div>
+            <div style="font-size:14.5px;font-weight:500">Limpiador · Niacinamida · Crema</div>
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span class="tag tag-accent">Noche suave</span><span class="tag tag-neutral">Sin retinol</span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;opacity:.55">
+          <div style="width:11px;height:11px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--color-divider);flex:none;margin-top:5px"></div>
+          <div><div style="font-size:11px;color:var(--color-neutral-500)">Mañana, 22:00</div><div style="font-size:14.5px;font-weight:500">Retinol, tercera noche de la semana</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1e">
+<div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>La misma pantalla en Android (barra inferior Material, tipografía del sistema)</div>
+<x-import component-from-global-scope="AndroidDevice" from="./android-frame.jsx" dark="{{ true }}" hint-size="360px,800px">
+<div style="min-height:100%;background:var(--color-bg);padding:8px 16px 24px;display:flex;flex-direction:column;gap:12px">
+  <div style="padding:10px 0 6px;font-size:20px;font-weight:500">Rutina de hoy</div>
+  <div style="display:flex;gap:11px;padding:12px;border-radius:14px;background:var(--color-accent-900)">
+    <div style="width:3px;flex:none;border-radius:99px;background:var(--color-accent)"></div>
+    <div style="font-size:13px;line-height:1.5;color:var(--color-accent-100)">Anoche tocó retinol. Hoy lo dejamos descansar: niacinamida y mucha crema.</div>
+  </div>
+  <div style="display:flex;gap:6px">
+    <div style="flex:1;padding:9px;text-align:center;font-size:13px;border-radius:99px;color:var(--color-neutral-400);box-shadow:inset 0 0 0 1px var(--color-divider)">Mañana</div>
+    <div style="flex:1;padding:9px;text-align:center;font-size:13px;border-radius:99px;color:var(--color-accent);box-shadow:inset 0 0 0 1px var(--color-accent)">Noche</div>
+  </div>
+  <div style="display:flex;gap:11px;align-items:center;padding:14px;border-radius:14px;background:var(--color-surface)">
+    <div style="width:24px;height:24px;flex:none;border-radius:50%;background:var(--color-accent);color:var(--color-bg);display:grid;place-items:center;font-size:13px;font-weight:600">✓</div>
+    <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:500;opacity:.55;text-decoration:line-through">Gel limpiador suave</div><div style="font-size:11px;color:var(--color-neutral-500)">Paso 1 · Limpieza</div></div>
+  </div>
+  <div style="display:flex;gap:11px;align-items:center;padding:14px;border-radius:14px;background:var(--color-surface)">
+    <div style="width:24px;height:24px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--color-divider)"></div>
+    <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:500">Sérum de niacinamida 10%</div><div style="font-size:11px;color:var(--color-neutral-500)">Paso 2 · Tratamiento</div></div>
+  </div>
+  <div style="display:flex;gap:11px;align-items:center;padding:14px;border-radius:14px;background:var(--color-surface)">
+    <div style="width:24px;height:24px;flex:none;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--color-divider)"></div>
+    <div style="flex:1;min-width:0"><div style="font-size:14.5px;font-weight:500">Crema hidratante ligera</div><div style="font-size:11px;color:var(--color-neutral-500)">Paso 3 · Hidratación</div></div>
+  </div>
+  <div style="flex:1"></div>
+  <button class="btn btn-primary btn-block" style="min-height:48px;border-radius:99px;font-size:15px">Escanear un producto</button>
+</div>
+</x-import>
+</div>
+
+</div>
+<p class="dv-next">Prueba a pedirme: "añade la pantalla de progreso con fotos del rostro" · "muéstrame las notificaciones en la pantalla de bloqueo" · "ahora la pasada de Android".</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;arranque&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Onboarding&quot;,&quot;Rutina de hoy&quot;],&quot;default&quot;:&quot;Onboarding&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;notificacion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototipo&quot;},&quot;sugerenciasAuto&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Prototipo&quot;}}">
+const P = {
+  limpiador:{id:'limpiador',nombre:'Gel limpiador suave',categoria:'Limpieza',activo:'Sin activos',descripcion:'Limpia sin resecar y respeta la barrera cutánea.',momento:'ambos',frecuencia:'Mañana y noche',orden:1},
+  limpiadorSeca:{id:'limpiadorSeca',nombre:'Bálsamo limpiador nutritivo',categoria:'Limpieza',activo:'Sin activos',descripcion:'Limpieza en crema para pieles secas o sensibles.',momento:'ambos',frecuencia:'Mañana y noche',orden:1},
+  vitC:{id:'vitC',nombre:'Sérum de vitamina C',categoria:'Tratamiento',activo:'Vitamina C',descripcion:'Luminosidad y tono más unificado. Antioxidante de día.',momento:'am',frecuencia:'Cada mañana',orden:2},
+  niacin:{id:'niacin',nombre:'Sérum de niacinamida 10%',categoria:'Tratamiento',activo:'Niacinamida',descripcion:'Controla los brillos, afina poros y calma rojeces.',momento:'ambos',frecuencia:'Una vez al día',orden:2},
+  hialu:{id:'hialu',nombre:'Sérum de ácido hialurónico',categoria:'Tratamiento',activo:'Hialurónico',descripcion:'Hidratación profunda. Sobre piel húmeda.',momento:'ambos',frecuencia:'Mañana y noche',orden:2},
+  retinol:{id:'retinol',nombre:'Retinol encapsulado 0,3%',categoria:'Tratamiento',activo:'Retinoide',descripcion:'Renueva la piel y suaviza líneas. Poco a poco.',momento:'pm',frecuencia:'2 noches/sem',orden:3},
+  bha:{id:'bha',nombre:'Exfoliante con ácido salicílico',categoria:'Tratamiento',activo:'BHA',descripcion:'Desobstruye poros y reduce granitos.',momento:'pm',frecuencia:'2-3 noches/sem',orden:3},
+  hidra:{id:'hidra',nombre:'Crema hidratante ligera',categoria:'Hidratación',activo:'Ceramidas',descripcion:'Sella la hidratación sin sensación grasa.',momento:'ambos',frecuencia:'Mañana y noche',orden:4},
+  hidraRica:{id:'hidraRica',nombre:'Crema nutritiva reparadora',categoria:'Hidratación',activo:'Ceramidas',descripcion:'Textura rica para pieles secas o maduras.',momento:'ambos',frecuencia:'Mañana y noche',orden:4},
+  spf:{id:'spf',nombre:'Protector solar facial SPF50',categoria:'Protección',activo:'Filtro SPF50',descripcion:'El paso antiedad más importante. Último de la mañana.',momento:'am',frecuencia:'Cada mañana',orden:5},
+};
+
+const PREGUNTAS = [
+  {q:'¿Cómo notas tu piel al final del día?', ayuda:'Elige la que más se parezca.', opts:[
+    {t:'Tirante y seca',v:'seca',s:'Sin brillos, a veces descamación'},
+    {t:'Brillante por todas partes',v:'grasa',s:'Sobre todo en la zona T'},
+    {t:'Brillos en T, normal en mejillas',v:'mixta',s:'Lo más común'},
+    {t:'Equilibrada, ni seca ni grasa',v:'normal',s:'Cómoda casi siempre'}]},
+  {q:'¿Qué te gustaría mejorar?', multi:true, ayuda:'Puedes marcar varias.', opts:[
+    {t:'Granitos y acné',v:'acne',s:''},
+    {t:'Manchas y tono desigual',v:'manchas',s:''},
+    {t:'Líneas y firmeza',v:'edad',s:''},
+    {t:'Luminosidad general',v:'luz',s:''},
+    {t:'Sequedad y tirantez',v:'sequedad',s:''}]},
+  {q:'¿Tu piel reacciona con facilidad?', ayuda:'Nos dice a qué ritmo introducir activos.', opts:[
+    {t:'Sí, se irrita y enrojece',v:'sensible',s:'Fórmulas suaves'},
+    {t:'A veces, según el producto',v:'algo',s:''},
+    {t:'No, tolera casi todo',v:'resistente',s:''}]},
+  {q:'¿Cuánta experiencia tienes?', ayuda:'Para no abrumarte el primer día.', opts:[
+    {t:'Empiezo de cero',v:'novata',s:'Rutina simple de 3 pasos'},
+    {t:'Lo básico: limpio e hidrato',v:'media',s:''},
+    {t:'Uso activos (ácidos, retinol…)',v:'avanzada',s:''}]},
+];
+
+const TIPO_TXT = {seca:'Piel seca',grasa:'Piel grasa',mixta:'Piel mixta',normal:'Piel normal'};
+
+function construirRutina(r) {
+  const tipo = r[0], obj = r[1] || [], exp = r[3];
+  const has = v => obj.indexOf(v) >= 0;
+  let out = [];
+  out.push(tipo === 'seca' || has('sequedad') ? P.limpiadorSeca : P.limpiador);
+  if (has('acne')) out.push(P.bha, P.niacin);
+  if (has('manchas')) out.push(P.vitC, P.niacin);
+  if (has('edad')) out.push(P.vitC, P.retinol);
+  if (has('luz')) out.push(P.vitC);
+  if (has('sequedad')) out.push(P.hialu);
+  if (out.length <= 1) out.push(P.vitC, P.hialu);
+  out.push(tipo === 'seca' || has('sequedad') ? P.hidraRica : P.hidra);
+  out.push(P.spf);
+  out = out.filter((p, i) => out.indexOf(p) === i);
+  if (exp === 'novata') {
+    const base = out.filter(p => p !== P.spf).slice(0, 2);
+    out = base.concat([P.hidra, P.spf]).filter((p, i, a) => a.indexOf(p) === i);
+  }
+  return out;
+}
+
+const TRATAMIENTOS = [
+  {id:'bha',categoria:'Exfoliación',nombre:'Exfoliante con ácido salicílico',porque:'Desobstruye poros y baja los granitos. Se introduce despacio y nunca junto al retinol.',pauta:'2-3 noches por semana, alternando con otros activos'},
+  {id:'vitC',categoria:'Luminosidad',nombre:'Sérum de vitamina C',porque:'Unifica el tono y suma antioxidante de día, justo antes del protector solar.',pauta:'Cada mañana, sobre piel limpia'},
+  {id:'mascara',categoria:'Cuidado semanal',nombre:'Mascarilla calmante de avena',porque:'Un rescate para las semanas en las que la piel ha tenido activos fuertes.',pauta:'Una vez por semana, 10 minutos'},
+];
+
+const INFO = {
+  limpiador:{ingredientes:'Agua · Coco-Glucósido · Glicerina · Pantenol · Alantoína',conflictos:[]},
+  limpiadorSeca:{ingredientes:'Aceite de girasol · Escualano · Manteca de karité · Vitamina E',conflictos:[]},
+  vitC:{ingredientes:'Ácido ascórbico 10% · Ácido ferúlico · Vitamina E · Glicerina',conflictos:['No la mismo tiempo que el exfoliante con BHA: espacia unas horas.']},
+  niacin:{ingredientes:'Niacinamida 10% · Zinc PCA · Pantenol · Glicerina',conflictos:[]},
+  hialu:{ingredientes:'Ácido hialurónico (3 pesos) · Pantenol · Glicerina · Trehalosa',conflictos:[]},
+  retinol:{ingredientes:'Retinol encapsulado 0,3% · Bisabolol · Escualano · Ceramidas',conflictos:['No la misma noche que el exfoliante con ácido salicílico.','Empieza dos noches por semana y sube despacio.']},
+  bha:{ingredientes:'Ácido salicílico 2% · Extracto de sauce · Pantenol · Glicerina',conflictos:['No la misma noche que el retinol: te lo alternamos en el calendario.']},
+  hidra:{ingredientes:'Ceramidas NP · Glicerina · Escualano · Pantenol',conflictos:[]},
+  hidraRica:{ingredientes:'Ceramidas NP · Manteca de karité · Colesterol · Escualano',conflictos:[]},
+  spf:{ingredientes:'Filtros UVA/UVB SPF50 · Vitamina E · Glicerina',conflictos:[]},
+};
+
+const INDICACIONES = {
+  'Limpieza':'Masajea 30 segundos sobre la piel húmeda y aclara con agua templada.',
+  'Tratamiento':'Dos o tres gotas. Extiende sin frotar y espera un minuto antes del siguiente paso.',
+  'Hidratación':'Una cantidad como una avellana, de dentro hacia fuera, cuello incluido.',
+  'Protección':'Dos dedos de producto. Repite a media tarde si te da el sol.',
+};
+
+const DIAS = ['L','M','X','J','V','S','D'];
+const HOY_IDX = 1;
+const PLAN = [
+  {activo:'Retinol', pid:'retinol', nota:'2 noches', dias:[false,true,false,false,true,false,false]},
+  {activo:'Ácido salicílico', pid:'bha', nota:'1-2 noches', dias:[false,false,false,true,false,false,false]},
+  {activo:'Vitamina C', pid:'vitC', nota:'cada mañana', dias:[true,true,true,true,true,true,true]},
+  {activo:'Niacinamida', pid:'niacin', nota:'una vez al día', dias:[true,true,true,true,true,true,true]},
+  {activo:'Hialurónico', pid:'hialu', nota:'mañana y noche', dias:[true,true,true,true,true,true,true]},
+  {activo:'Limpieza + crema', pid:null, nota:'siempre', dias:[true,true,true,true,true,true,true]},
+];
+
+class Component extends DCLogic {
+  state = {
+    fase: 'onboarding', qi: 0, respuestas: [null, [], null, null],
+    tab: 'hoy', momento: 'pm', hechos: {},
+    sugerencia: 'pendiente', notif: true,
+    escaneo: 'camara', extra: [],
+    trat: {}, ritual: false, ritualIdx: 0, detalle: null,
+    comparador: 52, tono: 'Cálido',
+    ajustes: {noche: true, manana: true, spf: false, resumen: true},
+  };
+
+  componentDidMount() {
+    if (this.props.arranque === 'Rutina de hoy') {
+      this.setState({fase:'app', respuestas:['mixta',['manchas','sequedad'],'algo','media']});
+    }
+    if (this.props.notificacion === false) this.setState({notif:false});
+  }
+
+  rutina() {
+    const base = construirRutina(this.state.respuestas);
+    const extra = this.state.extra.map(id => P[id]).filter(Boolean);
+    const todo = base.concat(extra);
+    return todo.filter((p, i) => todo.indexOf(p) === i);
+  }
+
+  pasosDe(m) {
+    return this.rutina()
+      .filter(p => p.momento === m || p.momento === 'ambos')
+      .sort((a, b) => a.orden - b.orden);
+  }
+
+  toggle(id) {
+    this.setState(s => {
+      const h = Object.assign({}, s.hechos);
+      h[id] = !h[id];
+      return {hechos: h};
+    });
+  }
+
+  seguir() {
+    const q = PREGUNTAS[this.state.qi];
+    if (q.multi && (this.state.respuestas[1] || []).length === 0) return;
+    if (!q.multi && !this.state.respuestas[this.state.qi]) return;
+    if (this.state.qi < PREGUNTAS.length - 1) this.setState({qi: this.state.qi + 1});
+    else {
+      this.setState({fase: 'generando'});
+      setTimeout(() => this.setState({fase: 'app'}), 1500);
+    }
+  }
+
+  pick(v) {
+    const q = PREGUNTAS[this.state.qi];
+    this.setState(s => {
+      const r = s.respuestas.slice();
+      if (q.multi) {
+        const arr = (r[s.qi] || []).slice();
+        const i = arr.indexOf(v);
+        if (i >= 0) arr.splice(i, 1); else arr.push(v);
+        r[s.qi] = arr;
+        return {respuestas: r};
+      }
+      r[s.qi] = v;
+      return {respuestas: r};
+    }, () => { if (!q.multi) setTimeout(() => this.seguir(), 160); });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const q = PREGUNTAS[s.qi];
+    const sel = s.respuestas[s.qi];
+    const optBase = 'display:flex;align-items:center;gap:10px;padding:13px;border-radius:8px;background:var(--color-surface);cursor:pointer;';
+    const pasos = this.pasosDe(s.momento);
+    const hechos = pasos.filter(p => s.hechos[p.id]).length;
+    const tabSeg = activo => 'flex:1;padding:9px;text-align:center;font-size:13.5px;border-radius:8px;cursor:pointer;'
+      + (activo ? 'color:var(--color-accent);box-shadow:inset 0 0 0 1px var(--color-accent);'
+                : 'color:var(--color-neutral-400);box-shadow:inset 0 0 0 1px var(--color-divider);');
+    const nav = activo => 'flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:10px;cursor:pointer;padding-bottom:2px;'
+      + (activo ? 'color:var(--color-accent);' : 'color:var(--color-neutral-500);');
+    const titulos = {hoy:['Martes 1 de septiembre', s.momento === 'am' ? 'Buenos días' : 'Buenas noches'],
+      estante:['Mi estante', 'Mis productos'],
+      escanear:['Cámara', 'Escanear producto'],
+      semana:['Tus activos', 'Esta semana'],
+      progreso:['Seis semanas', 'Tu progreso'],
+      perfil:['Tu cuenta', 'Perfil y avisos'],
+      trat:['Para tu piel', 'Tratamientos']};
+    const cab = titulos[s.tab] || titulos.hoy;
+    const detectado = P.bha;
+    const escPie = {camara:'Encuadra la etiqueta del producto', analizando:'Analizando la etiqueta…', resultado:'Producto reconocido'}[s.escaneo];
+    const estanteIds = ['limpiador','vitC','retinol','hidra','spf'].concat(s.extra);
+    const estante = estanteIds.filter((id, i) => estanteIds.indexOf(id) === i).map(id => P[id]).filter(Boolean);
+
+    const rutActual = this.rutina();
+    const CANDIDATAS = [
+      {id:'hialu', texto:'Por tu sequedad al final del día, el ácido hialurónico antes de la crema te vendría bien. ¿Lo añadimos?'},
+      {id:'niacin', texto:'La niacinamida controlaría los brillos de la zona T sin irritarte. ¿La probamos una vez al día?'},
+      {id:'bha', texto:'Un exfoliante con ácido salicílico dos noches por semana ayudaría con los poros. ¿Lo sumamos, alternándolo con el retinol?'},
+    ];
+    const cand = CANDIDATAS.filter(c => rutActual.indexOf(P[c.id]) < 0)[0];
+    let sug = null;
+    if (cand) {
+      const prod = P[cand.id];
+      const m = prod.momento === 'am' ? 'am' : 'pm';
+      const lista = rutActual.concat([prod])
+        .filter(p => p.momento === m || p.momento === 'ambos')
+        .sort((a, b) => a.orden - b.orden);
+      sug = {id: cand.id, texto: cand.texto, posicion: lista.indexOf(prod) + 1};
+    }
+
+    const nObj = (s.respuestas[1] || []).length;
+    const conRetinol = rutActual.indexOf(P.retinol) >= 0;
+    const idxRitual = Math.min(s.ritualIdx, Math.max(0, pasos.length - 1));
+    const pasoRitual = pasos[idxRitual];
+    const det = s.detalle ? P[s.detalle] : null;
+    const verDetalleProducto = id => () => this.setState({detalle:id});
+
+    return {
+      enOnboarding: s.fase === 'onboarding',
+      generando: s.fase === 'generando',
+      enApp: s.fase === 'app' && !s.ritual && !s.detalle,
+
+      verRitual: s.fase === 'app' && s.ritual && !!pasoRitual,
+      ritualEtiqueta: pasoRitual ? 'Paso ' + (idxRitual + 1) + ' de ' + pasos.length + ' · ' + pasoRitual.categoria : '',
+      ritualNombre: pasoRitual ? pasoRitual.nombre : '',
+      ritualIndicacion: pasoRitual ? (INDICACIONES[pasoRitual.categoria] || pasoRitual.descripcion) : '',
+      ritualFrecuencia: pasoRitual ? pasoRitual.frecuencia : '',
+      ritualActivo: pasoRitual ? pasoRitual.activo : '',
+      ritualCta: idxRitual >= pasos.length - 1 ? 'Hecho, terminar' : 'Hecho, siguiente paso',
+      ritualDots: pasos.map((p, i) => ({style:{flex:1,height:3,borderRadius:99,
+        background: i <= idxRitual ? 'var(--color-accent)' : 'rgba(233,233,237,.14)'}})),
+      onRitualEmpezar: () => this.setState({ritual:true, ritualIdx:0}),
+      onRitualHecho: () => {
+        const p = pasos[s.ritualIdx];
+        this.setState(st => {
+          const h = Object.assign({}, st.hechos);
+          if (p) h[p.id] = true;
+          const fin = st.ritualIdx >= pasos.length - 1;
+          return {hechos:h, ritual: !fin, ritualIdx: fin ? 0 : st.ritualIdx + 1};
+        });
+      },
+      onRitualSaltar: () => this.setState(st => {
+        const fin = st.ritualIdx >= pasos.length - 1;
+        return {ritual: !fin, ritualIdx: fin ? 0 : st.ritualIdx + 1};
+      }),
+      onCerrarRitual: () => this.setState({ritual:false, ritualIdx:0}),
+
+      verDetalle: !!det,
+      detNombre: det ? det.nombre : '',
+      detCategoria: det ? det.categoria + ' · ' + det.activo : '',
+      detDescripcion: det ? det.descripcion : '',
+      detIngredientes: det ? (INFO[det.id] ? INFO[det.id].ingredientes : '—') : '',
+      detFrecuencia: det ? det.frecuencia : '',
+      detMomento: det ? (det.momento === 'am' ? 'Mañana' : det.momento === 'pm' ? 'Noche' : 'Mañana y noche') : '',
+      detEnRutina: det ? (rutActual.indexOf(det) >= 0 ? 'En tu rutina' : 'Solo en tu estante') : '',
+      detCta: det ? (s.extra.indexOf(det.id) >= 0 ? 'Quitar de la rutina'
+        : (rutActual.indexOf(det) >= 0 ? 'Cerrar' : 'Añadir a la rutina')) : '',
+      onDetCta: () => this.setState(st => {
+        if (!det) return {detalle:null};
+        if (st.extra.indexOf(det.id) >= 0) return {extra: st.extra.filter(id => id !== det.id), detalle:null};
+        if (rutActual.indexOf(det) >= 0) return {detalle:null};
+        return {extra: st.extra.concat([det.id]), detalle:null};
+      }),
+      detConflictos: det && INFO[det.id] ? INFO[det.id].conflictos.map(c => ({texto:c})) : [],
+      detSinConflictos: !!det && (!INFO[det.id] || INFO[det.id].conflictos.length === 0),
+      onCerrarDetalle: () => this.setState({detalle:null}),
+
+      tabProgreso: s.tab === 'progreso',
+      onTabProgreso: () => this.setState({tab:'progreso'}),
+      navProgreso: nav(s.tab === 'progreso'),
+      comparador: s.comparador,
+      onComparador: ev => this.setState({comparador: Number(ev.target.value)}),
+      estiloDespues: {position:'absolute',inset:0,borderRadius:12,overflow:'hidden',
+        clipPath:'inset(0 0 0 ' + s.comparador + '%)',
+        background:'linear-gradient(150deg,#2a2d42,#191c2c)',display:'grid',placeItems:'center',
+        fontSize:11,color:'var(--color-neutral-400)'},
+      estiloLinea: {position:'absolute',top:0,bottom:0,width:1,background:'var(--color-accent)',
+        left: s.comparador + '%'},
+      estiloTirador: {position:'absolute',top:'50%',left: s.comparador + '%',
+        transform:'translate(-50%,-50%)',width:32,height:32,borderRadius:'50%',
+        background:'var(--color-bg)',boxShadow:'inset 0 0 0 1px var(--color-accent)',
+        display:'grid',placeItems:'center',fontSize:12,color:'var(--color-accent)'},
+
+      tabPerfil: s.tab === 'perfil',
+      onTabPerfil: () => this.setState({tab:'perfil'}),
+      navPerfil: nav(s.tab === 'perfil'),
+      perfilResumen: (TIPO_TXT[s.respuestas[0]] || 'Sin diagnóstico')
+        + ' · ' + nObj + (nObj === 1 ? ' objetivo' : ' objetivos')
+        + ' · ' + rutActual.length + (rutActual.length === 1 ? ' producto en rutina' : ' productos en rutina'),
+      tonoCalido: s.tono === 'Cálido', tonoDirecto: s.tono === 'Directo',
+      estiloTonoCalido: tabSeg(s.tono === 'Cálido'), estiloTonoDirecto: tabSeg(s.tono === 'Directo'),
+      onTonoCalido: () => this.setState({tono:'Cálido'}), onTonoDirecto: () => this.setState({tono:'Directo'}),
+      ajustes: [
+        {k:'noche', label:'Aviso de la rutina de noche', sub:'A las 22:00, y te recuerda qué activo toca'},
+        {k:'manana', label:'Aviso de la rutina de mañana', sub:'A las 08:00, con el protector solar al final'},
+        {k:'spf', label:'Reaplicar protector solar', sub:'A media tarde, solo si has salido de casa'},
+        {k:'resumen', label:'Resumen del domingo', sub:'Cómo ha ido la semana y qué toca la siguiente'},
+      ].map(a => {
+        const on = !!s.ajustes[a.k];
+        return {label:a.label, sub:a.sub,
+          sw:{width:42,height:24,borderRadius:99,flex:'none',cursor:'pointer',position:'relative',
+            background: on ? 'var(--color-accent-800)' : 'transparent',
+            boxShadow: on ? 'inset 0 0 0 1px var(--color-accent)' : 'inset 0 0 0 1px var(--color-divider)'},
+          knob:{position:'absolute',top:3,left: on ? 21 : 3,width:18,height:18,borderRadius:'50%',
+            background: on ? 'var(--color-accent)' : 'var(--color-neutral-600)',transition:'left .18s ease'},
+          onToggle: () => this.setState(st => {
+            const m = Object.assign({}, st.ajustes); m[a.k] = !m[a.k]; return {ajustes:m};
+          })};
+      }),
+
+      verVolver: s.tab === 'semana' || s.tab === 'trat',
+      onVolverHoy: () => this.setState({tab:'hoy'}),
+
+      tabSemana: s.tab === 'semana',
+      onTabSemana: () => this.setState({tab:'semana'}),
+      navSemana: nav(s.tab === 'semana'),
+      semanaDias: DIAS.map((d, i) => ({letra:d, style:{flex:1,textAlign:'center',fontSize:11,
+        color: i === HOY_IDX ? 'var(--color-accent)' : 'var(--color-neutral-500)'}})),
+      semanaIntro: conRetinol
+        ? 'Repartimos los activos fuertes para que no coincidan: el martes y el viernes son noches de retinol.'
+        : 'Así queda tu semana. Cuando entre un activo fuerte, lo repartimos para que no coincida con otro.',
+      semanaFilas: PLAN.filter(f => !f.pid || rutActual.indexOf(P[f.pid]) >= 0).map(f => ({
+        activo: f.activo, nota: f.nota,
+        celdas: f.dias.map((on, i) => ({style:{flex:1,height:26,borderRadius:6,
+          background: on ? (i === HOY_IDX ? 'var(--color-accent)' : 'var(--color-accent-800)') : 'transparent',
+          boxShadow: on ? 'none' : 'inset 0 0 0 1px var(--color-divider)'}})),
+      })),
+
+      barraQuiz: {height:'100%',borderRadius:99,background:'var(--color-accent)',width:((s.qi + 1) / PREGUNTAS.length * 100) + '%',transition:'width .35s ease'},
+      quizContador: 'Pregunta ' + (s.qi + 1) + ' de ' + PREGUNTAS.length,
+      quizPregunta: q.q,
+      quizAyuda: q.ayuda,
+      quizPuedeVolver: s.qi > 0,
+      onQuizAtras: () => this.setState({qi: Math.max(0, s.qi - 1)}),
+      onQuizSeguir: () => this.seguir(),
+      quizCta: s.qi === PREGUNTAS.length - 1 ? 'Ver mi rutina' : 'Continuar',
+      quizOpts: q.opts.map(o => {
+        const activo = q.multi ? (sel || []).indexOf(o.v) >= 0 : sel === o.v;
+        return {t:o.t, s:o.s, sel:activo, onPick:() => this.pick(o.v),
+          style: optBase + (activo ? 'box-shadow:inset 0 0 0 1px var(--color-accent);' : 'box-shadow:var(--shadow-sm);')};
+      }),
+
+      cabeceraKicker: cab[0],
+      cabeceraTitulo: cab[1],
+      pieles: TIPO_TXT[s.respuestas[0]] || 'Sin diagnóstico',
+
+      tabHoy: s.tab === 'hoy', tabEstante: s.tab === 'estante',
+      tabEscanear: s.tab === 'escanear', tabTratamientos: s.tab === 'trat',
+      onTabHoy: () => this.setState({tab:'hoy'}),
+      onTabEstante: () => this.setState({tab:'estante'}),
+      onTabEscanear: () => this.setState({tab:'escanear', escaneo:'camara'}),
+      onTabTratamientos: () => this.setState({tab:'trat'}),
+      onReiniciar: () => this.setState({fase:'onboarding', qi:0, respuestas:[null,[],null,null], hechos:{}, tab:'hoy', extra:[], sugerencia:'pendiente', notif:true, trat:{}}),
+      navHoy: nav(s.tab === 'hoy'), navEstante: nav(s.tab === 'estante'),
+      navTrat: nav(s.tab === 'trat'),
+
+      verNotificacion: s.notif && s.tab === 'hoy',
+      notificacion: conRetinol
+        ? (s.tono === 'Directo'
+            ? (s.momento === 'pm'
+                ? 'Retinol usado ayer. Hoy sin exfoliantes: tratamiento suave e hidratación.'
+                : 'Retinol usado anoche. Piel más sensible al sol: aplica SPF50.')
+            : (s.momento === 'pm'
+                ? 'Ayer usaste retinol, así que hoy tu piel prefiere una noche tranquila: tratamiento suave, crema y a dormir.'
+                : 'Anoche tocó retinol. Hoy el protector solar es tu mejor amigo, no te lo dejes.'))
+        : (s.tono === 'Directo'
+            ? (s.momento === 'pm'
+                ? 'Rutina de noche: ' + pasos.length + ' pasos. Márcalos al terminar.'
+                : 'Rutina de mañana: ' + pasos.length + ' pasos, protector incluido.')
+            : (s.momento === 'pm'
+                ? 'Rutina de noche en ' + pasos.length + ' pasos. Empieza cuando quieras y te los voy marcando.'
+                : 'Buenos días. ' + pasos.length + ' pasos y sales de casa con el protector puesto.')),
+      onCerrarNotif: () => this.setState({notif:false}),
+
+      progresoTexto: hechos + ' de ' + pasos.length + ' pasos hechos',
+      racha: 'Racha de 11 días',
+      barraProgreso: {height:'100%',borderRadius:99,background:'var(--color-accent)',width:(pasos.length ? hechos / pasos.length * 100 : 0) + '%',transition:'width .3s ease'},
+
+      estiloAM: tabSeg(s.momento === 'am'), estiloPM: tabSeg(s.momento === 'pm'),
+      onAM: () => this.setState({momento:'am'}), onPM: () => this.setState({momento:'pm'}),
+
+      pasos: pasos.map((p, i) => {
+        const done = !!s.hechos[p.id];
+        return {
+          nombre: p.nombre, descripcion: p.descripcion, frecuencia: p.frecuencia, activo: p.activo,
+          etiqueta: 'Paso ' + (i + 1) + ' · ' + p.categoria,
+          done: done, onToggle: () => this.toggle(p.id), onDetalle: verDetalleProducto(p.id),
+          circulo: {width:26,height:26,flex:'none',borderRadius:'50%',display:'grid',placeItems:'center',
+            background: done ? 'var(--color-accent)' : 'transparent',
+            boxShadow: done ? 'none' : 'inset 0 0 0 1.5px var(--color-divider)'},
+          titulo: {fontSize:16,fontWeight:500,marginTop:3,opacity: done ? .5 : 1, textDecoration: done ? 'line-through' : 'none'},
+        };
+      }),
+
+      verSugerencia: s.tab === 'hoy' && s.sugerencia === 'pendiente' && !!sug && this.props.sugerenciasAuto !== false,
+      sugerencia: sug ? sug.texto : '',
+      sugerenciaCta: sug ? 'Añadir al paso ' + sug.posicion : 'Añadir',
+      onAceptarSug: () => this.setState({sugerencia:'aceptada', extra: s.extra.concat([sug ? sug.id : ''])}),
+      onRechazarSug: () => this.setState({sugerencia:'rechazada'}),
+
+      estanteResumen: estante.length + ' productos guardados · ' + this.rutina().length + ' en tu rutina actual',
+      estante: estante.map(p => ({nombre:p.nombre, detalle:p.categoria + ' · ' + p.frecuencia, onDetalle: verDetalleProducto(p.id),
+        momento: p.momento === 'am' ? 'Mañana' : p.momento === 'pm' ? 'Noche' : 'Mañana y noche', activo:p.activo})),
+
+      escaneoCamara: s.escaneo === 'camara',
+      escaneoAnalizando: s.escaneo === 'analizando',
+      verEstanteVacio: estante.length === 0,
+      escaneoResultado: s.escaneo === 'resultado',
+      escaneoPie: escPie,
+      onCapturar: () => { this.setState({escaneo:'analizando'}); setTimeout(() => this.setState({escaneo:'resultado'}), 1400); },
+      onOtraFoto: () => this.setState({escaneo:'camara'}),
+      onGuardarEscaneo: () => this.setState({escaneo:'camara', tab:'estante', extra: s.extra.concat(['bha'])}),
+      detectadoNombre: detectado.nombre,
+      detectadoTexto: 'Encaja en el paso de tratamiento de la noche, justo después del limpiador.',
+      detectadoMomento: 'Noche',
+      verConflictoEscaneo: rutActual.indexOf(P.retinol) >= 0,
+      conflictoEscaneo: 'Ya usas retinol: no lo mezcles con el exfoliante la misma noche. Si lo guardas, te dejamos el retinol el martes y el viernes, y el exfoliante el jueves.',
+      detectadoActivo: detectado.activo,
+
+      tratIntro: 'Sugerencias para ' + (TIPO_TXT[s.respuestas[0]] || 'tu piel').toLowerCase() + '. Acepta lo que te apetezca probar; el resto no vuelve a aparecer.',
+      tratamientos: TRATAMIENTOS.map(t => {
+        const est = s.trat[t.id];
+        return {categoria:t.categoria, nombre:t.nombre, porque:t.porque, pauta:t.pauta,
+          pendiente: !est,
+          estado: est === 'si' ? 'En tu rutina' : est === 'no' ? 'Descartado' : 'Sugerido',
+          onAceptar: () => this.setState(st => { const m = Object.assign({}, st.trat); m[t.id] = 'si'; return {trat:m, extra: P[t.id] ? st.extra.concat([t.id]) : st.extra}; }),
+          onDescartar: () => this.setState(st => { const m = Object.assign({}, st.trat); m[t.id] = 'no'; return {trat:m}; })};
+      }),
+    };
+  }
+}
+</script>
+</body>
+</html>
