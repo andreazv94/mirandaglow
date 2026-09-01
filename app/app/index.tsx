@@ -1,0 +1,158 @@
+import { useMemo, useState } from 'react';
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
+
+const ACCENT = '#D9A7FF';
+const BG = '#0B0C12';
+const SURFACE = '#151721';
+const TEXT = '#F2F1F5';
+const MUTED = '#9697A3';
+const DIVIDER = '#292B36';
+
+type Option = { title: string; subtitle: string; value: string };
+type Question = { question: string; help: string; multiple?: boolean; options: Option[] };
+
+const QUESTIONS: Question[] = [
+  {
+    question: '¿Cómo notas tu piel al final del día?',
+    help: 'Elige la que más se parezca.',
+    options: [
+      { title: 'Tirante y seca', subtitle: 'Sin brillos, a veces descamación', value: 'seca' },
+      { title: 'Brillante por todas partes', subtitle: 'Sobre todo en la zona T', value: 'grasa' },
+      { title: 'Brillos en T, normal en mejillas', subtitle: 'Lo más común', value: 'mixta' },
+      { title: 'Equilibrada, ni seca ni grasa', subtitle: 'Cómoda casi siempre', value: 'normal' },
+    ],
+  },
+  {
+    question: '¿Qué te gustaría mejorar?',
+    help: 'Puedes marcar varias.',
+    multiple: true,
+    options: [
+      { title: 'Granitos y acné', subtitle: '', value: 'acne' },
+      { title: 'Manchas y tono desigual', subtitle: '', value: 'manchas' },
+      { title: 'Líneas y firmeza', subtitle: '', value: 'edad' },
+      { title: 'Luminosidad general', subtitle: '', value: 'luz' },
+      { title: 'Sequedad y tirantez', subtitle: '', value: 'sequedad' },
+    ],
+  },
+  {
+    question: '¿Tu piel reacciona con facilidad?',
+    help: 'Nos dice a qué ritmo introducir activos.',
+    options: [
+      { title: 'Sí, se irrita y enrojece', subtitle: 'Fórmulas suaves', value: 'sensible' },
+      { title: 'A veces, según el producto', subtitle: '', value: 'algo' },
+      { title: 'No, tolera casi todo', subtitle: '', value: 'resistente' },
+    ],
+  },
+  {
+    question: '¿Cuánta experiencia tienes?',
+    help: 'Para no abrumarte el primer día.',
+    options: [
+      { title: 'Empiezo de cero', subtitle: 'Rutina simple de 3 pasos', value: 'novata' },
+      { title: 'Lo básico: limpio e hidrato', subtitle: '', value: 'media' },
+      { title: 'Uso activos (ácidos, retinol…)', subtitle: '', value: 'avanzada' },
+    ],
+  },
+];
+
+export default function Onboarding() {
+  const [index, setIndex] = useState(0);
+  const [answers, setAnswers] = useState<Record<number, string[]>>({});
+  const [generating, setGenerating] = useState(false);
+  const current = QUESTIONS[index];
+  const selected = answers[index] ?? [];
+  const progress = useMemo(() => `${((index + 1) / QUESTIONS.length) * 100}%`, [index]);
+
+  const choose = (value: string) => {
+    setAnswers((prev) => {
+      const existing = prev[index] ?? [];
+      if (current.multiple) {
+        return { ...prev, [index]: existing.includes(value) ? existing.filter((v) => v !== value) : [...existing, value] };
+      }
+      return { ...prev, [index]: [value] };
+    });
+    if (!current.multiple) setTimeout(() => next(), 160);
+  };
+
+  const next = () => {
+    if (!current.multiple && selected.length === 0) return;
+    if (current.multiple && selected.length === 0) return;
+    if (index < QUESTIONS.length - 1) setIndex((value) => value + 1);
+    else {
+      setGenerating(true);
+      setTimeout(() => router.replace('/routine'), 1500);
+    }
+  };
+
+  if (generating) {
+    return (
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.generating}>
+          <View style={styles.glowCircle}><View style={styles.circle} /></View>
+          <Text style={styles.generatingTitle}>Armando tu rutina</Text>
+          <Text style={styles.generatingSubtitle}>Cruzamos tu tipo de piel, tus objetivos y tu tolerancia a los activos.</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.safe}>
+      <View style={styles.progressTrack}><View style={[styles.progressFill, { width: progress }]} /></View>
+      <View style={styles.container}>
+        <Text style={styles.counter}>PREGUNTA {index + 1} DE 4</Text>
+        <Text style={styles.question}>{current.question}</Text>
+        <Text style={styles.help}>{current.help}</Text>
+        <View style={styles.options}>
+          {current.options.map((option) => {
+            const isSelected = selected.includes(option.value);
+            return (
+              <Pressable key={option.value} onPress={() => choose(option.value)} style={({ pressed }) => [styles.option, pressed && styles.pressed, isSelected && styles.selected]}>
+                <View style={[styles.check, isSelected && styles.checkSelected]}>{isSelected && <Text style={styles.checkText}>✓</Text>}</View>
+                <View style={styles.optionCopy}>
+                  <Text style={styles.optionTitle}>{option.title}</Text>
+                  {!!option.subtitle && <Text style={styles.optionSubtitle}>{option.subtitle}</Text>}
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+        <View style={styles.actions}>
+          {index > 0 && <Pressable onPress={() => setIndex((value) => value - 1)} style={styles.back}><Text style={styles.backText}>Atrás</Text></Pressable>}
+          {current.multiple && <Pressable disabled={selected.length === 0} onPress={next} style={[styles.primary, selected.length === 0 && styles.disabled]}><Text style={styles.primaryText}>{index === 3 ? 'Ver mi rutina' : 'Continuar'}</Text></Pressable>}
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: BG },
+  progressTrack: { height: 3, backgroundColor: 'rgba(233,233,237,.12)' },
+  progressFill: { height: 3, backgroundColor: ACCENT, borderRadius: 99 },
+  container: { flex: 1, paddingHorizontal: 20, paddingTop: 34, paddingBottom: 28 },
+  counter: { color: ACCENT, fontSize: 10, letterSpacing: 1.2, fontWeight: '700', marginBottom: 10 },
+  question: { color: TEXT, fontSize: 25, lineHeight: 29, fontWeight: '700' },
+  help: { color: MUTED, fontSize: 12, lineHeight: 18, minHeight: 20, marginTop: 4, marginBottom: 16 },
+  options: { gap: 9 },
+  option: { flexDirection: 'row', alignItems: 'center', gap: 10, padding: 13, borderRadius: 8, backgroundColor: SURFACE },
+  pressed: { opacity: 0.82 },
+  selected: { borderWidth: 1, borderColor: ACCENT },
+  check: { width: 20, height: 20, borderRadius: 10, borderWidth: 1, borderColor: DIVIDER },
+  checkSelected: { backgroundColor: ACCENT, borderColor: ACCENT, alignItems: 'center', justifyContent: 'center' },
+  checkText: { color: BG, fontSize: 12, fontWeight: '800' },
+  optionCopy: { flex: 1 },
+  optionTitle: { color: TEXT, fontSize: 15, fontWeight: '500' },
+  optionSubtitle: { color: MUTED, fontSize: 11.5, marginTop: 2 },
+  actions: { marginTop: 'auto', flexDirection: 'row', gap: 10 },
+  back: { minHeight: 46, paddingHorizontal: 18, borderRadius: 8, justifyContent: 'center' },
+  backText: { color: MUTED, fontSize: 14 },
+  primary: { flex: 1, minHeight: 46, borderRadius: 8, backgroundColor: ACCENT, alignItems: 'center', justifyContent: 'center' },
+  disabled: { opacity: 0.45 },
+  primaryText: { color: BG, fontSize: 15, fontWeight: '700' },
+  generating: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40 },
+  glowCircle: { width: 90, height: 90, borderRadius: 45, alignItems: 'center', justifyContent: 'center', marginBottom: 20 },
+  circle: { width: 56, height: 56, borderRadius: 28, borderWidth: 2, borderColor: ACCENT },
+  generatingTitle: { color: TEXT, fontSize: 17, fontWeight: '700', marginBottom: 8 },
+  generatingSubtitle: { color: MUTED, fontSize: 13, lineHeight: 19, textAlign: 'center' },
+});
