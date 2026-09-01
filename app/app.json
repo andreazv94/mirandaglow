@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "Miranda Glow",
+    "slug": "miranda-glow",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "mirandaglow",
+    "userInterfaceStyle": "dark",
+    "plugins": ["expo-router"],
+    "ios": { "supportsTablet": true },
+    "android": { "adaptiveIcon": { "backgroundColor": "#0B0C12" } }
+  }
+}
