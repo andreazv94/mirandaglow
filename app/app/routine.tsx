@@ -1,28 +1,31 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
 
-export default function RoutineScreen() {
-  return (
-    <SafeAreaView style={styles.safe}>
-      <View style={styles.container}>
-        <Text style={styles.kicker}>MARTES 1 DE SEPTIEMBRE</Text>
-        <Text style={styles.title}>Buenos días</Text>
-        <Text style={styles.subtitle}>Tu rutina personalizada está lista.</Text>
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Siguiente paso</Text>
-          <Text style={styles.cardText}>Aquí construiremos la rutina AM/PM, el progreso y el modo ritual.</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-  );
+const A='#9184D9', BG='#161826', S='#232532', T='#E9E9ED', M='#9397AB', D='#3F424D';
+const AM=[
+{id:'limpiador',cat:'Limpieza',name:'Gel limpiador suave',desc:'Limpia sin resecar y respeta la barrera cutánea.',freq:'Mañana y noche',active:'Suave'},
+{id:'vitC',cat:'Tratamiento',name:'Sérum de vitamina C',desc:'Aporta luminosidad y unifica el tono.',freq:'Cada mañana',active:'Vitamina C'},
+{id:'hidra',cat:'Hidratación',name:'Crema hidratante ligera',desc:'Sella la hidratación sin sensación grasa.',freq:'Mañana y noche',active:'Ácido hialurónico'},
+{id:'spf',cat:'Protección',name:'Protector solar facial SPF50',desc:'El paso antiedad más importante.',freq:'Cada mañana, sí o sí',active:'SPF50'}];
+const PM=[
+{id:'limpiador',cat:'Limpieza',name:'Gel limpiador suave',desc:'Limpia sin resecar y respeta la barrera cutánea.',freq:'Mañana y noche',active:'Suave'},
+{id:'niacin',cat:'Tratamiento',name:'Sérum de niacinamida 10%',desc:'Controla los brillos, afina poros y calma rojeces.',freq:'Una vez al día',active:'Niacinamida'},
+{id:'retinol',cat:'Tratamiento',name:'Retinol encapsulado 0,3%',desc:'Renueva la piel y suaviza líneas.',freq:'Empieza 2 noches/sem',active:'Retinol'},
+{id:'hidra',cat:'Hidratación',name:'Crema hidratante ligera',desc:'Sella la hidratación sin sensación grasa.',freq:'Mañana y noche',active:'Ácido hialurónico'}];
+function Nav(){return <View style={styles.nav}>{[['Hoy','/routine'],['Estante','/shelf'],['Escanear','/scanner'],['Progreso','/progress'],['Perfil','/profile']].map(([label,path])=><Pressable key={path} onPress={()=>router.push(path as never)} style={styles.navItem}><Text style={styles.navIcon}>{label==='Hoy'?'⌂':label==='Estante'?'▣':label==='Escanear'?'◎':label==='Progreso'?'◒':'○'}</Text><Text style={[styles.navLabel,label==='Hoy'&&styles.navActive]}>{label}</Text></Pressable>)}</View>}
+export default function RoutineScreen(){
+ const [mode,setMode]=useState<'am'|'pm'>('am'); const [done,setDone]=useState<string[]>([]); const [notice,setNotice]=useState(true); const items=mode==='am'?AM:PM; const count=done.filter(x=>items.some(i=>i.id===x)).length; const pct=Math.round(count/items.length*100);
+ const toggle=(id:string)=>setDone(x=>x.includes(id)?x.filter(v=>v!==id):[...x,id]);
+ return <SafeAreaView style={styles.safe}><ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
+  <View style={styles.header}><View><Text style={styles.kicker}>Martes 1 de septiembre</Text><Text style={styles.title}>{mode==='am'?'Buenos días':'Buenas noches'}</Text></View><Pressable onPress={()=>router.push('/profile')}><Text style={styles.skin}>Piel mixta</Text></Pressable></View>
+  {notice&&<View style={styles.notice}><View style={styles.bar}/><View style={{flex:1}}><Text style={styles.noticeKicker}>RECORDATORIO DE ANOCHE</Text><Text style={styles.noticeText}>Esta noche toca retinol. No lo mezcles con el exfoliante.</Text></View><Pressable onPress={()=>setNotice(false)}><Text style={styles.x}>×</Text></Pressable></View>}
+  <View style={styles.progressCard}><View style={styles.row}><Text style={styles.meta}>{count} de {items.length} pasos hechos</Text><Text style={styles.meta}>Racha de 11 días</Text></View><View style={styles.track}><View style={[styles.fill,{width:`${pct}%`}]} /></View></View>
+  <View style={styles.segment}><Pressable onPress={()=>setMode('am')} style={[styles.seg,{borderColor:mode==='am'?A:D}]}><Text style={[styles.segText,mode==='am'&&styles.accent]}>Mañana</Text></Pressable><Pressable onPress={()=>setMode('pm')} style={[styles.seg,{borderColor:mode==='pm'?A:D}]}><Text style={[styles.segText,mode==='pm'&&styles.accent]}>Noche</Text></Pressable></View>
+  <Pressable style={styles.primary} onPress={()=>router.push({pathname:'/ritual',params:{mode}})}><Text style={styles.primaryText}>Empezar la rutina paso a paso</Text></Pressable>
+  {items.map((p,i)=><Pressable key={`${p.id}-${i}`} onPress={()=>toggle(p.id)} style={styles.step}><View style={[styles.check,done.includes(p.id)&&styles.checkDone]}><Text style={styles.checkText}>{done.includes(p.id)?'✓':''}</Text></View><View style={{flex:1}}><Text style={styles.stepKicker}>Paso {i+1} · {p.cat}</Text><Text style={[styles.stepName,done.includes(p.id)&&styles.completed]}>{p.name}</Text><Text style={styles.desc}>{p.desc}</Text><View style={styles.tags}><Text style={styles.tag}>{p.freq}</Text><Text style={styles.outline}>{p.active}</Text></View></View></Pressable>)}
+  <View style={styles.suggestion}><Text style={styles.stepKicker}>Sugerencia para ti</Text><Text style={styles.suggestionText}>Tienes el exfoliante salicílico guardado. Podemos alternarlo con el retinol para evitar sobrecargar la piel.</Text><View style={styles.actions}><Pressable onPress={()=>router.push('/shelf')} style={styles.secondary}><Text style={styles.secondaryText}>Ver estante</Text></Pressable><Pressable style={styles.secondary}><Text style={styles.secondaryText}>No, gracias</Text></Pressable></View></View>
+  <View style={styles.actions}><Pressable onPress={()=>router.push('/actives')} style={styles.secondary}><Text style={styles.secondaryText}>Semana de activos</Text></Pressable><Pressable onPress={()=>router.push('/treatments')} style={styles.secondary}><Text style={styles.secondaryText}>Tratamientos</Text></Pressable></View>
+ </ScrollView><Nav/></SafeAreaView>;
 }
-
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#0B0C12' },
-  container: { flex: 1, padding: 20, paddingTop: 40 },
-  kicker: { color: '#D9A7FF', fontSize: 10, letterSpacing: 1.2, fontWeight: '700' },
-  title: { color: '#F2F1F5', fontSize: 28, fontWeight: '700', marginTop: 7 },
-  subtitle: { color: '#9697A3', fontSize: 13, marginTop: 6 },
-  card: { marginTop: 28, padding: 16, borderRadius: 10, backgroundColor: '#151721', borderWidth: 1, borderColor: '#292B36' },
-  cardTitle: { color: '#F2F1F5', fontSize: 16, fontWeight: '600' },
-  cardText: { color: '#9697A3', fontSize: 13, lineHeight: 19, marginTop: 6 },
-});
+const styles=StyleSheet.create({safe:{flex:1,backgroundColor:BG},body:{padding:20,paddingTop:18,paddingBottom:110,gap:12},header:{flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end'},kicker:{color:A,fontSize:10,letterSpacing:1.2,textTransform:'uppercase'},title:{color:T,fontSize:28,fontWeight:'600',marginTop:5},skin:{color:M,backgroundColor:'#292B31',paddingHorizontal:10,paddingVertical:5,borderRadius:8,fontSize:11},notice:{flexDirection:'row',backgroundColor:'#2B2741',borderRadius:8,padding:12,gap:10,alignItems:'flex-start'},bar:{width:3,backgroundColor:A,borderRadius:4,alignSelf:'stretch'},noticeKicker:{color:'#D2CEFD',fontSize:10,letterSpacing:1},noticeText:{color:'#F5F4FF',fontSize:13.5,lineHeight:19,marginTop:4},x:{color:M,fontSize:20,lineHeight:18},progressCard:{backgroundColor:S,borderRadius:8,padding:12},row:{flexDirection:'row',justifyContent:'space-between'},meta:{color:M,fontSize:12},track:{height:4,backgroundColor:D,borderRadius:99,marginTop:9},fill:{height:4,backgroundColor:A,borderRadius:99},segment:{flexDirection:'row',gap:8},seg:{flex:1,padding:9,borderWidth:1,borderRadius:8,alignItems:'center'},segText:{color:M,fontSize:13.5},accent:{color:A},primary:{minHeight:48,borderRadius:8,backgroundColor:A,alignItems:'center',justifyContent:'center'},primaryText:{color:BG,fontSize:14.5,fontWeight:'700'},step:{flexDirection:'row',gap:12,padding:12,borderRadius:8,backgroundColor:S},check:{width:26,height:26,borderRadius:13,borderWidth:1,borderColor:D,alignItems:'center',justifyContent:'center'},checkDone:{backgroundColor:A,borderColor:A},checkText:{color:BG,fontWeight:'800'},stepKicker:{color:A,fontSize:10,letterSpacing:1,textTransform:'uppercase'},stepName:{color:T,fontSize:16,fontWeight:'500',marginTop:3},completed:{opacity:.5,textDecorationLine:'line-through'},desc:{color:M,fontSize:12,lineHeight:17,marginTop:2},tags:{flexDirection:'row',gap:6,marginTop:7,flexWrap:'wrap'},tag:{backgroundColor:'#292B31',color:'#F3F5FE',fontSize:10.5,paddingHorizontal:8,paddingVertical:4,borderRadius:6},outline:{borderWidth:1,borderColor:A,color:A,fontSize:10.5,paddingHorizontal:8,paddingVertical:3,borderRadius:6},suggestion:{borderWidth:1,borderColor:'#423A6A',borderRadius:8,padding:13,gap:7},suggestionText:{color:T,fontSize:13,lineHeight:19},actions:{flexDirection:'row',gap:8},secondary:{flex:1,minHeight:42,borderWidth:1,borderColor:D,borderRadius:8,alignItems:'center',justifyContent:'center'},secondaryText:{color:T,fontSize:12.5},nav:{position:'absolute',bottom:0,left:0,right:0,height:82,paddingBottom:20,paddingTop:9,backgroundColor:'#161826',borderTopWidth:1,borderTopColor:'#292B31',flexDirection:'row',justifyContent:'space-around'},navItem:{alignItems:'center',minWidth:58},navIcon:{color:'#75798C',fontSize:19,height:23},navLabel:{color:'#75798C',fontSize:10},navActive:{color:A}});
