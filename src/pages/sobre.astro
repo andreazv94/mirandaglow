@@ -1,93 +1,60 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Sobre Miranda Glow — quiénes somos" description="La historia detrás de Miranda Glow: skincare honesto, recomendado por ingredientes y no por modas.">
-  <section class="sobre wrap">
-    <header class="sobre-head">
-      <span class="eyebrow">Nuestra historia</span>
-      <h1>Skincare sin ruido,<br><span class="serif-i">recomendado con cariño</span></h1>
-    </header>
+<Layout title="Quiénes somos — Miranda Glow" description="Por qué existe Miranda Glow: cuidado de la piel explicado por ingredientes, sin marcas que paguen por salir y sin influencers.">
+  <article class="sobre wrap">
+    <h1>Quiénes somos</h1>
 
-    <div class="sobre-hero">
-      <div class="sh-art" aria-hidden="true">
-        <span class="sh-blob b1"></span>
-        <span class="sh-blob b2"></span>
-        <span class="sh-emoji">✨</span>
-      </div>
-      <div class="sh-text">
-        <p class="lead">Miranda Glow nació de un cansancio: el de estar saturadas de productos que prometen mil cosas y casi nunca cumplen.</p>
-        <p>
-          Cremas milagro, sérums que lo solucionan todo, rutinas de quince pasos que cambian
-          cada temporada. En el día a día nos bombardean con tratamientos y promesas que, al
-          final, son más marketing que resultados. Es agotador, y además sale caro.
-        </p>
-        <p>
-          Así que decidimos hacer lo contrario: mirar qué hay de verdad detrás de cada producto.
-          Qué ingredientes funcionan, cuáles tienen evidencia y cuáles son solo una etiqueta
-          bonita. Siempre que es posible, nos inclinamos por productos naturales y formulaciones
-          respetuosas con la piel. Miranda Glow es eso: un sitio para encontrar tu rutina de
-          forma sencilla y honesta, sin ruido y sin gastar de más en cosas que no necesitas.
-        </p>
-      </div>
+    <div class="prose-s">
+      <p class="lead">Miranda Glow nació de un cansancio: el de ver tantos productos que prometen mil cosas y casi nunca cumplen.</p>
+      <p>
+        Cremas milagro, sérums que lo arreglan todo, rutinas de quince pasos que cambian cada
+        temporada. Cada día nos llegan tratamientos y promesas que son más marketing que
+        resultados. Es agotador, y además sale caro.
+      </p>
+      <p>
+        Así que hicimos lo contrario: mirar qué hay de verdad detrás de cada producto. Qué
+        ingredientes funcionan, cuáles tienen estudios detrás y cuáles son solo una etiqueta
+        bonita. Miranda Glow es eso: un sitio para que chicas y chicos encuentren su rutina de
+        forma sencilla y honesta, sin gastar en lo que no necesitan.
+      </p>
+      <p>
+        ¿Y por qué "Miranda"? Es el nombre de mi gata, que me acompaña mientras escribo cada guía.
+      </p>
     </div>
 
-    <div class="valores">
-      <div class="valor">
-        <span class="v-ico">🧪</span>
-        <h3>Por ingredientes, no por modas</h3>
-        <p>Recomendamos según lo que de verdad funciona para tu piel, no según lo que esté de moda en redes esta semana.</p>
-      </div>
-      <div class="valor">
-        <span class="v-ico">💬</span>
-        <h3>Honestidad ante todo</h3>
-        <p>Participamos en programas de afiliación, y lo decimos claro. Nuestras recomendaciones nunca dependen de la comisión.</p>
-      </div>
-      <div class="valor">
-        <span class="v-ico">🌿</span>
-        <h3>Naturales siempre que se pueda</h3>
-        <p>Nos inclinamos por ingredientes naturales y fórmulas respetuosas con tu piel, sin renunciar a lo que de verdad funciona.</p>
-      </div>
-    </div>
+    <h2>Cómo trabajamos</h2>
+    <dl class="reglas">
+      <div><dt>Ninguna marca paga por aparecer</dt><dd>No hacemos contenido patrocinado ni aceptamos productos gratis a cambio de reseñas.</dd></div>
+      <div><dt>Ingredientes antes que marcas</dt><dd>Recomendamos un producto por lo que lleva y por los estudios que hay sobre esos ingredientes. Si existe una opción más barata que hace lo mismo, te la decimos.</dd></div>
+      <div><dt>Sin promesas milagro</dt><dd>No usamos fotos de "antes y después" ni prometemos resultados en días. La piel tarda semanas en cambiar y así lo contamos.</dd></div>
+      <div><dt>La salud, primero</dt><dd>Cuando algo necesita una dermatóloga o tu médico (rosácea, acné fuerte, melasma, un lunar que cambia), lo decimos claramente.</dd></div>
+      <div><dt>Cómo ganamos dinero</dt><dd>Algunos enlaces a tiendas son de afiliación: si compras, recibimos una pequeña comisión y a ti no te cuesta más. Recomendamos lo mismo haya comisión o no.</dd></div>
+      <div><dt>Tus datos son tuyos</dt><dd>El test y la app funcionan en tu navegador. No pedimos registro y no guardamos tus respuestas en ningún servidor.</dd></div>
+    </dl>
 
     <div class="sobre-cta">
-      <h2>¿Empezamos por tu piel?</h2>
-      <p>Haz el test y descubre tu rutina personalizada en un minuto.</p>
-      <a class="btn" href="/test">Descubre tu rutina →</a>
+      <p>¿Has visto un error en alguna guía o quieres que hablemos de un ingrediente? Escríbenos a <a href="mailto:info@mirandaglow.com">info@mirandaglow.com</a>.</p>
+      <a class="btn" href="/test">Hacer el test de piel</a>
     </div>
 
-    <p class="nota-legal">
-      Miranda Glow ofrece información general sobre cuidado de la piel y no sustituye el consejo de un dermatólogo. Ante cualquier problema concreto, consulta con un profesional.
-    </p>
-  </section>
+    <p class="nota-legal">Miranda Glow ofrece información general sobre el cuidado de la piel y no sustituye la consulta con una dermatóloga.</p>
+  </article>
 </Layout>
 
 <style>
-  .sobre{padding:70px 28px 100px;max-width:920px}
-  .sobre-head{text-align:center;margin-bottom:56px}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:22px}
-  .eyebrow::before{content:"";width:26px;height:1.4px;background:var(--accent)}
-  .sobre-head h1{font-size:clamp(2.2rem,5vw,3.4rem)}
-  .sobre-hero{display:grid;grid-template-columns:.8fr 1.2fr;gap:46px;align-items:center;margin-bottom:70px}
-  .sh-art{position:relative;aspect-ratio:1;border-radius:var(--radius);overflow:hidden;background:linear-gradient(150deg,#DCEEF0,#BFE2E6 55%,#E9D6E0);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
-  .sh-blob{position:absolute;border-radius:50%;filter:blur(2px)}
-  .sh-art .b1{width:150px;height:150px;background:radial-gradient(circle at 35% 35%,#EAF6F7,#8FCAD2);top:-30px;right:-20px;opacity:.7}
-  .sh-art .b2{width:120px;height:120px;background:radial-gradient(circle at 40% 40%,#F6DCE6,#A9D8DC);bottom:-20px;left:-10px;opacity:.6}
-  .sh-emoji{font-size:4rem;position:relative;z-index:1}
-  .sh-text .lead{font-family:'Fraunces',serif;font-size:1.5rem;line-height:1.3;margin-bottom:22px}
-  .sh-text p{color:var(--ink-soft);margin-bottom:18px;line-height:1.75}
-  .valores{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:70px}
-  .valor{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:32px 26px;text-align:center}
-  .v-ico{font-size:2rem;display:block;margin-bottom:14px}
-  .valor h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.2rem;margin-bottom:10px}
-  .valor p{font-size:.93rem;color:var(--ink-soft)}
-  .sobre-cta{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--cream);border-radius:30px;padding:60px 40px;text-align:center;box-shadow:var(--shadow);margin-bottom:40px}
-  .sobre-cta h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:14px}
-  .sobre-cta p{opacity:.92;margin-bottom:26px}
-  .sobre-cta .btn{background:var(--cream);color:var(--ink)}
-  .sobre-cta .btn:hover{background:#fff}
-  .nota-legal{font-size:.82rem;color:var(--ink-soft);text-align:center;opacity:.8}
-  @media(max-width:760px){
-    .sobre-hero{grid-template-columns:1fr;gap:30px}
-    .valores{grid-template-columns:1fr}
-  }
+  .sobre{max-width:760px;padding-top:56px;padding-bottom:72px}
+  .sobre h1{margin-bottom:28px}
+  .prose-s{font-family:var(--font-read);font-size:1.15rem;line-height:1.75;color:#33494D}
+  .prose-s p{margin-bottom:18px}
+  .prose-s .lead{font-size:1.45rem;line-height:1.45;color:var(--ink)}
+  .sobre h2{margin:56px 0 20px}
+  .reglas{border-top:1px solid var(--line)}
+  .reglas div{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;padding:20px 0;border-bottom:1px solid var(--line)}
+  .reglas dt{font-weight:600}
+  .reglas dd{color:var(--ink-soft)}
+  .sobre-cta{margin-top:48px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .sobre-cta p{margin-bottom:18px}
+  .nota-legal{margin-top:28px;font-size:.85rem;color:var(--ink-soft)}
+  @media(max-width:700px){.reglas div{grid-template-columns:1fr;gap:4px}}
 </style>

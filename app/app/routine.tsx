@@ -78,7 +78,7 @@ export default function Hoy() {
               <Text style={st.checkT}>{isDone ? '✓' : ''}</Text>
             </Pressable>
             <View style={{ flex: 1, gap: 2 }}>
-              <Text style={s.kicker}>{extra ? 'Extra' : `Paso ${i + 1}`} · {p.categoria}</Text>
+              <Text style={s.kicker}>{extra ? 'Extra' : `Paso ${i + 1} · ${p.categoria}`}</Text>
               <Text style={[st.name, isDone && st.doneT]}>{p.nombre}</Text>
               <Text style={s.p}>{p.descripcion}</Text>
               <View style={[s.chips, { marginTop: 6 }]}>

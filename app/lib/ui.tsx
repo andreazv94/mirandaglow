@@ -5,7 +5,7 @@ import { router, usePathname } from 'expo-router';
 // Sistema visual Nocturne (oscuro), del handoff de diseño.
 export const C = {
   bg: '#161826', surface: '#232532', soft: '#292B31', text: '#E9E9ED', muted: '#9397AB',
-  accent: '#9184D9', accentSoft: '#423A6A', divider: '#3F424D', white: '#F5F4FF', warn: '#E8B66B',
+  accent: '#6CC3CF', accentSoft: '#22474D', divider: '#3F424D', white: '#F5F4FF', warn: '#E8B66B',
 };
 
 /** Pantalla con scroll y, opcionalmente, barra de navegación inferior. */

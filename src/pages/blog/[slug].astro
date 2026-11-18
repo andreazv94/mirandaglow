@@ -17,39 +17,41 @@ const { Content } = await post.render();
 <Layout title={`${post.data.titulo} — Miranda Glow`} description={post.data.descripcion}>
   <article class="article wrap">
     <header class="art-head">
-      {post.data.concern && <span class="tag">{post.data.concern}</span>}
+      {post.data.concern && <a class="tag" href="/blog">{post.data.concern}</a>}
       <h1>{post.data.titulo}</h1>
-      <time>{post.data.fecha.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      <p class="art-desc">{post.data.descripcion}</p>
+      <time>Actualizado el {post.data.fecha.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
     </header>
-    <div class={`art-cover${post.data.imagen ? '' : ' placeholder'}`} style={post.data.imagen ? `background-image:url('${post.data.imagen}')` : ''}></div>
     <div class="prose">
       <Content />
     </div>
 
     <aside class="art-cta">
-      <h3>¿No sabes por dónde empezar?</h3>
-      <p>Haz el test y recibe tu rutina personalizada en un minuto.</p>
-      <a class="btn" href="/test">Descubre tu rutina →</a>
+      <h3>¿Quieres una rutina hecha para tu piel?</h3>
+      <p>Responde unas diez preguntas y te decimos qué usar, en qué orden y qué evitar.</p>
+      <a class="btn" href="/test">Hacer el test de piel</a>
     </aside>
   </article>
 </Layout>
 
 <style>
-  .article{max-width:760px;padding:60px 28px 90px}
-  .art-head{margin-bottom:28px}
-  .art-cover{height:340px;border-radius:var(--radius);margin-bottom:40px;background-size:cover;background-position:center;box-shadow:var(--shadow)}
-  .art-cover.placeholder{background:linear-gradient(135deg,var(--sage),var(--accent))}
-  .tag{display:inline-block;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:14px}
-  .art-head h1{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:14px;line-height:1.1}
-  .art-head time{font-size:.85rem;color:var(--ink-soft)}
-  .prose{font-size:1.07rem;line-height:1.75}
-  .prose :global(h2){font-family:'Fraunces',serif;font-size:1.7rem;margin:44px 0 16px}
-  .prose :global(h3){font-family:'Fraunces',serif;font-size:1.3rem;margin:32px 0 12px}
-  .prose :global(p){margin-bottom:20px;color:#3a4f53}
-  .prose :global(ul),.prose :global(ol){margin:0 0 20px 22px}
+  .article{max-width:740px;padding-top:56px;padding-bottom:72px}
+  .art-head{margin-bottom:40px;padding-bottom:28px;border-bottom:1px solid var(--line)}
+  .tag{display:inline-block;font-size:.92rem;color:var(--acento);text-decoration:none;margin-bottom:14px}
+  .tag:hover{text-decoration:underline}
+  .art-head h1{font-size:clamp(2rem,4.4vw,2.9rem);margin-bottom:16px}
+  .art-desc{font-family:var(--font-read);font-size:1.2rem;color:var(--ink-soft);line-height:1.55;margin-bottom:16px}
+  .art-head time{font-size:.88rem;color:var(--ink-soft)}
+  .prose{font-family:var(--font-read);font-size:1.13rem;line-height:1.75;color:#33494D}
+  .prose :global(h2){font-family:var(--font-ui);font-size:1.55rem;letter-spacing:-.02em;margin:48px 0 14px;color:var(--ink)}
+  .prose :global(h3){font-family:var(--font-ui);font-size:1.2rem;margin:32px 0 10px;color:var(--ink)}
+  .prose :global(p){margin-bottom:20px}
+  .prose :global(ul),.prose :global(ol){margin:0 0 22px 24px}
   .prose :global(li){margin-bottom:8px}
-  .prose :global(a){color:var(--accent-deep)}
-  .art-cta{margin-top:60px;background:var(--bg-deep);border-radius:var(--radius);padding:40px;text-align:center}
-  .art-cta h3{font-family:'Fraunces',serif;font-size:1.5rem;margin-bottom:10px}
-  .art-cta p{color:var(--ink-soft);margin-bottom:22px}
+  .prose :global(strong){color:var(--ink);font-weight:600}
+  .prose :global(blockquote){border-left:3px solid var(--ambar);background:#FBF5EC;padding:14px 18px;margin:26px 0;font-size:1.02rem}
+  .prose :global(blockquote p){margin:0}
+  .art-cta{margin-top:56px;border:1px solid var(--line);background:var(--white);border-radius:var(--radius);padding:32px}
+  .art-cta h3{font-size:1.35rem;margin-bottom:8px}
+  .art-cta p{color:var(--ink-soft);margin-bottom:20px}
 </style>
