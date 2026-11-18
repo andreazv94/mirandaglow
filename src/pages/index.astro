@@ -129,7 +129,7 @@ const inci: Ing[] = [
   .m-base{box-shadow:inset 0 -.45em 0 #E3E5E9}
   .m-activo{box-shadow:inset 0 -.45em 0 #CFE6DC}
   .m-ojo{box-shadow:inset 0 -.45em 0 #F3DFC2}
-  .m-anuncio{box-shadow:inset 0 -.45em 0 var(--lila-tint);outline:1.5px solid var(--lila);outline-offset:1px}
+  .m-anuncio{box-shadow:inset 0 -.45em 0 var(--acento-tint);outline:1.5px solid var(--acento);outline-offset:1px}
   .notes{margin-top:22px;display:grid;gap:12px}
   .notes div{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:14px;font-size:.92rem;line-height:1.45}
   .notes dt{font-weight:600}
@@ -140,7 +140,7 @@ const inci: Ing[] = [
   .how h2{margin-bottom:32px}
   .how-list{list-style:none;counter-reset:paso;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
   .how-list li{counter-increment:paso;border-top:2px solid var(--ink);padding-top:18px}
-  .how-list li::before{content:counter(paso) ".";display:block;font-weight:700;color:var(--lila);margin-bottom:8px}
+  .how-list li::before{content:counter(paso) ".";display:block;font-weight:700;color:var(--acento);margin-bottom:8px}
   .how-list h3{margin-bottom:8px}
   .how-list p{color:var(--ink-soft);font-size:.98rem}
 
@@ -157,15 +157,15 @@ const inci: Ing[] = [
   .guides-head a:hover{text-decoration:underline}
   .guide-list{list-style:none;border-top:1px solid var(--line)}
   .guide-list a{display:grid;grid-template-columns:150px 1fr 1.1fr;gap:24px;padding:22px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);align-items:baseline}
-  .guide-list a:hover .g-title{color:var(--lila)}
+  .guide-list a:hover .g-title{color:var(--acento)}
   .g-topic{font-size:.9rem;color:var(--ink-soft)}
   .g-title{font-weight:600;font-size:1.08rem;line-height:1.35}
   .g-desc{font-family:var(--font-read);color:var(--ink-soft);font-size:1rem;line-height:1.5}
 
-  .app-band{display:flex;gap:40px;align-items:center;justify-content:space-between;background:var(--ink);color:#E9E9ED;border-radius:var(--radius);padding:48px}
+  .app-band{display:flex;gap:40px;align-items:center;justify-content:space-between;background:var(--ink);color:#F0F6F7;border-radius:var(--radius);padding:48px}
   .app-band h2{margin-bottom:12px}
-  .app-band p{color:#B9BDCB;max-width:58ch}
-  .app-btn{background:#9184D9;border-color:#9184D9;color:var(--ink);white-space:nowrap}
+  .app-band p{color:#C3D6D9;max-width:58ch}
+  .app-btn{background:#A9D8DC;border-color:#A9D8DC;color:var(--ink);white-space:nowrap}
   .app-btn:hover{background:#fff;border-color:#fff}
 
   @media(max-width:900px){

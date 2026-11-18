@@ -40,15 +40,15 @@ const p = getProducto(id);
 
 <style>
   .prod-card{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;font-family:var(--font-ui);
-    background:var(--white);border:1px solid var(--line);border-left:3px solid var(--lila);border-radius:var(--radius);
+    background:var(--white);border:1px solid var(--line);border-left:3px solid var(--acento);border-radius:var(--radius);
     padding:16px 20px;margin:22px 0;text-decoration:none;color:var(--ink)}
-  .prod-card:hover{border-color:var(--ink);border-left-color:var(--lila)}
+  .prod-card:hover{border-color:var(--ink);border-left-color:var(--acento)}
   .prod-cat{display:block;font-size:.85rem;color:var(--ink-soft)}
   .prod-nat{margin-left:8px;color:var(--salvia)}
   .prod-name{display:block;font-weight:600;font-size:1.08rem;margin:2px 0}
   .prod-desc{display:block;font-size:.93rem;color:var(--ink-soft);line-height:1.45}
   .prod-side{text-align:right;white-space:nowrap}
   .prod-price{display:block;font-weight:600}
-  .prod-cta{display:block;font-size:.88rem;color:var(--lila);margin-top:2px}
+  .prod-cta{display:block;font-size:.88rem;color:var(--acento);margin-top:2px}
   @media(max-width:640px){.prod-card{grid-template-columns:1fr}.prod-side{text-align:left}}
 </style>
