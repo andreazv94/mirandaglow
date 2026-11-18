@@ -114,7 +114,16 @@ export default function Quiz() {
           <ul>{res.consejos.map((c) => <li key={c}>{c}</li>)}</ul>
         </div>
 
-        <p className="privacidad">🔒 Tus respuestas no salen de tu navegador: no las guardamos ni las enviamos. Esta rutina es orientativa y no sustituye la consulta con una dermatóloga.</p>
+        <p className="privacidad">🔒 Tus respuestas no salen de tu navegador: no las enviamos a ningún servidor. Esta rutina es orientativa y no sustituye la consulta con una dermatóloga.</p>
+
+        <div className="app-cta">
+          <b>Sigue tu rutina cada día</b>
+          <p>Guárdala en la app: marca los pasos, sigue tu racha y mira qué activo toca cada noche. Se guarda solo en este dispositivo.</p>
+          <button className="btn" onClick={() => {
+            try { localStorage.setItem('mirandaglow.answers.v2', JSON.stringify(answers)); } catch {}
+            window.location.href = '/app/routine';
+          }}>Abrir mi rutina en la app ✦</button>
+        </div>
 
         <button className="btn ghost" onClick={restart} style={{ marginTop: 24 }}>Repetir el test</button>
         <Styles />
@@ -156,7 +165,7 @@ export default function Quiz() {
 
 function Styles() {
   return (
-    <style>{`
+    <style dangerouslySetInnerHTML={{ __html: `
       .q-stage,.q-result{max-width:720px;margin:0 auto;text-align:center}
       .progress{height:6px;background:var(--line);border-radius:100px;overflow:hidden;margin-bottom:30px}
       .progress i{display:block;height:100%;background:var(--accent);border-radius:100px;transition:width .4s ease}
@@ -196,6 +205,9 @@ function Styles() {
       .prod .price small{display:block;font-family:'Outfit',sans-serif;font-size:.72rem;color:var(--accent-deep);text-decoration:none}
       @media(max-width:640px){.opts{grid-template-columns:1fr}.prod{grid-template-columns:52px 1fr}.prod .price{grid-column:2;text-align:left;margin-top:6px}}
       .opt.off{opacity:.45}
+      .app-cta{margin-top:28px;background:#1E2030;color:#E9E9ED;border-radius:18px;padding:24px;text-align:left}
+      .app-cta b{font-family:'Fraunces',serif;font-weight:500;font-size:1.3rem}
+      .app-cta p{color:#B5B8C9;font-size:.92rem;margin:6px 0 16px}
       .q-nav .btn[disabled]{opacity:.5;cursor:not-allowed}
       .perfil{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
       .perfil .badge{margin-bottom:0}
@@ -219,6 +231,6 @@ function Styles() {
       .fase .fc{margin-top:6px;color:var(--ink)}
       .fase.actual{border-color:var(--accent-deep);box-shadow:0 0 0 3px rgba(95,182,196,.30);background:var(--bg-deep)}
       @media(max-width:640px){.semana-grid{grid-template-columns:repeat(2,1fr)}.ciclo-grid{grid-template-columns:1fr}}
-    `}</style>
+    ` }} />
   );
 }

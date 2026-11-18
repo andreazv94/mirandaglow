@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "build:app": "cd app && npx expo export --platform web --output-dir ../public/app && rm -f ../public/app/_sitemap.html"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.0",

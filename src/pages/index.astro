@@ -59,6 +59,17 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <section class="block wrap">
+    <div class="app-band">
+      <div>
+        <span class="eyebrow">Nuevo · App web</span>
+        <h2>Tu rutina, cada día</h2>
+        <p>Marca los pasos, sigue tu racha, haz la rutina en modo guiado y mira qué activo toca cada noche. Sin instalar nada y sin registro.</p>
+      </div>
+      <a class="btn" href="/app/">Abrir la app →</a>
+    </div>
+  </section>
+
+  <section class="block wrap">
     <div class="cta-band">
       <h2>¿Lista para conocer tu piel?</h2>
       <p>Tu rutina personalizada te espera. Gratis, sin registro y en dos minutos.</p>
@@ -68,6 +79,10 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+  .app-band{display:flex;gap:30px;align-items:center;justify-content:space-between;background:#1E2030;color:#E9E9ED;border-radius:28px;padding:44px 48px}
+  .app-band h2{color:#E9E9ED;margin-bottom:10px}
+  .app-band p{color:#B5B8C9;max-width:52ch}
+  @media(max-width:760px){.app-band{flex-direction:column;align-items:flex-start;padding:32px 26px}}
   .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:26px}
   .eyebrow::before{content:"";width:26px;height:1.4px;background:var(--accent)}
   .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;padding:48px 28px 90px}

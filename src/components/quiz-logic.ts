@@ -240,7 +240,10 @@ export function buildRoutine(todas: Answers): Resultado {
   // Rutina corta: limpieza + 2 tratamientos + hidratante + SPF
   if (tiempo === 'corta') {
     const limpieza = rutina.filter((p) => p.orden === 1);
-    const trat = rutina.filter((p) => p.orden >= 2 && p.orden <= 3).slice(0, 2);
+    // Si marcó irritación por afeitado, el bálsamo va siempre
+    const tratTodos = rutina.filter((p) => p.orden >= 2 && p.orden <= 3);
+    const fijo = tratTodos.filter((p) => p.id === 'postAfeitado');
+    const trat = [...fijo, ...tratTodos.filter((p) => !fijo.includes(p))].slice(0, fijo.length ? 3 : 2);
     const hidra = rutina.filter((p) => p.orden === 4).slice(0, 1);
     const prot = rutina.filter((p) => p.orden === 5);
     const extra = rutina.filter((p) => p.orden === 6);
