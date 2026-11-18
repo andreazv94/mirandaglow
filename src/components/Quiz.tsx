@@ -1,136 +1,54 @@
 import { useState } from 'react';
-import { productos } from '../data/productos';
-
-// ---------- Datos del cuestionario ----------
-type Opt = { t: string; v: string; s?: string };
-type Q = { q: string; multi?: boolean; opts: Opt[] };
-
-const questions: Q[] = [
-  { q: '¿Cómo notas tu piel al final del día?', opts: [
-    { t: 'Tirante y seca', v: 'seca', s: 'Sin brillos, a veces descamación' },
-    { t: 'Brillante por todas partes', v: 'grasa', s: 'Sobre todo en la zona T' },
-    { t: 'Brillos en T, normal en mejillas', v: 'mixta', s: 'Lo más común' },
-    { t: 'Equilibrada, ni seca ni grasa', v: 'normal', s: 'Cómoda casi siempre' },
-  ]},
-  { q: '¿Qué te gustaría mejorar?', multi: true, opts: [
-    { t: 'Granitos y acné', v: 'acne' },
-    { t: 'Manchas y tono desigual', v: 'manchas' },
-    { t: 'Líneas y firmeza', v: 'edad' },
-    { t: 'Luminosidad general', v: 'luz' },
-    { t: 'Poros y brillos', v: 'poros' },
-    { t: 'Sequedad y tirantez', v: 'sequedad' },
-  ]},
-  { q: '¿Tu piel reacciona con facilidad?', opts: [
-    { t: 'Sí, se irrita y enrojece', v: 'sensible', s: 'Necesita fórmulas suaves' },
-    { t: 'A veces, según el producto', v: 'algo' },
-    { t: 'No, tolera casi todo', v: 'resistente' },
-    { t: 'No estoy segura', v: 'ns' },
-  ]},
-  { q: '¿Cuánta experiencia tienes con el skincare?', opts: [
-    { t: 'Empiezo de cero', v: 'novata', s: 'Mejor rutina simple' },
-    { t: 'Lo básico: limpio e hidrato', v: 'media' },
-    { t: 'Uso activos (ácidos, retinol…)', v: 'avanzada' },
-  ]},
-  { q: '¿Cuánto tiempo quieres dedicarle al día?', opts: [
-    { t: 'Lo mínimo, 2–3 pasos', v: 'corta' },
-    { t: 'Una rutina completa', v: 'completa' },
-    { t: 'Me da igual, quiero resultados', v: 'max' },
-  ]},
-  { q: '¿Usas protección solar a diario?', opts: [
-    { t: 'Sí, cada día', v: 'si' },
-    { t: 'Solo en verano', v: 'verano' },
-    { t: 'Casi nunca', v: 'no' },
-  ]},
-  { q: '¿Qué rango de edad tienes?', opts: [
-    { t: 'Menos de 25', v: '20' },
-    { t: '25–35', v: '30' },
-    { t: '35–45', v: '40' },
-    { t: '45 o más', v: '50' },
-  ]},
-  { q: '¿Qué presupuesto manejas por producto?', opts: [
-    { t: 'Económico (hasta 15€)', v: 'low' },
-    { t: 'Medio (15–35€)', v: 'mid' },
-    { t: 'Sin límite, calidad ante todo', v: 'high' },
-  ]},
-];
-
-const P = productos;
-
-// ---------- Motor de recomendación ----------
-function buildRoutine(answers: (string | string[])[]) {
-  const [tipo, objetivosRaw, , , tiempo, , edad] = answers;
-  const obj = (objetivosRaw as string[]) || [];
-  const has = (v: string) => obj.includes(v);
-  let r: typeof P[string][] = [];
-
-  r.push(tipo === 'seca' || has('sequedad') ? P.limpiadorSeca : P.limpiador);
-
-  if (has('acne')) r.push(P.bha, P.niacin);
-  if (has('manchas')) r.push(P.vitC, P.niacin);
-  if (has('edad')) r.push(P.vitC, P.retinol);
-  if (has('luz')) r.push(P.vitC);
-  if (has('poros')) r.push(P.niacin);
-  if (has('sequedad')) r.push(P.hialu);
-  if (r.length <= 1) r.push(P.vitC, P.hialu);
-
-  if ((edad === '40' || edad === '50') && !r.includes(P.retinol)) r.push(P.retinol);
-  r.push(tipo === 'seca' || edad === '50' || has('sequedad') ? P.hidraRica : P.hidra);
-  r.push(P.spf);
-
-  r = [...new Set(r)];
-
-  if (tiempo === 'corta') {
-    const keep = r.filter((p) => p !== P.spf).slice(0, 3);
-    r = [...new Set([...keep, P.spf])];
-  }
-  return r;
-}
+import { buildRoutine, fases, visibleQuestions, type Answers } from './quiz-logic';
+import type { Producto } from '../data/productos';
 
 export default function Quiz() {
   const [current, setCurrent] = useState(0);
-  const [answers, setAnswers] = useState<(string | string[])[]>([]);
+  const [answers, setAnswers] = useState<Answers>({});
   const [done, setDone] = useState(false);
 
-  const Q = questions[current];
+  const qs = visibleQuestions(answers);
+  const Q = qs[Math.min(current, qs.length - 1)];
 
+  function advance(next: Answers) {
+    const list = visibleQuestions(next);
+    if (current < list.length - 1) setCurrent(current + 1);
+    else setDone(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   function pick(v: string) {
-    const next = [...answers];
+    const next = { ...answers };
     if (Q.multi) {
-      const arr = (next[current] as string[]) || [];
-      next[current] = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
+      const arr = (next[Q.id] as string[]) || [];
+      if (arr.includes(v)) next[Q.id] = arr.filter((x) => x !== v);
+      else if (!Q.max || arr.length < Q.max) next[Q.id] = [...arr, v];
       setAnswers(next);
     } else {
-      next[current] = v;
+      next[Q.id] = v;
       setAnswers(next);
-      advance();
+      advance(next);
     }
   }
-  function advance() {
-    if (current < questions.length - 1) setCurrent(current + 1);
-    else setDone(true);
-  }
   function nextQ() {
-    if (Q.multi && (!answers[current] || (answers[current] as string[]).length === 0)) return;
-    advance();
+    const sel = (answers[Q.id] as string[]) || [];
+    if (Q.multi && sel.length === 0) return;
+    advance(answers);
   }
-  function restart() { setCurrent(0); setAnswers([]); setDone(false); }
+  function restart() { setCurrent(0); setAnswers({}); setDone(false); }
 
   if (done) {
-    const routine = buildRoutine(answers);
-    const tipo = answers[0] as string;
-    const tipoTxt: Record<string, string> = { seca: 'Piel seca', grasa: 'Piel grasa', mixta: 'Piel mixta', normal: 'Piel normal' };
+    const res = buildRoutine(answers);
+    const { rutina } = res;
+    const manana = rutina.filter((p) => p.momento === 'am' || p.momento === 'ambos').sort((a, b) => a.orden - b.orden);
+    const noche = rutina.filter((p) => p.momento === 'pm' || p.momento === 'ambos').sort((a, b) => a.orden - b.orden);
+    const fase = res.fase && fases[res.fase];
 
-    // Reparte la rutina en mañana y noche según el momento de cada producto,
-    // y ordena cada bloque por el orden de aplicación (limpieza → ... → SPF).
-    const manana = routine.filter((p) => p.momento === 'am' || p.momento === 'ambos').sort((a, b) => a.orden - b.orden);
-    const noche = routine.filter((p) => p.momento === 'pm' || p.momento === 'ambos').sort((a, b) => a.orden - b.orden);
-
-    const Bloque = ({ titulo, icono, lista }: { titulo: string; icono: string; lista: typeof routine }) => (
+    const Bloque = ({ titulo, icono, lista }: { titulo: string; icono: string; lista: Producto[] }) => (
       <div className="rutina-bloque">
         <div className="rb-head"><span className="rb-ico">{icono}</span><h3>{titulo}</h3></div>
         {lista.map((p, i) => (
           <a key={p.id} className="prod" href={p.url} target="_blank" rel="sponsored nofollow noopener">
-            <span className="stepn"><small>PASO</small><b>{i + 1}</b></span>
+            <span className="stepn"><small>{p.orden === 6 ? 'EXTRA' : 'PASO'}</small><b>{p.orden === 6 ? '+' : i + 1}</b></span>
             <span className="pinfo">
               <span className="cat">{p.categoria}{p.natural && <span className="nat-badge">🌿 Natural</span>}</span>
               <b>{p.nombre}</b>
@@ -145,16 +63,58 @@ export default function Quiz() {
 
     return (
       <div className="q-result">
-        <span className="badge">{tipoTxt[tipo] || 'Tu piel'}</span>
+        <div className="perfil">{res.perfil.map((t) => <span key={t} className="badge">{t}</span>)}</div>
         <h2>Tu rutina personalizada</h2>
         <p className="sub">Sigue el orden de cada paso. Los productos se abren en su tienda.</p>
+
+        {res.avisos.filter((x) => x.tipo === 'medico').map((x) => (
+          <div key={x.texto} className="aviso medico"><b>⚕ Importante</b><p>{x.texto}</p></div>
+        ))}
 
         <Bloque titulo="Rutina de mañana" icono="☀" lista={manana} />
         <Bloque titulo="Rutina de noche" icono="☾" lista={noche} />
 
+        {res.semana && (
+          <div className="semana">
+            <h3>Tu semana de activos de noche</h3>
+            <p className="sub-s">No mezcles exfoliantes y retinol la misma noche. Repártelos así:</p>
+            <div className="semana-grid">
+              {res.semana.map((d) => (
+                <div key={d.dia} className={`dia${d.activo === 'Solo hidratar' ? ' rest' : ''}`}>
+                  <small>{d.dia}</small><span>{d.activo}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {fase && (
+          <div className="ciclo">
+            <h3>Tu piel en este momento del ciclo</h3>
+            <div className="ciclo-grid">
+              {Object.entries(fases).map(([k, f]) => (
+                <div key={k} className={`fase${k === res.fase ? ' actual' : ''}`}>
+                  <small>{f.dias}</small>
+                  <b>{f.nombre}{k === res.fase && ' · ahora'}</b>
+                  <p>{f.piel}</p>
+                  <p className="fc">{f.consejo}</p>
+                </div>
+              ))}
+            </div>
+            <p className="sub-s">Tu rutina está pensada para la fase en la que estás. Repite el test cuando cambies de fase.</p>
+          </div>
+        )}
+
+        {res.avisos.filter((x) => x.tipo === 'info').map((x) => (
+          <div key={x.texto} className="aviso"><p>{x.texto}</p></div>
+        ))}
+
         <div className="rutina-tip">
-          <b>Consejo:</b> introduce los productos de uno en uno, dejando unos días entre cada nuevo activo, para que tu piel se adapte. Si algo te irrita, espácialo o suspéndelo.
+          <b>Consejos para ti</b>
+          <ul>{res.consejos.map((c) => <li key={c}>{c}</li>)}</ul>
         </div>
+
+        <p className="privacidad">🔒 Tus respuestas no salen de tu navegador: no las guardamos ni las enviamos. Esta rutina es orientativa y no sustituye la consulta con una dermatóloga.</p>
 
         <button className="btn ghost" onClick={restart} style={{ marginTop: 24 }}>Repetir el test</button>
         <Styles />
@@ -162,18 +122,22 @@ export default function Quiz() {
     );
   }
 
-  const sel = answers[current];
+  const sel = answers[Q.id];
+  const nSel = Q.multi ? ((sel as string[]) || []).length : 0;
+  const isLast = current === qs.length - 1;
   return (
     <div className="q-stage">
-      <div className="progress"><i style={{ width: `${((current + 1) / questions.length) * 100}%` }} /></div>
-      <div className="q-count">Pregunta {current + 1} de {questions.length}</div>
+      <div className="progress"><i style={{ width: `${((current + 1) / qs.length) * 100}%` }} /></div>
+      <div className="q-count">Pregunta {current + 1} de {qs.length}</div>
       <h2>{Q.q}</h2>
-      {Q.multi && <div className="multi-hint">✦ Puedes elegir varias opciones</div>}
+      {Q.help && <div className="multi-hint">✦ {Q.help}</div>}
+      {Q.multi && !Q.help && <div className="multi-hint">✦ Puedes elegir varias opciones</div>}
       <div className="opts">
         {Q.opts.map((o) => {
-          const isSel = Q.multi ? (sel as string[] || []).includes(o.v) : sel === o.v;
+          const isSel = Q.multi ? ((sel as string[]) || []).includes(o.v) : sel === o.v;
+          const lleno = Q.multi && Q.max !== undefined && nSel >= Q.max && !isSel;
           return (
-            <button key={o.v} className={`opt${isSel ? ' sel' : ''}`} onClick={() => pick(o.v)}>
+            <button key={o.v} className={`opt${isSel ? ' sel' : ''}${lleno ? ' off' : ''}`} onClick={() => pick(o.v)}>
               <span className="ic" /><span className="lbl"><b>{o.t}</b>{o.s && <small>{o.s}</small>}</span>
               {isSel && <span className="check">✓</span>}
             </button>
@@ -182,8 +146,9 @@ export default function Quiz() {
       </div>
       <div className="q-nav">
         {current > 0 && <button className="link-back" onClick={() => setCurrent(current - 1)}>← Anterior</button>}
-        {Q.multi && <button className="btn" onClick={nextQ}>{current === questions.length - 1 ? 'Ver mi rutina ✦' : 'Continuar →'}</button>}
+        {Q.multi && <button className="btn" onClick={nextQ} disabled={nSel === 0}>{isLast ? 'Ver mi rutina ✦' : `Continuar →${Q.max ? ` (${nSel}/${Q.max})` : ''}`}</button>}
       </div>
+      {current === 0 && <p className="privacidad">🔒 Tus respuestas no salen de tu navegador: no las guardamos ni las enviamos.</p>}
       <Styles />
     </div>
   );
@@ -230,6 +195,30 @@ function Styles() {
       .prod .price{font-family:'Fraunces',serif;font-size:1.1rem;text-align:right;white-space:nowrap}
       .prod .price small{display:block;font-family:'Outfit',sans-serif;font-size:.72rem;color:var(--accent-deep);text-decoration:none}
       @media(max-width:640px){.opts{grid-template-columns:1fr}.prod{grid-template-columns:52px 1fr}.prod .price{grid-column:2;text-align:left;margin-top:6px}}
+      .opt.off{opacity:.45}
+      .q-nav .btn[disabled]{opacity:.5;cursor:not-allowed}
+      .perfil{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
+      .perfil .badge{margin-bottom:0}
+      .privacidad{margin-top:26px;font-size:.82rem;color:var(--ink-soft)}
+      .aviso{text-align:left;border-radius:14px;padding:16px 20px;margin-bottom:16px;background:#fff;border:1px solid var(--line);font-size:.92rem;line-height:1.6;color:var(--ink-soft)}
+      .aviso.medico{background:#FFF6EC;border-color:#F2D3AE}
+      .aviso.medico b{display:block;color:#9a5a17;margin-bottom:4px}
+      .rutina-tip ul{margin:8px 0 0 18px;padding:0}
+      .rutina-tip li{margin-bottom:6px}
+      .semana,.ciclo{text-align:left;margin-bottom:34px}
+      .semana h3,.ciclo h3{font-family:'Fraunces',serif;font-weight:500;font-size:1.4rem;margin-bottom:6px}
+      .sub-s{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px}
+      .semana-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+      .dia{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 8px;font-size:.78rem;line-height:1.35}
+      .dia small{display:block;color:var(--accent-deep);letter-spacing:.06em;text-transform:uppercase;font-size:.66rem;margin-bottom:4px}
+      .dia.rest{background:var(--bg-deep);color:var(--ink-soft)}
+      .ciclo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0}
+      .fase{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:.88rem;line-height:1.5;color:var(--ink-soft)}
+      .fase small{color:var(--accent-deep);letter-spacing:.08em;text-transform:uppercase;font-size:.7rem}
+      .fase b{display:block;color:var(--ink);font-family:'Fraunces',serif;font-weight:500;font-size:1.05rem;margin:2px 0 6px}
+      .fase .fc{margin-top:6px;color:var(--ink)}
+      .fase.actual{border-color:var(--accent-deep);box-shadow:0 0 0 3px rgba(95,182,196,.30);background:var(--bg-deep)}
+      @media(max-width:640px){.semana-grid{grid-template-columns:repeat(2,1fr)}.ciclo-grid{grid-template-columns:1fr}}
     `}</style>
   );
 }
