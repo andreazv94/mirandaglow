@@ -26,38 +26,41 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400&family=Outfit:wght@300..600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div class="page">
-    <div class="wrap">
-      <nav>
-        <a class="logo" href="/"><span class="dot"></span>Miranda<span class="glow">Glow</span></a>
-        <div class="navlinks">
-          <a href="/test">Hacer el test</a>
-          <a href="/app/">App</a>
-          <a href="/blog">Guías</a>
-          <a href="/sobre">Sobre Miranda</a>
-        </div>
-      </nav>
-    </div>
+    <header class="topbar">
+      <div class="wrap">
+        <nav aria-label="Principal">
+          <a class="logo" href="/">Miranda Glow</a>
+          <div class="navlinks">
+            <a href="/blog" class="hide-m">Guías</a>
+            <a href="/app/" class="hide-m">App</a>
+            <a href="/sobre" class="hide-m">Quiénes somos</a>
+            <a class="btn" href="/test">Hacer el test</a>
+          </div>
+        </nav>
+      </div>
+    </header>
 
-    <slot />
+    <main><slot /></main>
 
     <footer>
       <div class="wrap">
         <div class="foot-grid">
-          <a class="logo" href="/"><span class="dot"></span>Miranda<span class="glow">Glow</span></a>
+          <a class="logo" href="/">Miranda Glow</a>
           <div class="foot-links">
+            <a href="/test">Test de piel</a>
             <a href="/blog">Guías</a>
-            <a href="/sobre">Sobre Miranda</a>
-            <a href="/test">Hacer el test</a>
+            <a href="/app/">App</a>
+            <a href="/sobre">Quiénes somos</a>
             <a href="/aviso-legal">Aviso legal</a>
             <a href="/privacidad">Privacidad</a>
             <a href="/cookies">Cookies</a>
           </div>
         </div>
-        <p class="disc">Miranda Glow recomienda skincare por ingredientes y no por modas. Participamos en programas de afiliación: algunos enlaces a productos pueden generar una comisión sin coste adicional para ti. Nuestras recomendaciones se basan en su adecuación a tu perfil, no en la comisión. Esta web no sustituye el consejo de un dermatólogo.</p>
+        <p class="disc">Ninguna marca nos paga por aparecer. Algunos enlaces a tiendas son de afiliación: si compras, recibimos una pequeña comisión sin que a ti te cueste más, y eso no cambia lo que recomendamos. Esta web es informativa y no sustituye la consulta con una dermatóloga.</p>
       </div>
     </footer>
   </div>

@@ -85,8 +85,8 @@ export const productos: Record<string, Producto> = {
     tags: ['tratamiento', 'acne', 'poros', 'manchas'],
     url: 'https://ejemplo.com/?aff=TU_ID',
     tienda: 'Amazon',
-    momento: 'ambos',
-    frecuencia: 'Una vez al día',
+    momento: 'am',
+    frecuencia: 'Cada mañana',
     orden: 2,
   },
   hialu: {
