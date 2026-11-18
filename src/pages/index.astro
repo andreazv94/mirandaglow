@@ -4,10 +4,9 @@ import { getCollection } from 'astro:content';
 
 const guias = (await getCollection('blog'))
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
-  .slice(0, 5);
+  .slice(0, 4);
 
-// Ejemplo de la portada: un sérum inventado (no es una marca real) para
-// enseñar cómo se lee una lista de ingredientes.
+// Ejemplo inventado (no es una marca real) para enseñar a leer una etiqueta.
 type Ing = { n: string; t?: 'base' | 'activo' | 'ojo' | 'anuncio' };
 const inci: Ing[] = [
   { n: 'Aqua', t: 'base' }, { n: 'Glycerin' }, { n: 'Niacinamide', t: 'activo' }, { n: 'Butylene Glycol' },
@@ -16,164 +15,201 @@ const inci: Ing[] = [
   { n: 'Ethylhexylglycerin' }, { n: 'Linalool', t: 'ojo' }, { n: 'Limonene', t: 'ojo' },
 ];
 ---
-<Layout>
-  <section class="hero wrap">
-    <div class="hero-copy">
-      <h1>Lee lo que lleva tu crema, no lo que promete.</h1>
-      <p class="lead">
-        Te ayudamos a montar tu rutina de cuidado de la piel según los ingredientes de cada
-        producto. Sin marcas que paguen por salir y sin influencers. Gratis y sin registro.
-      </p>
-      <div class="hero-cta">
-        <a class="btn" href="/test">Hacer el test de piel</a>
-        <a class="btn ghost" href="/blog">Leer las guías</a>
+<Layout overlay>
+  <!-- Portada: la foto manda -->
+  <section class="hero">
+    <img class="hero-img" src="/img/frasco.jpg" alt="Frasco de sérum sin etiqueta sobre una piedra clara, con gotas alrededor" />
+    <div class="hero-in wrap">
+      <div class="hero-copy">
+        <h1>Lee la etiqueta,<br />no el anuncio.</h1>
+        <p>Cuidado de la piel explicado por ingredientes. Sin marcas que paguen por salir y sin influencers.</p>
+        <div class="hero-cta">
+          <a class="btn" href="/test">Hacer el test de piel</a>
+          <a class="btn ghost" href="/blog">Leer las guías</a>
+        </div>
       </div>
-      <p class="hero-note">El test tarda unos dos minutos y vale para cualquier piel y cualquier edad.</p>
     </div>
+  </section>
 
-    <figure class="label" aria-labelledby="label-cap">
-      <div class="label-front">
-        <span class="label-k">Delante del bote</span>
-        <p class="label-claim">«Sérum iluminador con aceite de rosa mosqueta»</p>
-      </div>
-      <div class="label-back">
-        <span class="label-k">Detrás, en la lista de ingredientes</span>
-        <p class="inci">
+  <!-- Declaración -->
+  <section class="manifesto wrap">
+    <p>
+      Miranda Glow nace para que elijas tu rutina sabiendo lo que te pones en la cara.
+      Miramos qué lleva cada producto y si hay estudios detrás. Ni modas, ni promesas milagro,
+      ni contenido patrocinado.
+    </p>
+  </section>
+
+  <!-- Cómo leer una etiqueta -->
+  <section class="leer">
+    <div class="wrap leer-in">
+      <figure class="leer-img">
+        <img src="/img/textura.jpg" alt="Textura de sérum transparente en primer plano" loading="lazy" />
+      </figure>
+      <div class="leer-copy">
+        <h2>Lo que pone delante y lo que lleva detrás</h2>
+        <p class="claim"><span>Delante</span>«Sérum iluminador con aceite de rosa mosqueta»</p>
+        <p class="inci" aria-label="Lista de ingredientes">
+          <span class="inci-k">Detrás</span>
           {inci.map((i, n) => (
-            <>
-              {i.t ? <mark class={`m-${i.t}`}>{i.n}</mark> : <span>{i.n}</span>}{n < inci.length - 1 ? ', ' : '.'}
-            </>
+            <>{i.t ? <mark class={`m-${i.t}`}>{i.n}</mark> : <span>{i.n}</span>}{n < inci.length - 1 ? ', ' : '.'}</>
           ))}
         </p>
+        <dl class="notes">
+          <div><dt><i class="dot d-base"></i>Agua</dt><dd>Casi todo el bote.</dd></div>
+          <div><dt><i class="dot d-activo"></i>Niacinamida e hialurónico</dt><dd>Lo que funciona. Van arriba: hay buena cantidad.</dd></div>
+          <div><dt><i class="dot d-anuncio"></i>Rosa mosqueta</dt><dd>La del anuncio. Va detrás del perfume: hay muy poca.</dd></div>
+          <div><dt><i class="dot d-ojo"></i>Perfume y alérgenos</dt><dd>Si tu piel es sensible, mejor sin ellos.</dd></div>
+        </dl>
+        <p class="small">Los ingredientes van de más a menos cantidad hasta el 1&nbsp;%. Producto de ejemplo, no es una marca real.</p>
       </div>
-      <dl class="notes">
-        <div><dt><mark class="m-base">Aqua</mark></dt><dd>Agua. Es casi todo el bote.</dd></div>
-        <div><dt><mark class="m-activo">Niacinamide · Sodium Hyaluronate</mark></dt><dd>Los que hacen algo: niacinamida para brillos y manchas, hialurónico para hidratar. Van arriba, así que hay buena cantidad.</dd></div>
-        <div><dt><mark class="m-anuncio">Rosa Canina Fruit Oil</mark></dt><dd>La rosa mosqueta del anuncio. Va detrás del perfume: hay muy poca.</dd></div>
-        <div><dt><mark class="m-ojo">Parfum · Linalool · Limonene</mark></dt><dd>Perfume y sus alérgenos. Si tu piel es sensible, mejor sin él.</dd></div>
-      </dl>
-      <figcaption id="label-cap">
-        Los ingredientes van de más a menos cantidad hasta llegar al 1&nbsp;%. Producto de ejemplo, no es una marca real.
-      </figcaption>
+    </div>
+  </section>
+
+  <!-- Cómo funciona -->
+  <section class="pasos wrap">
+    <div class="pasos-copy">
+      <h2>Tu rutina, en tres pasos</h2>
+      <ol>
+        <li><h3>Cuéntanos tu piel</h3><p>Unas diez preguntas: tipo de piel, qué quieres mejorar, tu edad y, si quieres, tu ciclo, embarazo o menopausia.</p></li>
+        <li><h3>Recibe tu rutina</h3><p>Mañana y noche, en orden y con el porqué de cada producto. Si algo no te conviene, no aparece.</p></li>
+        <li><h3>Síguela cada día</h3><p>En la app marcas los pasos y ves qué activo te toca esa noche.</p></li>
+      </ol>
+      <a class="btn" href="/test">Empezar el test</a>
+    </div>
+    <figure class="pasos-img">
+      <img src="/img/mano.jpg" alt="Gota de sérum sobre el dorso de una mano" loading="lazy" />
     </figure>
   </section>
 
-  <section class="how wrap" aria-labelledby="how-h">
-    <h2 id="how-h">Cómo funciona</h2>
-    <ol class="how-list">
-      <li><h3>Respondes unas diez preguntas</h3><p>Tu tipo de piel, lo que quieres mejorar, tu edad y, si quieres, tu momento hormonal: ciclo, embarazo o menopausia.</p></li>
-      <li><h3>Recibes tu rutina de mañana y noche</h3><p>Pocos productos, en orden y con el motivo de cada uno. Si algo no te conviene, como el retinol en el embarazo, lo quitamos.</p></li>
-      <li><h3>La sigues cada día en la app</h3><p>Marca los pasos, mira qué activo toca esta noche y lleva la cuenta de tu constancia.</p></li>
-    </ol>
-  </section>
-
-  <section class="rules" aria-labelledby="rules-h">
-    <div class="wrap rules-in">
-      <div class="rules-head">
-        <h2 id="rules-h">Nuestras reglas</h2>
-        <p>Queremos que puedas fiarte de lo que lees aquí. Estas son las normas que seguimos con cada guía y cada recomendación.</p>
-      </div>
-      <ul class="rules-list">
-        <li><h3>Ninguna marca paga por aparecer</h3><p>No hacemos publicaciones patrocinadas ni aceptamos productos a cambio de hablar bien de ellos.</p></li>
-        <li><h3>Recomendamos por ingredientes</h3><p>Miramos qué lleva cada producto y si hay estudios que lo respalden, no quién lo anuncia ni lo que está de moda.</p></li>
-        <li><h3>Te decimos cuándo ir al médico</h3><p>Rosácea, acné fuerte, melasma o un lunar que cambia necesitan una dermatóloga, no una crema. Lo avisamos siempre.</p></li>
-        <li><h3>Te contamos cómo ganamos dinero</h3><p>Algunos enlaces a tiendas son de afiliación. Si compras, nos llevamos una comisión pequeña y a ti no te cuesta más.</p></li>
+  <!-- Reglas -->
+  <section class="reglas">
+    <div class="wrap">
+      <h2>Nuestras reglas</h2>
+      <ul>
+        <li><h3>Ninguna marca paga por salir</h3><p>No hacemos contenido patrocinado ni aceptamos productos a cambio de reseñas.</p></li>
+        <li><h3>Ingredientes antes que marcas</h3><p>Si hay una opción más barata que hace lo mismo, te la decimos.</p></li>
+        <li><h3>Cuándo ir al médico</h3><p>Rosácea, acné fuerte, melasma o un lunar que cambia necesitan una dermatóloga. Lo avisamos.</p></li>
+        <li><h3>Cómo ganamos dinero</h3><p>Algunos enlaces son de afiliación: una pequeña comisión que a ti no te cuesta más.</p></li>
       </ul>
     </div>
   </section>
 
-  <section class="guides wrap" aria-labelledby="guides-h">
-    <div class="guides-head">
-      <h2 id="guides-h">Guías recientes</h2>
-      <a href="/blog">Ver todas las guías</a>
+  <!-- Guías -->
+  <section class="guias wrap">
+    <div class="guias-head">
+      <h2>Guías</h2>
+      <a href="/blog">Ver todas</a>
     </div>
-    <ul class="guide-list">
+    <ul>
       {guias.map((g) => (
         <li>
           <a href={`/blog/${g.slug}`}>
-            <span class="g-topic">{g.data.concern}</span>
-            <span class="g-title">{g.data.titulo}</span>
-            <span class="g-desc">{g.data.descripcion}</span>
+            <span class="g-tema">{g.data.concern}</span>
+            <span class="g-tit">{g.data.titulo}</span>
           </a>
         </li>
       ))}
     </ul>
   </section>
 
-  <section class="wrap">
-    <div class="app-band">
-      <div>
-        <h2>Tu rutina, cada día</h2>
-        <p>Marca los pasos de la mañana y la noche, haz la rutina guiada y mira qué activo te toca hoy. Funciona en el navegador del móvil, sin instalar nada. Tus datos se quedan en tu teléfono.</p>
-      </div>
-      <a class="btn app-btn" href="/app/">Abrir la app</a>
+  <!-- App -->
+  <section class="app">
+    <img src="/img/crema.jpg" alt="Crema facial extendida sobre fondo rosa y turquesa" loading="lazy" />
+    <div class="app-card">
+      <h2>Tu rutina, cada día</h2>
+      <p>Marca los pasos, sigue la rutina guiada y mira qué activo te toca esta noche. Sin instalar nada: tus datos se quedan en tu móvil.</p>
+      <a class="btn" href="/app/">Abrir la app</a>
     </div>
   </section>
 </Layout>
 
 <style>
-  .hero{display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:start;padding-top:72px;padding-bottom:96px}
-  .hero h1{max-width:13ch;margin-bottom:24px}
-  .lead{font-family:var(--font-read);font-size:1.22rem;line-height:1.6;color:var(--ink-soft);max-width:44ch;margin-bottom:32px}
+  /* Portada */
+  .hero{position:relative;min-height:min(92vh,860px);display:flex;align-items:center;overflow:hidden;background:var(--mist)}
+  .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;animation:revela 1.6s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes revela{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
+  .hero-in{position:relative;width:100%;display:flex;justify-content:flex-end;padding-top:76px}
+  .hero-copy{max-width:540px;padding:40px 0}
+  .hero h1{margin-bottom:24px}
+  .hero p{font-size:1.12rem;max-width:36ch;margin-bottom:34px;color:var(--ink)}
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-  .hero-note{margin-top:18px;font-size:.9rem;color:var(--ink-soft)}
+  .hero .btn.ghost{background:rgba(255,255,255,.55);backdrop-filter:blur(6px)}
 
-  /* La etiqueta: el elemento protagonista */
-  .label{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px 30px 24px}
-  .label-k{display:block;font-size:.85rem;color:var(--ink-soft);margin-bottom:6px}
-  .label-front{padding-bottom:18px;border-bottom:1px dashed var(--line);margin-bottom:18px}
-  .label-claim{font-family:var(--font-read);font-size:1.35rem;line-height:1.3}
-  .inci{font-size:.98rem;line-height:1.85;color:var(--ink-soft)}
-  mark{background:none;color:var(--ink);padding:1px 2px;border-radius:2px}
-  .inci mark{white-space:nowrap}
-  .m-base{box-shadow:inset 0 -.45em 0 #E3E5E9}
-  .m-activo{box-shadow:inset 0 -.45em 0 #CFE6DC}
-  .m-ojo{box-shadow:inset 0 -.45em 0 #F3DFC2}
-  .m-anuncio{box-shadow:inset 0 -.45em 0 var(--acento-tint);outline:1.5px solid var(--acento);outline-offset:1px}
-  .notes{margin-top:22px;display:grid;gap:12px}
-  .notes div{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:14px;font-size:.92rem;line-height:1.45}
-  .notes dt{font-weight:600}
-  .notes dd{color:var(--ink-soft)}
-  .label figcaption{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-soft)}
+  .manifesto{padding:120px 32px}
+  .manifesto p{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.3;max-width:28ch;letter-spacing:-.01em;font-variation-settings:"opsz" 48}
 
-  .how{padding-bottom:96px}
-  .how h2{margin-bottom:32px}
-  .how-list{list-style:none;counter-reset:paso;display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
-  .how-list li{counter-increment:paso;border-top:2px solid var(--ink);padding-top:18px}
-  .how-list li::before{content:counter(paso) ".";display:block;font-weight:700;color:var(--acento);margin-bottom:8px}
-  .how-list h3{margin-bottom:8px}
-  .how-list p{color:var(--ink-soft);font-size:.98rem}
+  /* Etiqueta */
+  .leer{background:var(--white)}
+  .leer-in{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;padding-top:110px;padding-bottom:110px}
+  .leer-img img{width:100%;aspect-ratio:4/5;object-fit:cover}
+  .leer h2{margin-bottom:36px;max-width:16ch}
+  .claim{font-family:var(--serif);font-size:1.4rem;font-style:italic;padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+  .claim span,.inci-k{display:block;font-family:var(--sans);font-style:normal;font-size:.85rem;color:var(--ink-soft);margin-bottom:6px}
+  .inci{font-size:.98rem;line-height:1.9;color:var(--ink-soft)}
+  mark{background:none;color:var(--ink);white-space:nowrap;padding:0 1px}
+  .m-base{box-shadow:inset 0 -.42em 0 #E2E8EA}
+  .m-activo{box-shadow:inset 0 -.42em 0 #CBE6DA}
+  .m-ojo{box-shadow:inset 0 -.42em 0 #F2DEC2}
+  .m-anuncio{box-shadow:inset 0 -.42em 0 #F3D3DC}
+  .notes{margin:30px 0 22px;display:grid;grid-template-columns:1fr 1fr;gap:18px 28px}
+  .notes dt{font-weight:600;font-size:.95rem;display:flex;align-items:center;gap:8px}
+  .notes dd{color:var(--ink-soft);font-size:.92rem;margin-top:2px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+  .d-base{background:#D5DDE0}.d-activo{background:#9FD0BB}.d-ojo{background:#E8C38E}.d-anuncio{background:#E9AFC0}
 
-  .rules{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:88px 0}
-  .rules-in{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px}
-  .rules-head p{font-family:var(--font-read);font-size:1.12rem;color:var(--ink-soft);margin-top:16px;max-width:36ch;line-height:1.6}
-  .rules-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:36px 40px}
-  .rules-list h3{margin-bottom:8px}
-  .rules-list p{color:var(--ink-soft);font-size:.98rem}
+  /* Pasos */
+  .pasos{display:grid;grid-template-columns:1.05fr .95fr;gap:80px;align-items:center;padding-top:120px;padding-bottom:120px}
+  .pasos h2{margin-bottom:40px}
+  .pasos ol{list-style:none;counter-reset:p;margin-bottom:40px}
+  .pasos li{counter-increment:p;display:grid;grid-template-columns:52px 1fr;column-gap:8px;padding:22px 0;border-top:1px solid var(--line)}
+  .pasos li:last-child{border-bottom:1px solid var(--line)}
+  .pasos li::before{content:counter(p);grid-row:span 2;font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--teal);line-height:1}
+  .pasos li h3{margin-bottom:4px}
+  .pasos li p{color:var(--ink-soft)}
+  .pasos-img img{width:100%;aspect-ratio:4/5;object-fit:cover}
 
-  .guides{padding:96px 28px 72px}
-  .guides-head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:20px}
-  .guides-head a{font-weight:600;text-decoration:none}
-  .guides-head a:hover{text-decoration:underline}
-  .guide-list{list-style:none;border-top:1px solid var(--line)}
-  .guide-list a{display:grid;grid-template-columns:150px 1fr 1.1fr;gap:24px;padding:22px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);align-items:baseline}
-  .guide-list a:hover .g-title{color:var(--acento)}
-  .g-topic{font-size:.9rem;color:var(--ink-soft)}
-  .g-title{font-weight:600;font-size:1.08rem;line-height:1.35}
-  .g-desc{font-family:var(--font-read);color:var(--ink-soft);font-size:1rem;line-height:1.5}
+  /* Reglas */
+  .reglas{background:var(--blush);padding:110px 0}
+  .reglas h2{margin-bottom:52px}
+  .reglas ul{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:36px}
+  .reglas li{border-top:1px solid rgba(34,54,58,.25);padding-top:20px}
+  .reglas h3{margin-bottom:10px}
+  .reglas p{color:#4D5F62;font-size:.97rem}
 
-  .app-band{display:flex;gap:40px;align-items:center;justify-content:space-between;background:var(--ink);color:#F0F6F7;border-radius:var(--radius);padding:48px}
-  .app-band h2{margin-bottom:12px}
-  .app-band p{color:#C3D6D9;max-width:58ch}
-  .app-btn{background:#A9D8DC;border-color:#A9D8DC;color:var(--ink);white-space:nowrap}
-  .app-btn:hover{background:#fff;border-color:#fff}
+  /* Guías */
+  .guias{padding-top:110px;padding-bottom:110px}
+  .guias-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:28px}
+  .guias-head a{color:var(--ink);font-size:.95rem}
+  .guias ul{list-style:none;border-top:1px solid var(--line)}
+  .guias li a{display:grid;grid-template-columns:200px 1fr;gap:24px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+  .g-tema{font-size:.9rem;color:var(--ink-soft)}
+  .g-tit{font-family:var(--serif);font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:300;line-height:1.25;transition:color .2s}
+  .guias li a:hover .g-tit{color:var(--teal)}
+
+  /* App */
+  .app{position:relative;min-height:620px;display:flex;align-items:center;overflow:hidden}
+  .app > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .app-card{position:relative;margin-left:auto;margin-right:max(32px,calc((100vw - 1240px)/2 + 32px));background:rgba(255,255,255,.88);backdrop-filter:blur(10px);padding:48px;max-width:460px}
+  .app-card h2{margin-bottom:16px}
+  .app-card p{color:var(--ink-soft);margin-bottom:28px}
 
   @media(max-width:900px){
-    .hero{grid-template-columns:1fr;gap:40px;padding-top:44px}
-    .how-list,.rules-list,.rules-in{grid-template-columns:1fr;gap:28px}
-    .guide-list a{grid-template-columns:1fr;gap:4px}
-    .app-band{flex-direction:column;align-items:flex-start;padding:32px 24px}
-    .notes div{grid-template-columns:1fr;gap:2px}
-    .label{padding:22px 20px}
+    .hero{min-height:auto;flex-direction:column;align-items:stretch}
+    .hero-img{position:relative;height:56vh;animation:none}
+    .hero-in{padding-top:0}
+    .hero-copy{padding:36px 0 56px}
+    .manifesto{padding:72px 22px}
+    .leer-in,.pasos{grid-template-columns:1fr;gap:44px;padding-top:72px;padding-bottom:72px}
+    .pasos-img{order:-1}
+    .reglas{padding:72px 0}
+    .reglas ul{grid-template-columns:1fr 1fr}
+    .notes{grid-template-columns:1fr}
+    .guias{padding-top:72px;padding-bottom:72px}
+    .guias li a{grid-template-columns:1fr;gap:4px}
+    .app{min-height:auto;flex-direction:column}
+    .app > img{position:relative;height:300px}
+    .app-card{margin:0;max-width:none;padding:36px 22px;background:var(--white)}
   }
+  @media(max-width:560px){.reglas ul{grid-template-columns:1fr}}
 </style>
