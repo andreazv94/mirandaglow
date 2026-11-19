@@ -17,6 +17,8 @@ const blog = defineCollection({
     imagen: z.string().optional(),
     // true si el artículo trata sobre skincare natural (para el filtro)
     natural: z.boolean().optional(),
+    // Lo esencial en 3–4 frases: se muestra arriba como «En 30 segundos»
+    claves: z.array(z.string()).optional(),
   }),
 });
 
