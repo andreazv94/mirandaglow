@@ -1,4 +1,5 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { PIELES, paraTuPiel, type Piel } from '../lib/paraTuPiel';
 import { analizarLista, limpiarOCR, tipoTxt, type Ingrediente, type Tipo } from '../data/ingredientes';
 import { fichaDeInci } from '../data/fichas';
 
@@ -63,7 +64,27 @@ export default function LectorIngredientes() {
   const [granitos, setGranitos] = useState(false);
   const [ocr, setOcr] = useState<{ estado: 'no' | 'leyendo' | 'error'; pct: number; foto?: string }>({ estado: 'no', pct: 0 });
   const [verTexto, setVerTexto] = useState(false);
+  const [piel, setPiel] = useState<Piel | null>(null);
+  const [desdeTest, setDesdeTest] = useState(false);
   const input = useRef<HTMLInputElement>(null);
+
+  // Si ya hizo el test, usamos sus respuestas (todo se queda en su navegador)
+  useEffect(() => {
+    try {
+      const guardada = localStorage.getItem('mirandaglow.piel') as Piel | null;
+      const a = JSON.parse(localStorage.getItem('mirandaglow.answers.v2') || '{}');
+      if (guardada) setPiel(guardada);
+      else if (['seca', 'grasa', 'mixta', 'normal'].includes(a.tipo)) { setPiel(a.tipo); setDesdeTest(true); }
+      if (a.sensible === 'muy') setSensible(true);
+      if (a.hormonas === 'embarazo' || a.hormonas === 'lactancia') setEmbarazo(true);
+      if (Array.isArray(a.problemas) && a.problemas.includes('acne')) setGranitos(true);
+    } catch {}
+  }, []);
+
+  function elegirPiel(v: Piel) {
+    setPiel(v); setDesdeTest(false);
+    try { localStorage.setItem('mirandaglow.piel', v); } catch {}
+  }
 
   const filas: Fila[] = useMemo(
     () => analizarLista(analizado).map((f, i) => ({ pos: i + 1, ...f })),
@@ -78,6 +99,8 @@ export default function LectorIngredientes() {
   }
 
   async function leerFoto(file: File) {
+    // La foto solo se muestra aquí, en tu navegador; no se sube a ningún servidor.
+    if (ocr.foto) URL.revokeObjectURL(ocr.foto);
     const url = URL.createObjectURL(file);
     setOcr({ estado: 'leyendo', pct: 0, foto: url });
     try {
@@ -151,6 +174,10 @@ export default function LectorIngredientes() {
       ? { c: 'naranja', t: 'Bien, con algún pero', d: 'Hace cosas útiles, pero hay algo que conviene vigilar.' }
       : { c: 'verde', t: 'Sin nada que destacar', d: 'No vemos ingredientes problemáticos en lo que conocemos.' };
 
+  const resumen = piel
+    ? paraTuPiel(filas, piel, rojo.map((r) => ({ ok: false, t: `${r.titulo}${r.quien ? ` (${r.quien.slice(0, 3).join(', ')})` : ''}: según lo que has marcado, no te conviene.` })))
+    : undefined;
+
   const Col = ({ c, titulo, l, vacio }: { c: string; titulo: string; l: Punto[]; vacio: string }) => (
     <div className={`lx-col lx-${c}`}>
       <h3><i />{titulo}</h3>
@@ -200,9 +227,35 @@ export default function LectorIngredientes() {
       {total > 0 && (
         <div id="lx-res" className="lx-res">
           <div className={`lx-ver lx-v-${veredicto.c}`}>
-            <span className="lx-luz"><i /><i /><i /></span>
-            <div><h2>{veredicto.t}</h2><p>{veredicto.d}</p></div>
+            {ocr.foto
+              ? <a className="lx-mini" href={ocr.foto} target="_blank" rel="noopener" title="Ver tu foto"><img src={ocr.foto} alt="Tu foto de la etiqueta" /><span className="lx-luz lx-luz-s"><i /><i /><i /></span></a>
+              : <span className="lx-luz"><i /><i /><i /></span>}
+            <div>
+              <h2>{veredicto.t}</h2><p>{veredicto.d}</p>
+              {ocr.foto && <small className="lx-priv">{conocidos.length} ingredientes leídos de tu foto. Solo se ve en tu móvil: no la guardamos.</small>}
+            </div>
           </div>
+
+          <section className={`lx-piel ${resumen ? `lx-p-${resumen.tono}` : ''}`} aria-labelledby="lx-piel-t">
+            <div className="lx-piel-cab">
+              <h3 id="lx-piel-t">{resumen ? resumen.titulo : 'Para tu piel'}</h3>
+              <div className="lx-seg" role="radiogroup" aria-label="Tu tipo de piel">
+                {PIELES.map((x) => (
+                  <button key={x.v} role="radio" aria-checked={piel === x.v} className={piel === x.v ? 'on' : ''} onClick={() => elegirPiel(x.v)}>{x.t}</button>
+                ))}
+              </div>
+            </div>
+            {resumen ? (
+              <>
+                <p className="lx-textura">{resumen.textura}{desdeTest && ' Tipo de piel cogido de tu test.'}</p>
+                <ul className="lx-puntos">
+                  {resumen.puntos.map((x) => <li key={x.t} className={x.ok ? 'si' : 'ojo'}><i aria-hidden="true">{x.ok ? '✓' : '!'}</i>{x.t}</li>)}
+                </ul>
+              </>
+            ) : (
+              <p className="lx-textura">Elige tu tipo de piel para ver cómo te sentaría. ¿No lo sabes? <a href="/test">Haz el test</a>.</p>
+            )}
+          </section>
 
           <div className="lx-cols">
             <Col c="verde" titulo="Lo que hace" l={verde} vacio="No reconocemos activos ni hidratantes en la lista." />
