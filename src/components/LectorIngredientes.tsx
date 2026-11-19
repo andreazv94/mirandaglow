@@ -69,24 +69,35 @@ export default function LectorIngredientes() {
   const visor = useRef<HTMLDialogElement>(null);
   const input = useRef<HTMLInputElement>(null);
 
-  // Si ya hizo el test, usamos sus respuestas (todo se queda en su navegador)
+  const [atopica, setAtopica] = useState(false);
+  const listo = useRef(false);
+
+  // Tu piel: lo último que marcaste aquí o, si no, tus respuestas del test (todo se queda en tu navegador)
   useEffect(() => {
     try {
-      const guardada = localStorage.getItem('mirandaglow.piel') as Piel | null;
-      const a = JSON.parse(localStorage.getItem('mirandaglow.answers.v2') || '{}');
-      if (guardada) { setPiel(guardada); if (guardada === 'sensible') setSensible(true); }
-      else if (['seca', 'grasa', 'mixta', 'normal'].includes(a.tipo)) { setPiel(a.tipo); setDesdeTest(true); }
-      if (a.sensible === 'muy') setSensible(true);
-      if (a.hormonas === 'embarazo' || a.hormonas === 'lactancia') setEmbarazo(true);
-      if (Array.isArray(a.problemas) && a.problemas.includes('acne')) setGranitos(true);
+      const g = JSON.parse(localStorage.getItem('mirandaglow.perfil') || 'null');
+      if (g) {
+        setPiel(g.piel ?? null); setSensible(!!g.sensible); setAtopica(!!g.atopica); setGranitos(!!g.granitos); setEmbarazo(!!g.embarazo);
+      } else {
+        const a = JSON.parse(localStorage.getItem('mirandaglow.answers.v2') || '{}');
+        if (['seca', 'grasa', 'mixta', 'normal'].includes(a.tipo)) { setPiel(a.tipo); setDesdeTest(true); }
+        if (a.sensible === 'muy') setSensible(true);
+        if (a.hormonas === 'embarazo' || a.hormonas === 'lactancia') setEmbarazo(true);
+        if (Array.isArray(a.problemas) && a.problemas.includes('acne')) setGranitos(true);
+      }
     } catch {}
+    listo.current = true;
   }, []);
+  useEffect(() => {
+    if (!listo.current) return;
+    try { localStorage.setItem('mirandaglow.perfil', JSON.stringify({ piel, sensible, atopica, granitos, embarazo })); } catch {}
+  }, [piel, sensible, atopica, granitos, embarazo]);
 
   function elegirPiel(v: Piel) {
-    setPiel(v); setDesdeTest(false);
-    if (v === 'sensible') setSensible(true); // así el semáforo también lo tiene en cuenta
-    try { localStorage.setItem('mirandaglow.piel', v); } catch {}
+    setPiel(piel === v ? null : v); // pulsar otra vez la quita
+    setDesdeTest(false);
   }
+  const delicada = sensible || atopica;
 
   const filas: Fila[] = useMemo(
     () => analizarLista(analizado).map((f, i) => ({ pos: i + 1, ...f })),
@@ -160,13 +171,13 @@ export default function LectorIngredientes() {
     (embarazo ? rojo : naranja).push(p);
   }
   const perfume = conocidos.filter((f) => f.ing!.tipo === 'perfume' || f.ing!.alergeno);
-  if (perfume.length) (sensible ? rojo : naranja).push({ titulo: 'Lleva perfume', texto: 'No aporta nada a la piel y puede irritar o dar alergia.', quien: nombres(perfume) });
+  if (perfume.length) (delicada ? rojo : naranja).push({ titulo: 'Lleva perfume', texto: 'No aporta nada a la piel y puede irritar o dar alergia.', quien: nombres(perfume) });
   const alcohol = filas.find((f) => f.ing?.n === 'Alcohol Denat.');
-  if (alcohol && alcohol.pos <= 5) (sensible ? rojo : naranja).push({ titulo: 'Mucho alcohol', texto: `Va en el puesto ${alcohol.pos}: puede resecar.` });
+  if (alcohol && alcohol.pos <= 5) (delicada ? rojo : naranja).push({ titulo: 'Mucho alcohol', texto: `Va en el puesto ${alcohol.pos}: puede resecar.` });
   const poros = conocidos.filter((f) => f.ing!.poros);
   if (poros.length) (granitos ? rojo : naranja).push({ titulo: 'Puede obstruir poros', texto: 'En pieles con granitos, algunas personas reaccionan.', quien: nombres(poros) });
   const otros = conocidos.filter((f) => f.ing!.sensible && f.ing!.tipo !== 'perfume' && !f.ing!.alergeno && f.ing!.n !== 'Alcohol Denat.');
-  if (otros.length && sensible) naranja.push({ titulo: 'Puede molestar a piel sensible', texto: [...new Set(otros.map((f) => f.ing!.sensible))].join(' '), quien: nombres(otros) });
+  if (otros.length && delicada) naranja.push({ titulo: 'Puede molestar a piel sensible', texto: [...new Set(otros.map((f) => f.ing!.sensible))].join(' '), quien: nombres(otros) });
   const sol = conocidos.filter((f) => f.ing!.sol);
   if (sol.length) naranja.push({ titulo: 'Usa protector solar', texto: 'Hace la piel más sensible al sol: mejor por la noche.', quien: nombres(sol) });
 
@@ -176,9 +187,8 @@ export default function LectorIngredientes() {
       ? { c: 'naranja', t: 'Bien, con algún pero', d: 'Hace cosas útiles, pero hay algo que conviene vigilar.' }
       : { c: 'verde', t: 'Sin nada que destacar', d: 'No vemos ingredientes problemáticos en lo que conocemos.' };
 
-  const resumen = piel
-    ? paraTuPiel(filas, piel, rojo.map((r) => ({ ok: false, t: `${r.titulo}${r.quien ? ` (${r.quien.slice(0, 3).join(', ')})` : ''}: según lo que has marcado, no te conviene.` })))
-    : undefined;
+  const resumen = paraTuPiel(filas, piel, { sensible, atopica, granitos },
+    rojo.map((r) => ({ ok: false, t: `${r.titulo}${r.quien ? ` (${r.quien.slice(0, 3).join(', ')})` : ''}: según lo que has marcado, no te conviene.` })));
 
   const Col = ({ c, titulo, l, vacio }: { c: string; titulo: string; l: Punto[]; vacio: string }) => (
     <div className={`lx-col lx-${c}`}>
@@ -218,11 +228,25 @@ export default function LectorIngredientes() {
           </div>
         )}
 
-        <div className="lx-chips" role="group" aria-label="Tu caso">
-          <span>Para mí:</span>
-          <label className={embarazo ? 'on' : ''}><input type="checkbox" checked={embarazo} onChange={(e) => setEmbarazo(e.target.checked)} />Embarazo o lactancia</label>
-          <label className={sensible ? 'on' : ''}><input type="checkbox" checked={sensible} onChange={(e) => setSensible(e.target.checked)} />Piel sensible</label>
-          <label className={granitos ? 'on' : ''}><input type="checkbox" checked={granitos} onChange={(e) => setGranitos(e.target.checked)} />Granitos</label>
+        <div className="lx-perfil" id="lx-perfil">
+          <div className="lx-fila">
+            <span id="lx-tipo-t">Tu piel</span>
+            <div className="lx-seg" role="radiogroup" aria-labelledby="lx-tipo-t">
+              {PIELES.map((x) => (
+                <button key={x.v} type="button" role="radio" aria-checked={piel === x.v} className={piel === x.v ? 'on' : ''} onClick={() => elegirPiel(x.v)}>{x.t}</button>
+              ))}
+            </div>
+          </div>
+          <div className="lx-fila lx-chips" role="group" aria-labelledby="lx-ademas-t">
+            <span id="lx-ademas-t">Además</span>
+            <label className={sensible ? 'on' : ''} title="Pica, escuece o se enrojece con facilidad"><input type="checkbox" checked={sensible} onChange={(e) => setSensible(e.target.checked)} />Sensible</label>
+            <label className={atopica ? 'on' : ''} title="Dermatitis atópica: seca, con picor y brotes"><input type="checkbox" checked={atopica} onChange={(e) => setAtopica(e.target.checked)} />Atópica</label>
+            <label className={granitos ? 'on' : ''}><input type="checkbox" checked={granitos} onChange={(e) => setGranitos(e.target.checked)} />Granitos</label>
+            <label className={embarazo ? 'on' : ''}><input type="checkbox" checked={embarazo} onChange={(e) => setEmbarazo(e.target.checked)} />Embarazo o lactancia</label>
+          </div>
+          <p className="lx-ayuda">
+            {desdeTest ? 'Lo hemos cogido de tu test. ' : ''}Puedes marcar varias. ¿No sabes tu tipo de piel? <a href="/test">Haz el test</a>.
+          </p>
         </div>
       </div>
 
@@ -251,28 +275,24 @@ export default function LectorIngredientes() {
           <section className={`lx-piel ${resumen ? `lx-p-${resumen.tono}` : ''}`} aria-labelledby="lx-piel-t">
             <div className="lx-piel-cab">
               <h3 id="lx-piel-t">{resumen ? resumen.titulo : 'Para tu piel'}</h3>
-              <div className="lx-seg" role="radiogroup" aria-label="Tu tipo de piel">
-                {PIELES.map((x) => (
-                  <button key={x.v} role="radio" aria-checked={piel === x.v} className={piel === x.v ? 'on' : ''} onClick={() => elegirPiel(x.v)}>{x.t}</button>
-                ))}
-              </div>
+              <a className="lx-cambiar" href="#lx-perfil">{resumen ? 'Cambiar mi piel' : 'Elegir mi piel'}</a>
             </div>
             {resumen ? (
               <>
-                <p className="lx-textura">{resumen.textura}{desdeTest && ' Tipo de piel cogido de tu test.'}</p>
+                <p className="lx-textura">{resumen.textura}</p>
                 <ul className="lx-puntos">
                   {resumen.puntos.map((x) => <li key={x.t} className={x.ok ? 'si' : 'ojo'}><i aria-hidden="true">{x.ok ? '✓' : '!'}</i>{x.t}</li>)}
                 </ul>
               </>
             ) : (
-              <p className="lx-textura">Elige tu tipo de piel para ver cómo te sentaría. ¿No lo sabes? <a href="/test">Haz el test</a>.</p>
+              <p className="lx-textura">Marca arriba cómo es tu piel y te decimos cómo te sentaría.</p>
             )}
           </section>
 
           <div className="lx-cols">
             <Col c="verde" titulo="Lo que hace" l={verde} vacio="No reconocemos activos ni hidratantes en la lista." />
             <Col c="naranja" titulo="A vigilar" l={naranja} vacio="Nada que vigilar." />
-            <Col c="rojo" titulo="No te conviene" l={rojo} vacio={embarazo || sensible || granitos ? 'Nada para tu caso.' : 'Marca arriba tu caso para verlo.'} />
+            <Col c="rojo" titulo="No te conviene" l={rojo} vacio={embarazo || delicada || granitos ? 'Nada para tu caso.' : 'Marca arriba tu caso para verlo.'} />
           </div>
 
           <details className="lx-det">

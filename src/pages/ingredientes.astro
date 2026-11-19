@@ -43,8 +43,13 @@ import { ingredientes } from '../data/ingredientes';
   .lx textarea{width:100%;font:inherit;font-size:.95rem;line-height:1.5;color:var(--ink);background:var(--pearl);border:1px solid var(--line);border-radius:12px;padding:12px 14px;resize:vertical}
   .lx-texto .btn{justify-self:start}
   .lx-texto .btn[disabled]{opacity:.4}
-  .lx-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
-  .lx-chips span{font-size:.9rem;color:var(--ink-soft);margin-right:4px}
+  .lx-perfil{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);display:grid;gap:12px}
+  .lx-fila{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .lx-fila > span{font-size:.9rem;color:var(--ink-soft);width:64px;flex:none}
+  .lx-ayuda{margin:2px 0 0;font-size:.85rem;color:var(--ink-soft)}
+  .lx-ayuda a{color:var(--teal)}
+  .lx-cambiar{font-size:.9rem;color:var(--teal)}
+  @media (max-width:560px){.lx-fila > span{width:100%}}
   .lx-chips label{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:.92rem;cursor:pointer;user-select:none}
   .lx-chips label.on{background:var(--ink);color:#fff;border-color:var(--ink)}
   .lx-chips input{position:absolute;opacity:0;width:1px;height:1px}
@@ -73,7 +78,7 @@ import { ingredientes } from '../data/ingredientes';
   .lx-cerrar{position:absolute;top:-14px;right:-14px;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:var(--ink);font-size:1.5rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}
   .lx-cerrar:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
   .lx-seg{flex-wrap:wrap}
-  @media (max-width:560px){.lx-piel .lx-seg{display:flex;width:100%;border-radius:20px}}
+  @media (max-width:560px){.lx-perfil .lx-seg{display:flex;width:100%;justify-content:space-between}}
   .lx-luz-s{position:absolute;right:6px;bottom:6px;flex-direction:row;gap:4px;padding:5px 6px;border-radius:10px}
   .lx-luz-s i{width:10px;height:10px}
   .lx-priv{display:block;margin-top:8px;font-size:.82rem;color:var(--ink-soft)}
