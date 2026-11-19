@@ -66,6 +66,7 @@ export default function LectorIngredientes() {
   const [verTexto, setVerTexto] = useState(false);
   const [piel, setPiel] = useState<Piel | null>(null);
   const [desdeTest, setDesdeTest] = useState(false);
+  const visor = useRef<HTMLDialogElement>(null);
   const input = useRef<HTMLInputElement>(null);
 
   // Si ya hizo el test, usamos sus respuestas (todo se queda en su navegador)
@@ -73,7 +74,7 @@ export default function LectorIngredientes() {
     try {
       const guardada = localStorage.getItem('mirandaglow.piel') as Piel | null;
       const a = JSON.parse(localStorage.getItem('mirandaglow.answers.v2') || '{}');
-      if (guardada) setPiel(guardada);
+      if (guardada) { setPiel(guardada); if (guardada === 'sensible') setSensible(true); }
       else if (['seca', 'grasa', 'mixta', 'normal'].includes(a.tipo)) { setPiel(a.tipo); setDesdeTest(true); }
       if (a.sensible === 'muy') setSensible(true);
       if (a.hormonas === 'embarazo' || a.hormonas === 'lactancia') setEmbarazo(true);
@@ -83,6 +84,7 @@ export default function LectorIngredientes() {
 
   function elegirPiel(v: Piel) {
     setPiel(v); setDesdeTest(false);
+    if (v === 'sensible') setSensible(true); // así el semáforo también lo tiene en cuenta
     try { localStorage.setItem('mirandaglow.piel', v); } catch {}
   }
 
@@ -228,13 +230,23 @@ export default function LectorIngredientes() {
         <div id="lx-res" className="lx-res">
           <div className={`lx-ver lx-v-${veredicto.c}`}>
             {ocr.foto
-              ? <a className="lx-mini" href={ocr.foto} target="_blank" rel="noopener" title="Ver tu foto"><img src={ocr.foto} alt="Tu foto de la etiqueta" /><span className="lx-luz lx-luz-s"><i /><i /><i /></span></a>
+              ? <button type="button" className="lx-mini" onClick={() => visor.current?.showModal()} aria-label="Ver tu foto en grande"><img src={ocr.foto} alt="" /><span className="lx-luz lx-luz-s"><i /><i /><i /></span></button>
               : <span className="lx-luz"><i /><i /><i /></span>}
             <div>
               <h2>{veredicto.t}</h2><p>{veredicto.d}</p>
               {ocr.foto && <small className="lx-priv">{conocidos.length} ingredientes leídos de tu foto. Solo se ve en tu móvil: no la guardamos.</small>}
             </div>
           </div>
+
+          {ocr.foto && (
+            <dialog ref={visor} className="lx-visor" aria-label="Tu foto de la etiqueta"
+              onClick={(e) => { if (e.target === e.currentTarget) visor.current?.close(); }}>
+              <figure>
+                <img src={ocr.foto} alt="Tu foto de la etiqueta" />
+                <button type="button" className="lx-cerrar" onClick={() => visor.current?.close()} aria-label="Cerrar">×</button>
+              </figure>
+            </dialog>
+          )}
 
           <section className={`lx-piel ${resumen ? `lx-p-${resumen.tono}` : ''}`} aria-labelledby="lx-piel-t">
             <div className="lx-piel-cab">
