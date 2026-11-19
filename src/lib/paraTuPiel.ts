@@ -5,10 +5,11 @@
 // ============================================================
 import type { Ingrediente } from '../data/ingredientes';
 
-export type Piel = 'seca' | 'grasa' | 'mixta' | 'normal' | 'sensible';
+export type Piel = 'seca' | 'grasa' | 'mixta' | 'normal';
+/** Lo que se puede tener además del tipo de piel (varias a la vez). */
+export type Extras = { sensible?: boolean; atopica?: boolean; granitos?: boolean };
 export const PIELES: { v: Piel; t: string }[] = [
   { v: 'seca', t: 'Seca' }, { v: 'grasa', t: 'Grasa' }, { v: 'mixta', t: 'Mixta' }, { v: 'normal', t: 'Normal' },
-  { v: 'sensible', t: 'Atópica o sensible' },
 ];
 export type Punto = { ok: boolean; t: string };
 export type Resumen = { tono: 'bien' | 'matices' | 'corta'; titulo: string; textura: string; puntos: Punto[] };
@@ -33,7 +34,8 @@ const lista = (l: Ingrediente[], n = 3) => {
 };
 
 /** extra: avisos que ya salen en el semáforo y que también cuentan aquí (p. ej. perfume en piel sensible). */
-export function paraTuPiel(filas: Fila[], piel: Piel, extra: Punto[] = []): Resumen | undefined {
+export function paraTuPiel(filas: Fila[], piel: Piel | null, ex: Extras = {}, extra: Punto[] = []): Resumen | undefined {
+  if (!piel && !ex.sensible && !ex.atopica && !ex.granitos) return;
   const con = filas.filter((f) => f.ing) as { pos: number; ing: Ingrediente }[];
   if (!con.length) return;
   const corte = Math.max(6, Math.ceil(filas.length / 3)); // "parte alta" de la lista
@@ -41,7 +43,8 @@ export function paraTuPiel(filas: Fila[], piel: Piel, extra: Punto[] = []): Resu
   const todos = con.map((f) => f.ing);
   const hay = (s: Set<string>) => todos.filter((i) => s.has(i.n));
 
-  const hidr = todos.filter((i) => i.tipo === 'hidratante');
+  // en piel delicada no contamos como "bueno" lo que puede molestar
+  const hidr = todos.filter((i) => i.tipo === 'hidratante' && !((ex.sensible || ex.atopica) && i.sensible));
   const emolArriba = arriba.filter((i) => i.tipo === 'emoliente' || RICOS.has(i.n));
   const ricosArriba = arriba.filter((i) => RICOS.has(i.n));
   const textura = ricosArriba.length >= 1 && emolArriba.length >= 3 ? 'rica' : emolArriba.length === 0 ? 'ligera' : 'media';
@@ -81,47 +84,63 @@ export function paraTuPiel(filas: Fila[], piel: Piel, extra: Punto[] = []): Resu
     if (granitos.length) p.push({ ok: true, t: `Ayuda a controlar grasa y granitos (${lista(granitos)}).` });
     if (poros.length) p.push({ ok: false, t: `Puede obstruir poros en algunas pieles (${lista(poros)}).` });
     if (alcohol) p.push({ ok: false, t: 'Mucho alcohol: seca al momento, pero la piel puede producir más grasa después.' });
-  } else if (piel === 'sensible') {
-    const calma = todos.filter((i) => i.tipo === 'calmante' && !i.sensible);
-    const molesta = todos.filter((i) => i.sensible && i.tipo !== 'perfume' && !i.alergeno && i.n !== 'Alcohol Denat.');
-    const perfume = todos.filter((i) => i.tipo === 'perfume' || i.alergeno);
-    if (perfume.length && !extra.some((e) => e.t.startsWith('Lleva perfume')))
-      p.push({ ok: false, t: `Lleva perfume (${lista(perfume)}): es de lo que más reacciones da en piel atópica o sensible.` });
-    if (alcohol) p.push({ ok: false, t: 'El alcohol va muy arriba: puede escocer y resecar.' });
-    if (sulfatos.length) p.push({ ok: false, t: 'Lleva sulfatos: limpian fuerte y pueden irritar.' });
-    if (molesta.length) p.push({ ok: false, t: `Puede molestarte: ${lista(molesta)}.` });
-    if (barrera.length) p.push({ ok: true, t: `Ayuda a reparar la barrera, que en tu piel es más débil (${lista(barrera)}).` });
-    if (calma.length) p.push({ ok: true, t: `Calma (${lista(calma)}).` });
-    if (textura === 'rica') p.push({ ok: true, t: 'Nutritiva: protege una piel que pierde agua con facilidad.' });
-    if (textura === 'ligera') p.push({ ok: false, t: 'Muy ligera: en brotes suele hacer falta algo más nutritivo.' });
-    const hidrSuave = hidr.filter((i) => !i.sensible);
-    if (hidrSuave.length && p.length < 5) p.push({ ok: true, t: `Hidrata (${lista(hidrSuave)}).` });
-  } else {
+  } else if (piel === 'normal') {
     if (hidr.length) p.push({ ok: true, t: `Hidrata (${lista(hidr)}).` });
     if (barrera.length) p.push({ ok: true, t: `Cuida la barrera (${lista(barrera)}).` });
     if (textura === 'rica') p.push({ ok: true, t: 'Nutritiva: ideal en invierno o por la noche.' });
     if (alcohol) p.push({ ok: false, t: 'El alcohol va muy arriba: puede resecar.' });
     if (sulfatos.length) p.push({ ok: false, t: 'Lleva sulfatos: limpian fuerte.' });
+  } else if (hidr.length) {
+    // sin tipo elegido: lo básico
+    p.push({ ok: true, t: `Hidrata (${lista(hidr)}).` });
   }
-  if (fuertes.length) p.push({ ok: false, t: piel === 'sensible'
-    ? `Lleva activos fuertes (${lista(fuertes)}): en piel atópica o sensible, pregunta antes a tu dermatóloga.`
+
+  // ---- Además: sensible, atópica, granitos (se suman) ----
+  const delicada = ex.sensible || ex.atopica;
+  const perfume = todos.filter((i) => i.tipo === 'perfume' || i.alergeno);
+  const molesta = todos.filter((i) => i.sensible && i.tipo !== 'perfume' && !i.alergeno && i.n !== 'Alcohol Denat.');
+  const calma = todos.filter((i) => i.tipo === 'calmante' && !i.sensible);
+  const ya = (t: string) => p.some((x) => x.t.startsWith(t)) || extra.some((x) => x.t.startsWith(t));
+  if (delicada) {
+    if (perfume.length && !ya('Lleva perfume'))
+      p.push({ ok: false, t: `Lleva perfume (${lista(perfume)}): es de lo que más reacciones da en piel ${ex.atopica ? 'atópica' : 'sensible'}.` });
+    if (alcohol && !ya('El alcohol') && !ya('Mucho alcohol')) p.push({ ok: false, t: 'El alcohol va muy arriba: puede escocer y resecar.' });
+    if (sulfatos.length && !ya('Lleva sulfatos')) p.push({ ok: false, t: 'Lleva sulfatos: limpian fuerte y pueden irritar.' });
+    if (molesta.length) p.push({ ok: false, t: `Puede molestarte: ${lista(molesta)}.` });
+    if (calma.length) p.push({ ok: true, t: `Calma (${lista(calma)}).` });
+  }
+  if (ex.atopica) {
+    if (barrera.length && !ya('Ayuda a reparar') && !ya('Cuida la barrera'))
+      p.push({ ok: true, t: `Ayuda a reparar la barrera, que en la piel atópica es más débil (${lista(barrera)}).` });
+    if (textura === 'rica' && !ya('Nutre') && !ya('Nutritiva')) p.push({ ok: true, t: 'Nutritiva: protege una piel que pierde agua con facilidad.' });
+    if (textura === 'ligera') p.push({ ok: false, t: 'Muy ligera para piel atópica: en brotes suele hacer falta algo más nutritivo.' });
+  }
+  if (ex.granitos && piel !== 'grasa' && piel !== 'mixta') {
+    if (granitos.length) p.push({ ok: true, t: `Ayuda con los granitos (${lista(granitos)}).` });
+    if (poros.length) p.push({ ok: false, t: `Puede obstruir poros en algunas pieles (${lista(poros)}).` });
+  }
+
+  if (fuertes.length) p.push({ ok: false, t: delicada
+    ? `Lleva activos fuertes (${lista(fuertes)}): con tu piel, pregunta antes a tu dermatóloga.`
     : `Lleva activos fuertes (${lista(fuertes)}): empieza 2–3 noches por semana y usa protector solar.` });
 
   p.unshift(...extra);
   const malos = p.filter((x) => !x.ok).length;
   const buenos = p.length - malos;
-  const nombre = { seca: 'piel seca', grasa: 'piel grasa', mixta: 'piel mixta', normal: 'piel normal', sensible: 'piel atópica o sensible' }[piel];
+  const rasgos = [piel, ex.sensible && 'sensible', ex.atopica && 'atópica', ex.granitos && 'con granitos'].filter(Boolean) as string[];
+  const nombre = 'piel ' + (rasgos.length > 1 ? rasgos.slice(0, -1).join(', ') + ' y ' + rasgos.at(-1) : rasgos[0]);
   let tono: Resumen['tono'] = malos === 0 && buenos > 0 ? 'bien' : buenos === 0 && malos > 0 ? 'corta' : 'matices';
   // lo que más pesa: la textura
   if (piel === 'grasa' && textura === 'rica') tono = 'corta';
   if (piel === 'seca' && textura === 'ligera' && hidr.length < 2) tono = 'corta';
-  if (piel === 'sensible' && (alcohol || fuertes.length || todos.some((i) => i.tipo === 'perfume' || i.alergeno))) tono = 'corta';
+  if (delicada && (alcohol || fuertes.length || perfume.length)) tono = 'corta';
   const titulo = {
     bien: `Buena opción para ${nombre}`,
     matices: `Puede ir bien para ${nombre}, con matices`,
     corta: `No es lo ideal para ${nombre}`,
   }[tono];
   if (!p.length) p.push({ ok: true, t: 'Nada en especial a favor ni en contra para tu tipo de piel.' });
-  // en piel sensible, primero lo que conviene vigilar
-  return { tono, titulo, textura: texturaTxt, puntos: p.slice(0, piel === 'sensible' ? 6 : 5) };
+  // primero lo que conviene vigilar si la piel es delicada
+  const orden = delicada ? [...p.filter((x) => !x.ok), ...p.filter((x) => x.ok)] : p;
+  return { tono, titulo, textura: texturaTxt, puntos: orden.slice(0, 6) };
 }
