@@ -19,6 +19,8 @@ const blog = defineCollection({
     natural: z.boolean().optional(),
     // Lo esencial en 3–4 frases: se muestra arriba como «En 30 segundos»
     claves: z.array(z.string()).optional(),
+    // Vídeo corto (public/video/<nombre>.mp4 y .jpg): se muestra tras el resumen
+    video: z.string().optional(),
   }),
 });
 

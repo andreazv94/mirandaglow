@@ -29,7 +29,9 @@ const minutos = Math.max(2, Math.round((post.body || '').split(/\s+/).length / 2
         <ul>{post.data.claves.map((c) => <li>{c}</li>)}</ul>
       </aside>
     )}
-    {post.data.imagen && <img class="art-img" src={post.data.imagen} alt="" />}
+    {post.data.video ? (
+      <video class="art-video" src={`/video/${post.data.video}.mp4`} poster={`/video/${post.data.video}.jpg`} controls playsinline muted preload="none"></video>
+    ) : post.data.imagen && <img class="art-img" src={post.data.imagen} alt="" />}
     <div class="prose">
       <Content />
     </div>
@@ -55,6 +57,7 @@ const minutos = Math.max(2, Math.round((post.body || '').split(/\s+/).length / 2
   .prose :global(table){width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.95rem;margin:24px 0 28px}
   .prose :global(th){text-align:left;font-weight:600;border-bottom:2px solid var(--ink);padding:10px 12px 10px 0}
   .prose :global(td){border-bottom:1px solid var(--line);padding:12px 12px 12px 0;vertical-align:top;color:#33494D}
+  .art-video{display:block;width:100%;max-width:560px;margin:-8px auto 44px;aspect-ratio:1;border-radius:18px;background:var(--mist)}
   .claves{background:var(--mist);border-radius:18px;padding:24px 28px;margin:0 0 44px;font-family:var(--sans)}
   .claves-t{font-weight:700;font-size:1.05rem;margin-bottom:12px}
   .claves-t span{font-weight:400;color:var(--ink-soft);font-size:.9rem}
