@@ -72,7 +72,8 @@ async function tablas(db: D1Database) {
       usuario TEXT NOT NULL, clave TEXT NOT NULL, valor TEXT NOT NULL, t INTEGER NOT NULL,
       PRIMARY KEY (usuario, clave))`),
     db.prepare(`CREATE INDEX IF NOT EXISTS enlaces_email ON enlaces (email, creado)`),
-    db.prepare(`CREATE TABLE IF NOT EXISTS codigos (ean TEXT PRIMARY KEY, datos TEXT NOT NULL, t INTEGER NOT NULL)`),
+    db.prepare(`DROP TABLE IF EXISTS codigos`),
+    db.prepare(`CREATE TABLE IF NOT EXISTS codigos2 (ean TEXT PRIMARY KEY, datos TEXT NOT NULL, t INTEGER NOT NULL)`),
   ]);
   tablasListas = true;
 }
@@ -139,44 +140,63 @@ function emailEnlace(url: string) {
 type Producto = { encontrado: boolean; nombre?: string; marca?: string; cantidad?: string; inci?: string; url?: string };
 const DIAS = 864e5;
 
+const CAMPOS = 'code,product_name,product_name_es,brands,quantity,product_type,ingredients_text,ingredients_text_es,ingredients_text_en,ingredients_text_fr,ingredients_text_de,ingredients_text_it';
+
+/** Pregunta a la API universal de Open Food Facts / Open Beauty Facts (encuentra el producto esté en la base que esté). */
+async function preguntar(base: string, ean: string): Promise<{ http: number; p?: Producto }> {
+  const r = await fetch(`${base}/api/v3/product/${ean}?product_type=all&fields=${CAMPOS}`, {
+    headers: { 'user-agent': 'MirandaGlow/1.0 (https://mirandaglow.com; info@mirandaglow.com)', accept: 'application/json' },
+    redirect: 'follow',
+  });
+  const texto = await r.text();
+  let d: { status?: string; product?: Record<string, string> } = {};
+  try { d = JSON.parse(texto); } catch {
+    console.error('codigo: respuesta no JSON', base, ean, r.status, texto.slice(0, 120));
+    return { http: r.status || 500 };
+  }
+  const pr = d.product;
+  console.log('codigo', base, ean, r.status, d.status, pr ? 'con producto' : 'sin producto');
+  if (!pr || !String(d.status || '').startsWith('success')) return { http: r.status };
+  const inci = [pr.ingredients_text, pr.ingredients_text_en, pr.ingredients_text_es, pr.ingredients_text_fr, pr.ingredients_text_de, pr.ingredients_text_it]
+    .map((x) => (x || '').trim()).find((x) => x.length > 10);
+  const dominio = pr.product_type === 'food' ? 'openfoodfacts' : pr.product_type === 'product' ? 'openproductsfacts' : 'openbeautyfacts';
+  return {
+    http: 200,
+    p: {
+      encontrado: true,
+      nombre: (pr.product_name_es || pr.product_name || '').trim() || undefined,
+      marca: (pr.brands || '').split(',')[0].trim() || undefined,
+      cantidad: pr.quantity || undefined,
+      inci,
+      url: `https://world.${dominio}.org/product/${ean}`,
+    },
+  };
+}
+
 async function buscarCodigo(env: Env, ean: string): Promise<Response> {
-  const cache = await env.DB.prepare('SELECT datos, t FROM codigos WHERE ean = ?').bind(ean).first<{ datos: string; t: number }>();
+  const cache = await env.DB.prepare('SELECT datos, t FROM codigos2 WHERE ean = ?').bind(ean).first<{ datos: string; t: number }>();
   if (cache) {
     const d = JSON.parse(cache.datos) as Producto;
-    const vida = d.encontrado && d.inci ? 30 * DIAS : 1 * DIAS; // lo que no estaba, se vuelve a mirar al día siguiente
-    if (ahora() - cache.t < vida) return json({ ...d, cache: true }, 200, { 'cache-control': 'public, max-age=3600' });
+    const vida = d.encontrado && d.inci ? 30 * DIAS : 6 * 3600_000; // lo que no estaba, se vuelve a mirar en unas horas
+    if (ahora() - cache.t < vida) return json({ ...d, cache: true });
   }
   if (env.DEV_CODIGOS) return json(JSON.parse(env.DEV_CODIGOS)[ean] || { encontrado: false });
   let p: Producto = { encontrado: false };
-  try {
-    const r = await fetch(
-      `https://world.openbeautyfacts.org/api/v2/product/${ean}.json?fields=code,product_name,product_name_es,brands,quantity,ingredients_text,ingredients_text_es,ingredients_text_en,ingredients_text_fr`,
-      { headers: { 'user-agent': 'MirandaGlow/1.0 (https://mirandaglow.com; info@mirandaglow.com)' }, cf: { cacheTtl: 3600 } },
-    );
-    if (r.ok) {
-      const d = await r.json<{ status?: number; product?: Record<string, string> }>();
-      const pr = d.product;
-      if (d.status === 1 && pr) {
-        // la lista INCI suele estar en el campo general; si no, en el de algún idioma
-        const inci = [pr.ingredients_text, pr.ingredients_text_en, pr.ingredients_text_es, pr.ingredients_text_fr]
-          .map((x) => (x || '').trim()).find((x) => x.length > 10);
-        p = {
-          encontrado: true,
-          nombre: (pr.product_name_es || pr.product_name || '').trim() || undefined,
-          marca: (pr.brands || '').split(',')[0].trim() || undefined,
-          cantidad: pr.quantity || undefined,
-          inci,
-          url: `https://world.openbeautyfacts.org/product/${ean}`,
-        };
-      }
-    } else if (r.status !== 404) {
-      return error('fuente-no-disponible', 502);
+  let fallo = 0;
+  for (const base of ['https://world.openbeautyfacts.org', 'https://world.openfoodfacts.org']) {
+    try {
+      const r = await preguntar(base, ean);
+      if (r.p) { p = r.p; break; }
+      if (r.http !== 404 && r.http !== 200) fallo++;
+    } catch (e) {
+      console.error('codigo: error de red', base, ean, (e as Error).message);
+      fallo++;
     }
-  } catch {
-    return error('fuente-no-disponible', 502);
   }
-  await env.DB.prepare('INSERT OR REPLACE INTO codigos (ean, datos, t) VALUES (?, ?, ?)').bind(ean, JSON.stringify(p), ahora()).run();
-  return json(p, 200, { 'cache-control': 'public, max-age=3600' });
+  // si las dos fuentes han fallado (no "no está", sino error), no lo guardamos
+  if (!p.encontrado && fallo === 2) return error('fuente-no-disponible', 502);
+  await env.DB.prepare('INSERT OR REPLACE INTO codigos2 (ean, datos, t) VALUES (?, ?, ?)').bind(ean, JSON.stringify(p), ahora()).run();
+  return json(p);
 }
 
 // ---------- rutas ----------
