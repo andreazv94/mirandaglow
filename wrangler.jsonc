@@ -1,0 +1,31 @@
+{
+  // Miranda Glow en Cloudflare: web estática (dist) + /api para las cuentas
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mirandaglow",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-06-08",
+  "observability": { "enabled": true },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // solo /api pasa por el Worker; el resto se sirve directamente
+    "run_worker_first": ["/api/*"]
+  },
+  "routes": [
+    { "pattern": "mirandaglow.com", "custom_domain": true },
+    { "pattern": "www.mirandaglow.com", "custom_domain": true }
+  ],
+  // Base de datos de las cuentas. Cloudflare la crea sola en el primer despliegue, en la UE.
+  "d1_databases": [{ "binding": "DB", "database_name": "mirandaglow", "jurisdiction": "eu" }],
+  // Envío de emails (enlace para entrar). Requiere el plan Workers Paid
+  // y dar de alta el dominio en Email Service > Email Sending.
+  "send_email": [{ "name": "EMAIL" }],
+  "vars": {
+    "EMAIL_FROM": "hola@mirandaglow.com",
+    // Pon "1" cuando el envío de emails esté activado en Cloudflare
+    "EMAIL_ACTIVO": "0",
+    // ID de cliente de Google (es público). El secreto va en el panel: GOOGLE_CLIENT_SECRET
+    "GOOGLE_CLIENT_ID": ""
+  },
+  "keep_vars": true
+}
