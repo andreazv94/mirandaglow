@@ -118,6 +118,7 @@ export function paraTuPiel(filas: Fila[], piel: Piel | null, ex: Extras = {}, ex
   if (ex.granitos && piel !== 'grasa' && piel !== 'mixta') {
     if (granitos.length) p.push({ ok: true, t: `Ayuda con los granitos (${lista(granitos)}).` });
     if (poros.length) p.push({ ok: false, t: `Puede obstruir poros en algunas pieles (${lista(poros)}).` });
+    if (textura === 'rica') p.push({ ok: false, t: 'Textura rica: si te salen granitos con facilidad, úsala solo en las zonas secas.' });
   }
 
   if (fuertes.length) p.push({ ok: false, t: delicada

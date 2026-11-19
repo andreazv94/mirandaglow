@@ -1,0 +1,63 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { analisis } from '../../data/analisis';
+import { analizarLista } from '../../data/ingredientes';
+import { paraTuPiel } from '../../lib/paraTuPiel';
+import { migas } from '../../lib/seo';
+
+const tarjetas = analisis.map((a) => {
+  const filas = analizarLista(a.inci).map((f, i) => ({ pos: i + 1, ...f }));
+  const ok = (['seca', 'normal', 'mixta', 'grasa'] as const).filter((p) => paraTuPiel(filas, p)?.tono === 'bien');
+  const sinPerfume = !filas.some((f) => f.ing && (f.ing.tipo === 'perfume' || f.ing.alergeno));
+  return { a, ok, sinPerfume };
+});
+---
+<Layout
+  title="Análisis de cremas: ingredientes explicados y para qué piel es cada una — Miranda Glow"
+  description="Analizamos los ingredientes de las cremas más vendidas en España: qué lleva cada una, para qué tipo de piel va bien y qué vigilar. Sin marcas que paguen."
+  jsonld={migas([['Inicio', '/'], ['Análisis de cremas', '/analisis']])}
+>
+  <section class="wrap anx">
+    <header>
+      <h1>Análisis de cremas</h1>
+      <p>Las cremas más vendidas, leídas ingrediente a ingrediente: qué llevan, para qué piel van bien y qué conviene vigilar. Ninguna marca nos paga por aparecer.</p>
+    </header>
+    <ul class="anx-l">
+      {tarjetas.map(({ a, ok, sinPerfume }) => (
+        <li>
+          <a href={`/analisis/${a.slug}`}>
+            <span class="anx-t">{a.tipo}</span>
+            <b>{a.nombre}</b>
+            <p>{a.resumen}</p>
+            <span class="anx-tags">
+              {ok.length > 0 && <i>Va bien en piel {ok.join(', ')}</i>}
+              <i class={sinPerfume ? 'v' : 'n'}>{sinPerfume ? 'Sin perfume' : 'Con perfume'}</i>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <aside class="anx-cta">
+      <h2>¿Tu crema no está?</h2>
+      <p>Hazle una foto a la lista de ingredientes y el lector te dice en segundos qué hace y si le va a tu piel.</p>
+      <a class="btn" href="/ingredientes">Analizar mi crema</a>
+    </aside>
+  </section>
+</Layout>
+<style>
+  .anx{padding-top:56px;padding-bottom:96px;max-width:980px}
+  .anx h1{font-size:clamp(2.6rem,6vw,4rem);margin:0 0 12px}
+  .anx header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:60ch;margin:0 0 36px}
+  .anx-l{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+  .anx-l a{display:flex;flex-direction:column;height:100%;padding:22px 24px;background:var(--white);border:1px solid var(--line);border-radius:20px;color:var(--ink);text-decoration:none}
+  .anx-l a:hover{border-color:var(--teal)}
+  .anx-t{font-size:.8rem;color:var(--teal);margin-bottom:6px}
+  .anx-l b{font-family:var(--serif);font-weight:400;font-size:1.35rem;line-height:1.25}
+  .anx-l p{color:var(--ink-soft);font-size:.92rem;line-height:1.5;margin:10px 0 14px;flex:1}
+  .anx-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .anx-tags i{font-style:normal;font-size:.78rem;padding:3px 10px;border-radius:999px;background:var(--mist)}
+  .anx-tags .v{background:#DDF1E7;color:#1F5E40}.anx-tags .n{background:#FBEBD3;color:#7A4A08}
+  .anx-cta{margin-top:40px;background:var(--mist);border-radius:22px;padding:28px 30px}
+  .anx-cta h2{margin:0 0 8px;font-size:clamp(1.5rem,3vw,1.9rem)}
+  .anx-cta p{color:var(--ink-soft);margin:0 0 16px}
+</style>
