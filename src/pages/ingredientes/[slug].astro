@@ -23,13 +23,17 @@ const titulo = `${f.nombre}: qué es, para qué sirve y cómo usarlo — Miranda
       <p class="resumen">{f.resumen}</p>
     </header>
 
-    {embarazo && (
-      <p class={`emb emb-${embarazo}`}>
-        {embarazo === 'evitar'
-          ? 'No se recomienda durante el embarazo ni la lactancia.'
-          : 'Si estás embarazada o das el pecho, consúltalo antes con tu médica o matrona.'}
-      </p>
-    )}
+    <div class="vistazo" aria-label="De un vistazo">
+      <div><h2>Para qué</h2><p>{f.paraQue.slice(0, 2).join(' ')}</p></div>
+      <div><h2>Cuándo</h2><p>{f.comoUsar[0]}</p></div>
+      {f.combinaBien && <div><h2>Combina con</h2><p>{f.combinaBien.slice(0, 3).join(', ')}</p></div>}
+      <div class={embarazo || f.conCuidado ? 'ojo' : ''}><h2>Ojo</h2><p>{
+        embarazo === 'evitar' ? 'No se usa en el embarazo ni en la lactancia.'
+        : embarazo === 'consultar' ? 'En el embarazo, consúltalo antes.'
+        : f.conCuidado?.[0] ?? f.precauciones?.[0] ?? 'Suele tolerarse bien.'
+      }</p></div>
+    </div>
+
 
     <div class="cuerpo">
       <section>
@@ -98,6 +102,12 @@ const titulo = `${f.nombre}: qué es, para qué sirve y cómo usarlo — Miranda
   .emb{margin-top:28px;padding:14px 18px;border-radius:12px;font-size:.97rem}
   .emb-evitar{background:#FBF1E4;color:var(--ambar);border:1px solid #EBD2AE}
   .emb-consultar{background:var(--blush);color:#7B4655;border:1px solid #EDD3D9}
+  .vistazo{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:32px}
+  .vistazo div{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+  .vistazo h2{font-family:var(--sans);font-size:.85rem;font-weight:700;color:var(--teal);margin-bottom:6px;letter-spacing:0}
+  .vistazo p{font-size:.95rem;line-height:1.45;color:var(--ink)}
+  .vistazo .ojo{background:#FBF1E4;border-color:#EBD2AE}
+  .vistazo .ojo h2{color:var(--ambar)}
   .cuerpo{margin-top:24px}
   section{padding:32px 0;border-bottom:1px solid var(--line)}
   section h2{font-size:1.8rem;margin-bottom:16px}

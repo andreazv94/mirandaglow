@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const minutos = Math.max(2, Math.round((post.body || '').split(/\s+/).length / 220));
 ---
 <Layout title={`${post.data.titulo} — Miranda Glow`} description={post.data.descripcion}>
   <article class="article wrap">
@@ -22,6 +23,12 @@ const { Content } = await post.render();
       <p class="art-desc">{post.data.descripcion}</p>
       <time>Actualizado el {post.data.fecha.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
     </header>
+    {post.data.claves && (
+      <aside class="claves" aria-label="En 30 segundos">
+        <p class="claves-t">En 30 segundos <span>· {minutos} min de lectura completa</span></p>
+        <ul>{post.data.claves.map((c) => <li>{c}</li>)}</ul>
+      </aside>
+    )}
     {post.data.imagen && <img class="art-img" src={post.data.imagen} alt="" />}
     <div class="prose">
       <Content />
@@ -48,6 +55,12 @@ const { Content } = await post.render();
   .prose :global(table){width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.95rem;margin:24px 0 28px}
   .prose :global(th){text-align:left;font-weight:600;border-bottom:2px solid var(--ink);padding:10px 12px 10px 0}
   .prose :global(td){border-bottom:1px solid var(--line);padding:12px 12px 12px 0;vertical-align:top;color:#33494D}
+  .claves{background:var(--mist);border-radius:18px;padding:24px 28px;margin:0 0 44px;font-family:var(--sans)}
+  .claves-t{font-weight:700;font-size:1.05rem;margin-bottom:12px}
+  .claves-t span{font-weight:400;color:var(--ink-soft);font-size:.9rem}
+  .claves ul{list-style:none;display:grid;gap:10px}
+  .claves li{position:relative;padding-left:26px;font-size:1.02rem;line-height:1.5;color:var(--ink)}
+  .claves li::before{content:'';position:absolute;left:2px;top:.45em;width:12px;height:12px;border-radius:50%;background:var(--teal)}
   .prose{font-family:var(--font-read);font-size:1.13rem;line-height:1.75;color:#33494D}
   .prose :global(h2){font-family:var(--serif);font-weight:400;font-size:1.9rem;letter-spacing:-.01em;line-height:1.15;margin:48px 0 14px;color:var(--ink)}
   .prose :global(h3){font-family:var(--sans);font-weight:600;font-size:1.05rem;margin:32px 0 10px;color:var(--ink)}
