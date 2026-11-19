@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PIELES, paraTuPiel, type Piel } from '../lib/paraTuPiel';
+import { anadirCrema, leerCremas } from '../lib/cremas';
 import { analizarLista, limpiarOCR, tipoTxt, type Ingrediente, type Tipo } from '../data/ingredientes';
 import { fichaDeInci } from '../data/fichas';
 
@@ -106,7 +107,23 @@ export default function LectorIngredientes() {
   const total = filas.length;
   const conocidos = filas.filter((f) => f.ing);
 
+  const [nombreCrema, setNombreCrema] = useState('');
+  const [guardada, setGuardada] = useState<string | null>(null);
+
+  // /ingredientes?crema=ID abre una crema guardada
+  useEffect(() => {
+    const id = new URLSearchParams(location.search).get('crema');
+    const c = id && leerCremas().find((x) => x.id === id);
+    if (c) { setTexto(c.inci); setVerTexto(true); setNombreCrema(c.nombre); setGuardada(c.id); analizar(c.inci); }
+  }, []);
+
+  function guardarCrema() {
+    const c = anadirCrema({ nombre: nombreCrema.trim() || 'Crema sin nombre', inci: analizado, veredicto: veredicto.c });
+    setGuardada(c.id);
+  }
+
   function analizar(t = texto) {
+    setGuardada(null);
     setAnalizado(t);
     setTimeout(() => document.getElementById('lx-res')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
   }
@@ -316,7 +333,21 @@ export default function LectorIngredientes() {
             </ol>
           </details>
 
-          <p className="lx-nota">Orientativo: no conocemos las concentraciones exactas. Los ingredientes van de más a menos cantidad hasta el 1 %. No guardamos tus fotos ni tu texto.</p>
+          <div className="lx-guardar">
+            {guardada ? (
+              <p><b>Guardada en tus cremas.</b> <a href="/cuenta#cremas">Ver mis cremas</a></p>
+            ) : (
+              <form onSubmit={(e) => { e.preventDefault(); guardarCrema(); }}>
+                <label htmlFor="lx-nombre">¿La tienes en casa? Guárdala para tenerla a mano</label>
+                <div>
+                  <input id="lx-nombre" value={nombreCrema} onChange={(e) => setNombreCrema(e.target.value)} placeholder="Nombre, p. ej. Crema hidratante de noche" maxLength={80} />
+                  <button className="btn" type="submit">Guardar en mis cremas</button>
+                </div>
+              </form>
+            )}
+          </div>
+
+          <p className="lx-nota">Orientativo: no conocemos las concentraciones exactas. Los ingredientes van de más a menos cantidad hasta el 1 %. No guardamos tus fotos; la lista solo se guarda si pulsas «Guardar».</p>
         </div>
       )}
     </div>

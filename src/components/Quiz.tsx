@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { buildRoutine, fases, visibleQuestions, type Answers } from './quiz-logic';
 import type { Producto } from '../data/productos';
 
@@ -6,6 +6,17 @@ export default function Quiz() {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [done, setDone] = useState(false);
+
+  // Al terminar, guardamos tus respuestas en este navegador (y en tu cuenta, si tienes)
+  useEffect(() => {
+    if (!done) return;
+    try {
+      localStorage.setItem('mirandaglow.answers.v2', JSON.stringify(answers));
+      const p = JSON.parse(localStorage.getItem('mirandaglow.perfil') || 'null');
+      const tipo = answers.tipo;
+      if (p && typeof tipo === 'string') localStorage.setItem('mirandaglow.perfil', JSON.stringify({ ...p, piel: tipo }));
+    } catch {}
+  }, [done]);
 
   const qs = visibleQuestions(answers);
   const Q = qs[Math.min(current, qs.length - 1)];
@@ -114,11 +125,11 @@ export default function Quiz() {
           <ul>{res.consejos.map((c) => <li key={c}>{c}</li>)}</ul>
         </div>
 
-        <p className="privacidad">Tus respuestas no salen de tu navegador: no las enviamos a ningún servidor. Esta rutina es orientativa y no sustituye la consulta con una dermatóloga.</p>
+        <p className="privacidad">Tus respuestas se guardan en este navegador, o en tu cuenta si la tienes (<a href="/cuenta">Mi cuenta</a>). Esta rutina es orientativa y no sustituye la consulta con una dermatóloga.</p>
 
         <div className="app-cta">
           <b>Sigue tu rutina cada día</b>
-          <p>Guárdala en la app: marca los pasos, sigue tu racha y mira qué activo toca cada noche. Se guarda solo en este dispositivo.</p>
+          <p>Ábrela en la app: marca los pasos, sigue tu racha y mira qué activo toca cada noche. Con una cuenta la tienes en todos tus dispositivos.</p>
           <button className="btn" onClick={() => {
             try { localStorage.setItem('mirandaglow.answers.v2', JSON.stringify(answers)); } catch {}
             window.location.href = '/app/routine';

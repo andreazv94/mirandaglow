@@ -30,6 +30,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
+  <script is:inline src="/js/cuenta.js" defer></script>
 </head>
 <body>
   <div class="page">
@@ -42,6 +43,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
             <a href="/ingredientes" class="hide-m">Ingredientes</a>
             <a href="/app/" class="hide-m">App</a>
             <a href="/sobre" class="hide-m">Quiénes somos</a>
+            <a href="/cuenta" data-cuenta-link>Entrar</a>
             <a class="btn" href="/test">Hacer el test</a>
           </div>
         </nav>
@@ -61,6 +63,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
             <a href="/ingredientes">Lector de ingredientes</a>
             <a href="/app/">App</a>
             <a href="/sobre">Quiénes somos</a>
+            <a href="/cuenta">Mi cuenta</a>
             <a href="/aviso-legal">Aviso legal</a>
             <a href="/privacidad">Privacidad</a>
             <a href="/cookies">Cookies</a>
