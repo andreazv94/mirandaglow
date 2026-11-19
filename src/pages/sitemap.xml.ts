@@ -10,6 +10,7 @@ export async function GET({ site }) {
     '/',
     '/test',
     '/blog',
+    '/ingredientes',
     '/sobre',
     '/aviso-legal',
     '/privacidad',
