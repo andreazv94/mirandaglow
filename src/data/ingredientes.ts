@@ -272,3 +272,41 @@ export function separar(texto: string): string[] {
     .map((s) => s.replace(/‚/g, ',').replace(/\.$/, '').trim())
     .filter((s) => s.length > 1 && s.length < 90);
 }
+
+// ---------- Búsqueda aproximada (para fotos con errores de lectura) ----------
+function distancia(a: string, b: string): number {
+  if (Math.abs(a.length - b.length) > 3) return 99;
+  const d = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    let prev = d[0]; d[0] = i;
+    for (let j = 1; j <= b.length; j++) {
+      const tmp = d[j];
+      d[j] = Math.min(d[j] + 1, d[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = tmp;
+    }
+  }
+  return d[b.length];
+}
+
+/** Como buscar(), pero tolera 1–2 letras mal leídas en nombres largos. */
+export function buscarAprox(nombre: string): Ingrediente | undefined {
+  const exacto = buscar(nombre);
+  if (exacto) return exacto;
+  const k = norm(nombre.replace(/\(.*?\)/g, ' '));
+  if (k.length < 6) return undefined;
+  const max = k.length >= 12 ? 2 : 1;
+  let mejor: Ingrediente | undefined; let md = max + 1;
+  for (const [clave, ing] of indice) {
+    const dd = distancia(k, clave);
+    if (dd < md) { md = dd; mejor = ing; }
+  }
+  return md <= max ? mejor : undefined;
+}
+
+/** Limpia el texto que sale de una foto: une palabras cortadas y quita lo que no es la lista. */
+export function limpiarOCR(t: string): string {
+  let s = t.replace(/-\s*\n\s*/g, '').replace(/\s*\n\s*/g, ' ');
+  const i = s.search(/(ingredients|ingredientes|inci)\s*[:.]/i);
+  if (i >= 0) s = s.slice(i).replace(/^(ingredients|ingredientes|inci)\s*[:.]\s*/i, '');
+  return s.replace(/\s{2,}/g, ' ').trim();
+}
