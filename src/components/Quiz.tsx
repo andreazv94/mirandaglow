@@ -174,7 +174,7 @@ function Styles() {
       .multi-hint{font-size:.95rem;color:var(--ink-soft);margin-bottom:22px}
       .q-stage h2 + .opts{margin-top:24px}
       .opts{display:grid;gap:10px;grid-template-columns:1fr 1fr}
-      .opt{background:var(--white);border:1.5px solid var(--line);border-radius:var(--radius);padding:16px 18px;cursor:pointer;text-align:left;font-size:1rem;display:flex;align-items:center;gap:12px;position:relative;font-family:inherit;color:var(--ink)}
+      .opt{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:18px 20px;cursor:pointer;text-align:left;font-size:1rem;display:flex;align-items:center;gap:12px;position:relative;font-family:inherit;color:var(--ink)}
       .opt:hover{border-color:var(--ink)}
       .opt.sel{border-color:var(--acento);background:var(--acento-tint)}
       .opt.off{opacity:.45}

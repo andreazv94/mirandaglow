@@ -1,12 +1,18 @@
 ---
+import '@fontsource-variable/newsreader/opsz.css';
+import '@fontsource-variable/newsreader/opsz-italic.css';
+import '@fontsource-variable/hanken-grotesk';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Cabecera transparente encima de una foto (portada) */
+  overlay?: boolean;
 }
 const {
   title = 'Miranda Glow — Tu rutina de skincare, hecha para ti',
+  overlay = false,
   description = 'Responde unas preguntas y recibe una rutina de cuidado facial pensada para tu piel, tu edad, tus hormonas y tus objetivos.',
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -24,13 +30,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet" />
 </head>
 <body>
   <div class="page">
-    <header class="topbar">
+    <header class={`topbar${overlay ? ' over' : ''}`}>
       <div class="wrap">
         <nav aria-label="Principal">
           <a class="logo" href="/">Miranda Glow</a>

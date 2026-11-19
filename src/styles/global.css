@@ -1,64 +1,72 @@
 /* ============================================================
    MIRANDA GLOW — estilos globales
-   Idea: "la parte de atrás del bote". Sobrio, legible y honesto.
-   Colores de la marca: opalita y turquesa (los mismos que la app).
+   Dirección: lujo suave. Fotos protagonistas, serifa fina,
+   mucho aire y los colores de la marca (opalita, turquesa, rosa).
+   Las fuentes van alojadas en la propia web (sin Google Fonts).
    ============================================================ */
 :root{
-  --paper:#F0F6F7;      /* fondo (opalita) */
+  --pearl:#F4F8F8;      /* fondo principal */
   --white:#FFFFFF;
-  --ink:#2E4347;        /* texto principal */
-  --ink-soft:#5B7276;   /* texto secundario */
-  --line:#D6E6E8;       /* bordes */
-  --acento:#2F8494;     /* turquesa: botones y enlaces (versión con buen contraste) */
-  --acento-claro:#5FB6C4;
-  --acento-tint:#DCEFF1;/* fondo suave y subrayado */
-  --salvia:#2F6B57;     /* anotaciones "funciona" */
-  --ambar:#A3620F;      /* anotaciones "ojo" */
-  --rosa:#F6DCE6;       /* toque rosado de la marca */
+  --mist:#E4F0F1;       /* opalita: fondos de sección */
+  --blush:#F6E7EA;      /* rosa suave */
+  --aqua:#A9D8DC;       /* turquesa claro de la marca */
+  --teal:#2B7C8B;       /* turquesa profundo: botones y enlaces */
+  --ink:#22363A;        /* texto principal */
+  --ink-soft:#5F7376;   /* texto secundario */
+  --line:#D3E3E5;
+  --salvia:#2F6B57;
+  --ambar:#9A5F17;
 
-  --font-ui:'Schibsted Grotesk',system-ui,sans-serif;
-  --font-read:'Source Serif 4',Georgia,serif;
-  --radius:6px;
+  --serif:'Newsreader Variable',Georgia,serif;
+  --sans:'Hanken Grotesk Variable',system-ui,sans-serif;
+  --radius:2px;
 
-  /* Nombres antiguos, para las páginas que aún los usan */
-  --bg:var(--paper); --bg-deep:#E2EEF0; --accent:var(--acento); --accent-deep:var(--acento);
-  --sage:#A9D8DC; --cream:var(--white);
+  /* Alias de versiones anteriores */
+  --paper:var(--pearl); --bg:var(--pearl); --bg-deep:var(--mist);
+  --acento:var(--teal); --accent:var(--teal); --accent-deep:var(--teal);
+  --acento-tint:var(--mist); --lila:var(--teal); --lila-tint:var(--mist);
+  --sage:var(--aqua); --cream:var(--white);
+  --font-ui:var(--sans); --font-read:var(--serif);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{font-family:var(--font-ui);background:var(--paper);color:var(--ink);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased}
-.page{position:relative}
-.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
-h1,h2,h3,.display{font-family:var(--font-ui);font-weight:700;line-height:1.08;letter-spacing:-.025em}
-h1{font-size:clamp(2.4rem,5.2vw,4rem)}
-h2{font-size:clamp(1.7rem,3.2vw,2.4rem)}
-h3{font-size:1.2rem;letter-spacing:-.01em;line-height:1.25}
-a{color:var(--acento)}
-:focus-visible{outline:2px solid var(--acento);outline-offset:3px;border-radius:2px}
+body{font-family:var(--sans);background:var(--pearl);color:var(--ink);line-height:1.6;font-size:16.5px;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+h1,h2,h3,.display{font-family:var(--serif);font-weight:300;line-height:1.04;letter-spacing:-.015em;font-variation-settings:"opsz" 72}
+h1{font-size:clamp(2.8rem,6.4vw,5.6rem)}
+h2{font-size:clamp(2rem,4vw,3.4rem)}
+h3{font-size:1.45rem;font-weight:400;line-height:1.2;font-variation-settings:"opsz" 24}
+a{color:var(--teal)}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.small{font-size:.86rem;color:var(--ink-soft)}
 
 /* NAV */
-.topbar{border-bottom:1px solid var(--line);background:var(--paper)}
-nav{display:flex;align-items:center;justify-content:space-between;height:68px}
-.logo{font-weight:700;font-size:1.25rem;letter-spacing:-.03em;color:var(--ink);text-decoration:none}
-.navlinks{display:flex;gap:28px;align-items:center;font-size:.95rem}
-.navlinks a{color:var(--ink-soft);text-decoration:none}
-.navlinks a:hover,.navlinks a[aria-current="page"]{color:var(--ink)}
-.navlinks .btn{color:var(--white);padding:9px 16px;font-size:.92rem}
+.topbar{position:relative;z-index:5;border-bottom:1px solid var(--line);background:var(--pearl)}
+.topbar.over{position:absolute;inset:0 0 auto 0;background:transparent;border-color:rgba(34,54,58,.12)}
+nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{font-family:var(--serif);font-size:1.6rem;font-weight:400;letter-spacing:-.01em;color:var(--ink);text-decoration:none;font-variation-settings:"opsz" 36}
+.navlinks{display:flex;gap:34px;align-items:center;font-size:.92rem}
+.navlinks a{color:var(--ink);text-decoration:none;opacity:.8}
+.navlinks a:hover{opacity:1}
+.navlinks .btn{opacity:1;color:var(--white)}
 
-.btn{font-family:var(--font-ui);font-size:1rem;font-weight:600;cursor:pointer;border:1.5px solid var(--acento);background:var(--acento);color:var(--white);padding:13px 22px;border-radius:var(--radius);text-decoration:none;display:inline-block;transition:background .15s,border-color .15s}
-.btn:hover{background:var(--ink);border-color:var(--ink)}
-.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
-.btn.ghost:hover{border-color:var(--ink);background:transparent}
+.btn{font-family:var(--sans);font-size:.92rem;font-weight:500;letter-spacing:.01em;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--white);padding:15px 28px;border-radius:999px;text-decoration:none;display:inline-block;transition:background .2s,color .2s,border-color .2s}
+.btn:hover{background:var(--teal);border-color:var(--teal)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:rgba(34,54,58,.35)}
+.btn.ghost:hover{border-color:var(--ink);background:rgba(255,255,255,.4)}
+.navlinks .btn{padding:10px 20px}
 
-footer{margin-top:40px;border-top:1px solid var(--line);padding:44px 0 40px;color:var(--ink-soft);font-size:.9rem}
-.foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
-.foot-links{display:flex;gap:22px;flex-wrap:wrap}
-.foot-links a{color:var(--ink-soft);text-decoration:none}
-.foot-links a:hover{color:var(--ink)}
-.disc{margin-top:22px;font-size:.82rem;max-width:72ch;line-height:1.6}
+footer{background:var(--ink);color:#C9D9DB;padding:72px 0 44px;font-size:.9rem}
+footer .logo{color:var(--white);font-size:2.2rem}
+.foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:28px;align-items:flex-end}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap}
+.foot-links a{color:#C9D9DB;text-decoration:none}
+.foot-links a:hover{color:var(--white)}
+.disc{margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14);font-size:.82rem;max-width:80ch;line-height:1.65;color:#9DB3B6}
 
 @media(max-width:860px){
   .navlinks .hide-m{display:none}
-  body{font-size:16px}
+  .wrap{padding:0 22px}
 }
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
