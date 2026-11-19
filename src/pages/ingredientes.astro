@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LectorIngredientes from '../components/LectorIngredientes.tsx';
+import { ingredientes } from '../data/ingredientes';
+---
+<Layout
+  title="Lector de ingredientes — Miranda Glow"
+  description="Pega la lista de ingredientes de cualquier crema o sérum y te explicamos qué lleva, para qué sirve cada cosa y qué conviene vigilar."
+>
+  <section class="lector wrap">
+    <header class="lector-head">
+      <h1>Lector de ingredientes</h1>
+      <p>
+        Pega la lista de ingredientes de cualquier crema, sérum o limpiador y te explicamos qué lleva,
+        para qué sirve cada cosa y qué conviene vigilar. Sin puntuaciones ni notas inventadas.
+      </p>
+      <p class="small">Ahora mismo conocemos {ingredientes.length} ingredientes de los más habituales y vamos añadiendo más.</p>
+    </header>
+    <LectorIngredientes client:load />
+  </section>
+</Layout>
+
+<style is:global>
+  .lector{max-width:880px;padding-top:64px;padding-bottom:96px}
+  .lector-head{margin-bottom:40px}
+  .lector-head h1{margin-bottom:18px}
+  .lector-head p{font-family:var(--serif);font-size:1.18rem;line-height:1.6;color:var(--ink-soft);max-width:60ch;margin-bottom:10px}
+  .lector-head .small{font-family:var(--sans);font-size:.88rem}
+
+  .lx-form{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:32px}
+  .lx-label{display:block;font-weight:600;margin-bottom:10px}
+  .lx textarea{width:100%;font:inherit;font-size:.98rem;line-height:1.55;color:var(--ink);background:var(--pearl);border:1px solid var(--line);border-radius:12px;padding:14px 16px;resize:vertical}
+  .lx textarea:focus{outline:2px solid var(--teal);outline-offset:1px;background:var(--white)}
+  .lx-help{font-size:.88rem;color:var(--ink-soft);margin-top:8px}
+  .lx-checks{border:none;margin:24px 0;display:grid;gap:10px}
+  .lx-checks legend{font-size:.92rem;color:var(--ink-soft);margin-bottom:10px}
+  .lx-checks label{display:flex;gap:10px;align-items:center;font-size:.97rem;cursor:pointer}
+  .lx-checks input{width:18px;height:18px;accent-color:var(--teal)}
+  .lx-actions{display:flex;gap:12px;flex-wrap:wrap}
+  .lx-actions .btn[disabled]{opacity:.4;cursor:not-allowed}
+
+  .lx-res{margin-top:64px;scroll-margin-top:24px}
+  .lx-res h2{margin-bottom:10px}
+  .lx-sum{color:var(--ink-soft);margin-bottom:28px}
+  .lx-res h3{font-family:var(--serif);font-weight:400;font-size:1.45rem;margin-bottom:6px}
+  .lx-avisos{display:grid;gap:12px;margin-bottom:40px}
+  .lx-aviso{border-radius:14px;padding:20px 22px;background:var(--white);border:1px solid var(--line)}
+  .lx-aviso p{color:var(--ink-soft);font-size:.97rem}
+  .lx-aviso .lx-quien{margin-top:8px;color:var(--ink);font-weight:500;font-size:.92rem}
+  .lx-alto{background:#FBF1E4;border-color:#EBD2AE}
+  .lx-alto h3{color:var(--ambar)}
+  .lx-medio{background:var(--blush);border-color:#EDD3D9}
+  .lx-ok{background:#E7F2EC;border-color:#C9E2D4;margin-bottom:40px}
+
+  .lx-hace{margin-bottom:48px}
+  .lx-hace dl{margin-top:12px;border-top:1px solid var(--line)}
+  .lx-hace dl div{display:grid;grid-template-columns:160px 1fr;gap:18px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .lx-hace dt{color:var(--ink-soft);font-size:.92rem}
+  .lx-hace em{font-style:normal;color:var(--ink-soft);font-size:.9rem}
+
+  .lx-tabla-h{margin-bottom:14px!important}
+  .lx-tabla{list-style:none;border-top:1px solid var(--line)}
+  .lx-tabla li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .lx-pos{font-family:var(--serif);font-size:1.25rem;color:var(--teal);line-height:1.3}
+  .lx-n{font-weight:600;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+  .lx-tipo{font-weight:400;font-size:.84rem;color:var(--ink-soft)}
+  .lx-que{color:var(--ink-soft);font-size:.95rem;margin-top:2px}
+  .lx-desc .lx-n{color:var(--ink-soft);font-weight:500}
+  .lx-flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .lx-flags span{font-size:.8rem;padding:3px 10px;border-radius:999px}
+  .f-emb{background:#FBF1E4;color:var(--ambar)}
+  .f-perf{background:var(--blush);color:#8A4A5C}
+  .f-sens{background:var(--mist);color:var(--teal)}
+  .f-sol{background:#FFF6D9;color:#7A5B00}
+  .lx-nota{margin-top:28px;font-size:.86rem;color:var(--ink-soft);max-width:72ch}
+
+  @media(max-width:700px){
+    .lx-form{padding:22px 18px}
+    .lx-hace dl div{grid-template-columns:1fr;gap:2px}
+  }
+</style>
