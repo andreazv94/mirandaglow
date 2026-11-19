@@ -14,7 +14,7 @@ import { ingredientes } from '../data/ingredientes';
         Pega la lista de ingredientes de cualquier crema, sérum o limpiador y te explicamos qué lleva,
         para qué sirve cada cosa y qué conviene vigilar. Sin puntuaciones ni notas inventadas.
       </p>
-      <p class="small">Ahora mismo conocemos {ingredientes.length} ingredientes de los más habituales y vamos añadiendo más.</p>
+      <p class="small">Ahora mismo conocemos {ingredientes.length} ingredientes de los más habituales y vamos añadiendo más. <a href="/ingredientes/todos">Ver todos de la A a la Z</a>.</p>
     </header>
     <LectorIngredientes client:load />
   </section>
@@ -62,6 +62,7 @@ import { ingredientes } from '../data/ingredientes';
   .lx-tabla{list-style:none;border-top:1px solid var(--line)}
   .lx-tabla li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
   .lx-pos{font-family:var(--serif);font-size:1.25rem;color:var(--teal);line-height:1.3}
+  .lx-n a{color:var(--teal)}
   .lx-n{font-weight:600;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
   .lx-tipo{font-weight:400;font-size:.84rem;color:var(--ink-soft)}
   .lx-que{color:var(--ink-soft);font-size:.95rem;margin-top:2px}
