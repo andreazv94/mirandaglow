@@ -112,7 +112,10 @@ export default function LectorIngredientes() {
 
   // /ingredientes?crema=ID abre una crema guardada
   useEffect(() => {
-    const id = new URLSearchParams(location.search).get('crema');
+    const q = new URLSearchParams(location.search);
+    const lista = q.get('lista');
+    if (lista) { setTexto(lista); setVerTexto(true); analizar(lista); return; }
+    const id = q.get('crema');
     const c = id && leerCremas().find((x) => x.id === id);
     if (c) { setTexto(c.inci); setVerTexto(true); setNombreCrema(c.nombre); setGuardada(c.id); analizar(c.inci); }
   }, []);

@@ -218,7 +218,7 @@ export const ingredientes: Ingrediente[] = [
   { n: 'Sodium Lauroyl Sarcosinate', tipo: 'limpiador', que: 'Limpiador suave.' },
 
   // ---------- Alcohol ----------
-  { n: 'Alcohol Denat.', alias: ['alcohol denat', 'alcohol', 'sd alcohol', 'ethanol', 'sd alcohol 40'], tipo: 'base', que: 'Alcohol. Da sensación de frescor y ayuda a que el producto se seque rápido.', sensible: 'Si va entre los primeros ingredientes, puede resecar e irritar.' },
+  { n: 'Alcohol Denat.', alias: ['alcohol denat', 'sd alcohol', 'ethanol', 'sd alcohol 40'], tipo: 'base', que: 'Alcohol. Da sensación de frescor y ayuda a que el producto se seque rápido.', sensible: 'Si va entre los primeros ingredientes, puede resecar e irritar.' },
   { n: 'Benzyl Alcohol', tipo: 'conservante', que: 'Conservante y componente del perfume que hay que declarar.', alergeno: true },
 
   // ---------- Perfume y alérgenos ----------
@@ -237,6 +237,54 @@ export const ingredientes: Ingrediente[] = [
   { n: 'Mentha Piperita Oil', alias: ['peppermint oil'], tipo: 'perfume', que: 'Aceite esencial de menta. Da frescor.', sensible: 'Puede irritar.' },
   { n: 'Menthol', tipo: 'perfume', que: 'Mentol. Da sensación de frescor.', sensible: 'Puede irritar pieles sensibles.' },
   { n: 'Eucalyptus Globulus Leaf Oil', alias: ['eucalyptus oil'], tipo: 'perfume', que: 'Aceite esencial de eucalipto.', sensible: 'Puede irritar.' },
+  // --- Añadidos para los análisis de cremas ---
+  { n: 'Lanolin Alcohol', alias: ['lanolin alcohol (eucerit)', 'eucerit', 'alcohol de lanolina'], tipo: 'emoliente', que: 'Alcohol graso de la lanolina (Eucerit®). Suaviza y ayuda a mezclar agua y aceite. No reseca.', sensible: 'Puede dar alergia a algunas personas, sobre todo con eccema.' },
+  { n: 'Cera Microcristallina', alias: ['microcrystalline wax', 'cera microcristalina'], tipo: 'emoliente', que: 'Cera mineral. Forma una capa protectora y da cuerpo.' },
+  { n: 'Paraffin', alias: ['parafina'], tipo: 'emoliente', que: 'Cera mineral. Protege y evita la pérdida de agua.' },
+  { n: 'Magnesium Sulfate', tipo: 'base', que: 'Sal de magnesio. Estabiliza las cremas ricas (agua dentro de aceite).' },
+  { n: 'Decyl Oleate', tipo: 'emoliente', que: 'Emoliente que deja la piel suave y ayuda a extender la crema.' },
+  { n: 'Aluminum Stearates', alias: ['aluminium stearates'], tipo: 'textura', que: 'Ayuda a espesar y estabilizar la fórmula.' },
+  { n: 'Magnesium Stearate', tipo: 'textura', que: 'Ayuda a espesar y da tacto suave.' },
+  { n: 'Ceteareth-20', tipo: 'textura', que: 'Emulsionante: mantiene mezclados el agua y los aceites.' },
+  { n: 'Behentrimonium Methosulfate', tipo: 'textura', que: 'Emulsionante suave que deja un tacto sedoso.' },
+  { n: 'Potassium Phosphate', tipo: 'base', que: 'Ajusta el pH de la fórmula.' },
+  { n: 'Dipotassium Phosphate', tipo: 'base', que: 'Ajusta el pH de la fórmula.' },
+  { n: 'Sodium Lauroyl Lactylate', tipo: 'textura', que: 'Emulsionante suave, de origen vegetal.' },
+  { n: 'Zea Mays Starch', alias: ['zea mays (corn) starch', 'corn starch'], tipo: 'textura', que: 'Almidón de maíz. Da tacto seco, menos graso.' },
+  { n: 'Trihydroxystearin', tipo: 'textura', que: 'Espesante para fórmulas con aceite.' },
+  { n: 'Cetyl PEG/PPG-10/1 Dimethicone', tipo: 'textura', que: 'Emulsionante de silicona: mezcla agua y aceite.' },
+  { n: 'Polymnia Sonchifolia Root Juice', alias: ['yacon root juice'], tipo: 'hidratante', que: 'Jugo de raíz de yacón. Azúcares que hidratan y alimentan la flora de la piel.' },
+  { n: 'Zinc Gluconate', tipo: 'calmante', que: 'Zinc. Calma y ayuda a la reparación de la piel.' },
+  { n: 'Manganese Gluconate', tipo: 'base', que: 'Mineral (manganeso). Se usa junto al zinc en cremas reparadoras.' },
+  { n: 'Alpha-Glucan Oligosaccharide', tipo: 'base', que: 'Azúcar prebiótico: ayuda al equilibrio de la flora de la piel.' },
+  { n: 'Aluminum Hydroxide', tipo: 'textura', que: 'Mineral que estabiliza pigmentos y da textura.' },
+  { n: 'Mannose', tipo: 'hidratante', que: 'Azúcar que ayuda a retener agua.' },
+  { n: 'Capryloyl Glycine', tipo: 'base', que: 'Ajusta la fórmula y ayuda a frenar bacterias.' },
+  { n: 'Vitreoscilla Ferment', tipo: 'calmante', que: 'Fermento de bacteria usado en cremas para piel sensible.' },
+  { n: 'Trisodium Ethylenediamine Disuccinate', tipo: 'base', que: 'Estabilizante: evita que los minerales del agua estropeen la fórmula.' },
+  { n: 'Lactobacillus', alias: ['lactobacillus ferment'], tipo: 'base', que: 'Fermento de bacterias "buenas" (inactivas). Parte del complejo prebiótico.' },
+  { n: 'Acetylated Glycol Stearate', tipo: 'textura', que: 'Da textura y estabilidad.' },
+  { n: 'Maltodextrin', tipo: 'base', que: 'Azúcar que sirve de soporte para otros ingredientes.' },
+  { n: 'Polyglyceryl-4 Isostearate', tipo: 'textura', que: 'Emulsionante: mezcla agua y aceite.' },
+  { n: 'Pentaerythrityl Tetra-Di-T-Butyl Hydroxyhydrocinnamate', tipo: 'base', que: 'Antioxidante que protege la fórmula (no la piel).' },
+  { n: 'Dibutyl Adipate', tipo: 'emoliente', que: 'Emoliente ligero que ayuda a disolver los filtros solares.' },
+  { n: 'Phenylbenzimidazole Sulfonic Acid', alias: ['ensulizole'], tipo: 'filtro', que: 'Filtro solar UVB que se disuelve en agua; da texturas ligeras.' },
+  { n: 'Diisopropyl Sebacate', tipo: 'emoliente', que: 'Emoliente ligero, tacto seco.' },
+  { n: 'Arginine', tipo: 'base', que: 'Aminoácido. Ajusta el pH y forma parte de la hidratación natural de la piel.' },
+  { n: 'Hydroxyacetophenone', tipo: 'conservante', que: 'Ayuda a conservar la fórmula y tiene efecto calmante.' },
+  { n: 'Lauryl PEG/PPG-18/18 Methicone', tipo: 'textura', que: 'Emulsionante de silicona.' },
+  { n: 'VP/Eicosene Copolymer', tipo: 'textura', que: 'Ayuda a que el protector resista al agua y al sudor.' },
+  { n: 'Polysorbate 60', tipo: 'textura', que: 'Emulsionante: mezcla agua y aceite.' },
+  { n: 'Dimethicone/Vinyl Dimethicone Crosspolymer', tipo: 'textura', que: 'Silicona en polvo: tacto sedoso y efecto mate.' },
+  { n: 'Hydrated Silica', tipo: 'textura', que: 'Polvo mineral que absorbe brillos.' },
+  { n: 'PEG-10 Dimethicone', tipo: 'textura', que: 'Emulsionante de silicona.' },
+  { n: 'Sclerotium Gum', tipo: 'textura', que: 'Espesante natural.' },
+  { n: 'Porphyridium Cruentum Extract', tipo: 'antioxidante', que: 'Extracto de microalga roja. Antioxidante.' },
+  { n: 'Xylitol', tipo: 'hidratante', que: 'Azúcar vegetal que ayuda a retener agua.' },
+  { n: 'Xylitylglucoside', tipo: 'hidratante', que: 'Derivado del xilitol que mejora la hidratación de la piel.' },
+  { n: 'Anhydroxylitol', tipo: 'hidratante', que: 'Derivado del xilitol que mejora la hidratación de la piel.' },
+  { n: 'Sodium Polyacrylate Starch', tipo: 'textura', que: 'Espesante que da textura de gel.' },
+  { n: 'CI 42090', alias: ['blue 1'], tipo: 'color', que: 'Colorante azul. Solo da color al producto.' },
   // --- Añadidos tras probar etiquetas reales ---
   { n: 'C13-15 Alkane', alias: ['c13 15 alkane'], tipo: 'emoliente', que: 'Emoliente ligero, a menudo de origen vegetal. Deja la piel suave sin sensación grasa.' },
   { n: 'Glyceryl Stearate Citrate', tipo: 'textura', que: 'Emulsionante suave: mantiene mezclados el agua y los aceites.' },
@@ -299,7 +347,10 @@ function variantes(nombre: string): string[] {
   const v = [nombre, nombre.replace(/\(.*?\)/g, ' ')];
   const dentro = nombre.match(/\((.*?)\)/)?.[1];
   if (dentro) v.push(dentro);
-  for (const parte of nombre.split(/\s*[\/|]\s*/)) if (parte !== nombre) v.push(parte, parte.replace(/\(.*?\)/g, ' '));
+  // "Aqua / Water / Eau" sí; "PEG/PPG-18/18 Methicone" no (las partes no son nombres por sí solas)
+  const partes = nombre.split(/\s*[\/|]\s*/);
+  if (partes.length > 1 && partes.every((x) => /^[a-zA-Z(]/.test(x.trim()) && x.replace(/[^a-zA-Z]/g, '').length >= 4))
+    for (const parte of partes) v.push(parte, parte.replace(/\(.*?\)/g, ' '));
   return v.filter((x) => x.trim().length > 1);
 }
 
@@ -347,7 +398,9 @@ function aprox(s: string): { ing?: Ingrediente; d: number } {
   // cuantas más letras, más errores toleramos
   const max = k.length >= 20 ? 3 : k.length >= 10 ? 2 : 1;
   let mejor: Ingrediente | undefined; let md = max + 1;
+  const num = (x: string) => (x.match(/\d+/g) || []).join(',');
   for (const [clave, ing] of indiceC) {
+    if (num(clave) !== num(k)) continue; // "Polysorbate 60" no es "Polysorbate 20"
     const dd = distancia(k, clave, max);
     if (dd < md) { md = dd; mejor = ing; }
   }
@@ -381,7 +434,8 @@ export function analizarLista(texto: string): Fila[] {
     let partido: Fila[] | undefined;
     for (let i = 1; i < pal.length && !partido; i++) {
       const a = pal.slice(0, i).join(' '), b = pal.slice(i).join(' ');
-      const ia = buscarAprox(a), ib = buscarAprox(b);
+      // solo si las dos mitades son nombres que conocemos tal cual (sin adivinar)
+      const ia = buscar(a), ib = buscar(b);
       if (ia && ib) partido = [{ texto: a, ing: ia }, { texto: b, ing: ib }];
     }
     out.push(...(partido || [{ texto: t }]));
