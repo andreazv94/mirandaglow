@@ -237,45 +237,98 @@ export const ingredientes: Ingrediente[] = [
   { n: 'Mentha Piperita Oil', alias: ['peppermint oil'], tipo: 'perfume', que: 'Aceite esencial de menta. Da frescor.', sensible: 'Puede irritar.' },
   { n: 'Menthol', tipo: 'perfume', que: 'Mentol. Da sensación de frescor.', sensible: 'Puede irritar pieles sensibles.' },
   { n: 'Eucalyptus Globulus Leaf Oil', alias: ['eucalyptus oil'], tipo: 'perfume', que: 'Aceite esencial de eucalipto.', sensible: 'Puede irritar.' },
+  // --- Añadidos tras probar etiquetas reales ---
+  { n: 'C13-15 Alkane', alias: ['c13 15 alkane'], tipo: 'emoliente', que: 'Emoliente ligero, a menudo de origen vegetal. Deja la piel suave sin sensación grasa.' },
+  { n: 'Glyceryl Stearate Citrate', tipo: 'textura', que: 'Emulsionante suave: mantiene mezclados el agua y los aceites.' },
+  { n: 'C10-18 Triglycerides', alias: ['c10 18 triglycerides'], tipo: 'emoliente', que: 'Aceite vegetal ligero. Suaviza y da buena textura.' },
+  { n: 'Carthamus Tinctorius Seed Oil', alias: ['carthamus tinctorius oleosomes', 'carthamus tinctorius (safflower) oleosomes', 'safflower oil', 'safflower oleosomes', 'carthamus tinctorius (safflower) seed oil'], tipo: 'emoliente', que: 'Aceite de cártamo. Rico en ácido linoleico: nutre y refuerza la barrera.' },
+  { n: 'Octyldodecanol', tipo: 'emoliente', que: 'Emoliente que deja la piel suave y ayuda a extender la crema.' },
+  { n: 'Opuntia Ficus-Indica Stem Extract', alias: ['opuntia ficus indica stem extract'], tipo: 'hidratante', que: 'Extracto de chumbera (nopal). Ayuda a retener agua.' },
+  { n: 'Hydrogenated Castor Oil', tipo: 'textura', que: 'Aceite de ricino endurecido. Da cuerpo a la fórmula.' },
+  { n: 'Ricinus Communis Seed Oil', alias: ['castor oil', 'ricinus communis (castor) seed oil'], tipo: 'emoliente', que: 'Aceite de ricino. Espeso y nutritivo; muy usado en bálsamos de labios.' },
+  { n: 'Glycine Soja Oil', alias: ['glycine soja (soybean) oil', 'soybean oil', 'glycine soja seed oil'], tipo: 'emoliente', que: 'Aceite de soja. Nutre y suaviza.' },
+  { n: 'Ceratonia Siliqua Seed Extract', alias: ['ceratonia siliqua (carob) seed extract', 'ceratonia siliqua gum', 'carob seed extract'], tipo: 'textura', que: 'Extracto de semilla de algarrobo. Aporta textura y algo de hidratación.' },
+  { n: 'Stearic Acid', tipo: 'textura', que: 'Ácido graso que da cuerpo a cremas y limpiadores.' },
+  { n: 'Coco-Caprylate/Caprate', alias: ['coco caprylate caprate', 'coco-caprylate'], tipo: 'emoliente', que: 'Emoliente ligero de coco. Alternativa a las siliconas.' },
+  { n: 'Dicaprylyl Carbonate', tipo: 'emoliente', que: 'Emoliente seco y ligero. Se absorbe rápido.' },
+  { n: 'Acrylates/C10-30 Alkyl Acrylate Crosspolymer', alias: ['acrylates c10 30 alkyl acrylate crosspolymer', 'acrylates copolymer'], tipo: 'textura', que: 'Espesante que da textura de gel o crema.' },
+  { n: 'Sodium Citrate', tipo: 'base', que: 'Ajusta el pH de la fórmula.' },
+  { n: 'Helianthus Annuus Seed Oil', alias: ['sunflower seed oil', 'helianthus annuus (sunflower) seed oil'], tipo: 'emoliente', que: 'Aceite de girasol. Nutre y ayuda a la barrera.' },
+  { n: 'Prunus Amygdalus Dulcis Oil', alias: ['sweet almond oil', 'prunus amygdalus dulcis (sweet almond) oil'], tipo: 'emoliente', que: 'Aceite de almendras dulces. Nutre pieles secas.' },
+  { n: 'Olea Europaea Fruit Oil', alias: ['olive oil', 'olea europaea (olive) fruit oil'], tipo: 'emoliente', que: 'Aceite de oliva. Nutritivo; algo pesado para pieles grasas.' },
+  { n: 'Isododecane', tipo: 'textura', que: 'Ingrediente ligero que se evapora; muy usado en maquillaje de larga duración.' },
+  { n: 'Hydrogenated Polyisobutene', tipo: 'emoliente', que: 'Emoliente que deja película suave y brillo.' },
+  { n: 'Cera Alba', alias: ['beeswax'], tipo: 'emoliente', que: 'Cera de abeja. Protege y da cuerpo a bálsamos.' },
+  { n: 'Cetyl Esters', tipo: 'emoliente', que: 'Ceras suaves que dan textura cremosa.' },
+  { n: 'Lecithin', alias: ['hydrogenated lecithin'], tipo: 'textura', que: 'Emulsionante de origen vegetal (soja o girasol).' },
+  { n: 'Glyceryl Caprylate', tipo: 'emoliente', que: 'Emoliente que además ayuda a conservar la fórmula.' },
+  { n: 'Arachidyl Alcohol', alias: ['arachidyl glucoside'], tipo: 'textura', que: 'Emulsionante vegetal que da textura cremosa.' },
+  { n: 'Sodium Lactate', tipo: 'hidratante', que: 'Hidratante: forma parte del factor de hidratación natural de la piel.' },
+  { n: 'Calendula Officinalis Flower Extract', alias: ['calendula extract'], tipo: 'calmante', que: 'Extracto de caléndula. Calmante suave.', sensible: 'Puede dar alergia si reaccionas a margaritas o manzanilla.' },
+  { n: 'Hamamelis Virginiana Water', alias: ['hamamelis virginiana leaf extract', 'witch hazel'], tipo: 'calmante', que: 'Hamamelis. Algo astringente y calmante.', sensible: 'Algunas versiones llevan alcohol y pueden resecar.' },
+  { n: 'Kaolin', alias: ['white clay'], tipo: 'limpiador', que: 'Arcilla blanca. Absorbe la grasa; típica en mascarillas.' },
+  { n: 'Nylon-12', alias: ['nylon 12'], tipo: 'textura', que: 'Polvo fino que da acabado mate.' },
+  { n: 'Polymethyl Methacrylate', tipo: 'textura', que: 'Microesferas que suavizan la textura y matifican.' },
+  { n: 'Sodium Chloride', tipo: 'base', que: 'Sal común. Espesa limpiadores y geles.' },
+  { n: 'Squalene', tipo: 'emoliente', que: 'Lípido que la piel produce de forma natural. Suaviza.' },
   { n: 'Melaleuca Alternifolia Leaf Oil', alias: ['tea tree oil'], tipo: 'activo', que: 'Aceite de árbol de té. Algo de efecto sobre granitos.', sensible: 'Puede irritar y dar alergia, sobre todo si está oxidado.' },
 ];
 
 // ---------- Búsqueda ----------
 const norm = (s: string) =>
-  s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').replace(/\*+/g, '').trim();
+  s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[*"“”’‘®°]+/g, '').replace(/\s+/g, ' ').trim();
+/** Sin espacios ni signos: "SODIUMPHYTATE" y "Sodium Phytate" quedan iguales. */
+const compacto = (s: string) => norm(s).replace(/[^a-z0-9]/g, '');
 
 const indice = new Map<string, Ingrediente>();
+const indiceC = new Map<string, Ingrediente>();
 for (const i of ingredientes) {
-  indice.set(norm(i.n), i);
-  for (const a of i.alias || []) indice.set(norm(a), i);
+  for (const nombre of [i.n, ...(i.alias || [])]) {
+    indice.set(norm(nombre), i);
+    if (!indiceC.has(compacto(nombre))) indiceC.set(compacto(nombre), i);
+  }
+}
+
+function exacto(s: string): Ingrediente | undefined {
+  return indice.get(norm(s)) || indiceC.get(compacto(s));
+}
+
+/** Formas en las que puede venir un mismo ingrediente: "Aqua / Water / Eau", "Butyrospermum Parkii (Shea) Butter"… */
+function variantes(nombre: string): string[] {
+  const v = [nombre, nombre.replace(/\(.*?\)/g, ' ')];
+  const dentro = nombre.match(/\((.*?)\)/)?.[1];
+  if (dentro) v.push(dentro);
+  for (const parte of nombre.split(/\s*[\/|]\s*/)) if (parte !== nombre) v.push(parte, parte.replace(/\(.*?\)/g, ' '));
+  return v.filter((x) => x.trim().length > 1);
 }
 
 export function buscar(nombre: string): Ingrediente | undefined {
-  const k = norm(nombre);
-  if (indice.has(k)) return indice.get(k);
-  // "Aqua (Water)", "Butyrospermum Parkii (Shea) Butter"…
-  const sinParentesis = norm(k.replace(/\(.*?\)/g, ' '));
-  if (indice.has(sinParentesis)) return indice.get(sinParentesis);
-  const dentro = k.match(/\((.*?)\)/)?.[1];
-  if (dentro && indice.has(norm(dentro))) return indice.get(norm(dentro));
-  // "Water/Aqua/Eau"
-  for (const parte of k.split('/')) if (indice.has(norm(parte))) return indice.get(norm(parte));
+  // Colorantes "CI 77891": manda el número (la foto a veces lee "C1" o "Cl")
+  const ci = nombre.match(/^\s*[cC][iIl1]\s?(\d{5})\b/); // solo si empieza por "CI": "Titanium Dioxide (CI 77891)" en un solar sigue siendo filtro
+  if (ci && indice.has(`ci ${ci[1]}`)) return indice.get(`ci ${ci[1]}`);
+  for (const v of variantes(nombre)) {
+    const r = exacto(v);
+    if (r) return r;
+  }
   return undefined;
 }
 
 /** Separa una lista INCI pegada (comas, puntos y comas, saltos de línea o "•"). */
 export function separar(texto: string): string[] {
   return texto
-    .replace(/^\s*(ingredients|ingredientes|inci)\s*:/i, '')
+    .replace(/^\s*(ingredients|ingredientes|ingrédients|inci)\s*:/i, '')
     .replace(/(\d),(\d)/g, '$1‚$2') // protege "1,2-Hexanediol"
     .split(/[,;\n•·]|\s\|\s/)
-    .map((s) => s.replace(/‚/g, ',').replace(/\.$/, '').trim())
-    .filter((s) => s.length > 1 && s.length < 90);
+    .map((s) => s.replace(/‚/g, ',').replace(/^[^A-Za-z0-9(]+|[^A-Za-z0-9)]+$/g, '').trim())
+    .filter((s) => s.length > 1 && s.length < 90)
+    // fuera lo que no es un ingrediente: webs, porcentajes, frases largas
+    .filter((s) => !/www\.|@|%|made in/i.test(s) && s.split(/\s+/).length <= 9);
 }
 
 // ---------- Búsqueda aproximada (para fotos con errores de lectura) ----------
-function distancia(a: string, b: string): number {
-  if (Math.abs(a.length - b.length) > 3) return 99;
+function distancia(a: string, b: string, max: number): number {
+  if (Math.abs(a.length - b.length) > max) return 99;
   const d = Array.from({ length: b.length + 1 }, (_, i) => i);
   for (let i = 1; i <= a.length; i++) {
     let prev = d[0]; d[0] = i;
@@ -288,25 +341,84 @@ function distancia(a: string, b: string): number {
   return d[b.length];
 }
 
-/** Como buscar(), pero tolera 1–2 letras mal leídas en nombres largos. */
-export function buscarAprox(nombre: string): Ingrediente | undefined {
-  const exacto = buscar(nombre);
-  if (exacto) return exacto;
-  const k = norm(nombre.replace(/\(.*?\)/g, ' '));
-  if (k.length < 6) return undefined;
-  const max = k.length >= 12 ? 2 : 1;
+function aprox(s: string): { ing?: Ingrediente; d: number } {
+  const k = compacto(s);
+  if (k.length < 5) return { d: 99 };
+  // cuantas más letras, más errores toleramos
+  const max = k.length >= 20 ? 3 : k.length >= 10 ? 2 : 1;
   let mejor: Ingrediente | undefined; let md = max + 1;
-  for (const [clave, ing] of indice) {
-    const dd = distancia(k, clave);
+  for (const [clave, ing] of indiceC) {
+    const dd = distancia(k, clave, max);
     if (dd < md) { md = dd; mejor = ing; }
   }
-  return md <= max ? mejor : undefined;
+  return md <= max ? { ing: mejor, d: md } : { d: 99 };
 }
 
-/** Limpia el texto que sale de una foto: une palabras cortadas y quita lo que no es la lista. */
+/** Como buscar(), pero tolera letras mal leídas y palabras pegadas. */
+export function buscarAprox(nombre: string): Ingrediente | undefined {
+  const r = buscar(nombre);
+  if (r) return r;
+  let mejor: { ing?: Ingrediente; d: number } = { d: 99 };
+  for (const v of variantes(nombre)) {
+    const a = aprox(v);
+    if (a.d < mejor.d) mejor = a;
+  }
+  return mejor.ing;
+}
+
+export type Fila = { texto: string; ing?: Ingrediente };
+
+/**
+ * Separa y reconoce. Si la foto se comió una coma ("Sodium Hydroxide Tocopherol"),
+ * prueba a partirlo en dos ingredientes conocidos.
+ */
+export function analizarLista(texto: string): Fila[] {
+  const out: Fila[] = [];
+  for (const t of separar(texto)) {
+    const ing = buscarAprox(t);
+    if (ing) { out.push({ texto: t, ing }); continue; }
+    const pal = t.split(/\s+/);
+    let partido: Fila[] | undefined;
+    for (let i = 1; i < pal.length && !partido; i++) {
+      const a = pal.slice(0, i).join(' '), b = pal.slice(i).join(' ');
+      const ia = buscarAprox(a), ib = buscarAprox(b);
+      if (ia && ib) partido = [{ texto: a, ing: ia }, { texto: b, ing: ib }];
+    }
+    out.push(...(partido || [{ texto: t }]));
+  }
+  // la misma cosa dos veces seguidas (nombre latino + nombre común partidos por la foto)
+  return out.filter((f, i) => !(f.ing && out[i - 1]?.ing === f.ing));
+}
+
+/** Limpia el texto que sale de una foto: une líneas, quita bordes y lo que no es la lista. */
 export function limpiarOCR(t: string): string {
-  let s = t.replace(/-\s*\n\s*/g, '').replace(/\s*\n\s*/g, ' ');
-  const i = s.search(/(ingredients|ingredientes|inci)\s*[:.]/i);
-  if (i >= 0) s = s.slice(i).replace(/^(ingredients|ingredientes|inci)\s*[:.]\s*/i, '');
-  return s.replace(/\s{2,}/g, ' ').trim();
+  const lineas = t.split('\n').map((l) =>
+    l
+      .replace(/^[^A-Za-z0-9(]+/, '')            // "| GLYCOL", "~ GLYCERIN": el borde de la caja
+      .replace(/^[a-z]{1,2}\s+(?=[A-Z(])/, '')    // "i (SOYBEAN)"
+      .replace(/[\s|~_=—–]+$/, '')
+      .replace(/\s+[^\sA-Za-z0-9]{1,3}$/, '')
+      .trim(),
+  );
+  let s = lineas.join('\n').replace(/-\n/g, '-').replace(/\n/g, ' ');
+
+  // Empieza en "Ingredients:" (o en su última variante: "INGREDIENTS/INGRÉDIENTS/INGREDIENTES:")
+  const cab = [...s.matchAll(/(ingredients|ingr[eé]dients|ingredientes|inci|composition)\s*[:.]/gi)];
+  if (cab.length) { const m = cab[0]; s = s.slice(m.index! + m[0].length); }
+
+  s = s
+    .replace(/[*"“”’‘®°?]+(?=\s*[,.])/g, '')       // el asterisco de "origen natural" sale como comillas
+    .replace(/[*"“”’‘®]+\s+(?=[A-Z(])/g, ', ')     // …y a veces se come la coma
+    .replace(/[*"“”’‘®°]/g, '')
+    .replace(/\s\|\s/g, ' / ')                    // "WATER | EAU"
+    .replace(/\s{2,}/g, ' ');
+
+  // Acaba en el primer punto final (después vienen sellos, dirección, web…)
+  for (const m of s.matchAll(/(\S*)\.(?=\s|$)/g)) {
+    if (/^(denat|ext|extr|vit|no|n°|nr)$/i.test(m[1])) continue;
+    if ((s.slice(0, m.index).match(/,/g) || []).length < 2) continue;
+    s = s.slice(0, m.index! + m[0].length);
+    break;
+  }
+  return s.trim();
 }
