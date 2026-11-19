@@ -1,0 +1,112 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { capitulos } from '../data/guia';
+
+const posts = await getCollection('blog');
+const porSlug = new Map(posts.map((p) => [p.slug, p]));
+const total = new Set(capitulos.flatMap((c) => c.articulos).filter((s) => porSlug.has(s))).size;
+---
+<Layout
+  title="Guía completa de la piel — Miranda Glow"
+  description="Todo sobre el cuidado de la piel, explicado por capítulos: cómo funciona, tipos de piel, rutina, sol, problemas, cada etapa de la vida, ingredientes y hábitos."
+>
+  <section class="guia-hero">
+    <div class="wrap gh-in">
+      <div>
+        <h1>Guía de la piel</h1>
+        <p>
+          Todo lo que necesitas saber para cuidarte la piel con criterio, ordenado de lo básico a lo concreto.
+          {total} guías escritas sin marcas ni promesas milagro, que te dicen cuándo hace falta una dermatóloga.
+        </p>
+      </div>
+      <nav class="indice" aria-label="Capítulos">
+        <ol>
+          {capitulos.map((c) => <li><a href={`#${c.id}`}>{c.titulo}</a></li>)}
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <div class="wrap caps">
+    {capitulos.map((c, n) => (
+      <section class={`cap${c.imagen ? ' con-img' : ''}`} id={c.id}>
+        <header class="cap-head">
+          <span class="cap-n">{n + 1}</span>
+          <div>
+            <h2>{c.titulo}</h2>
+            <p>{c.intro}</p>
+          </div>
+        </header>
+        <div class="cap-body">
+          {c.imagen && <img class="cap-img" src={c.imagen} alt="" loading="lazy" />}
+          <ul class="cap-list">
+            {c.articulos.filter((s) => porSlug.has(s)).map((s) => {
+              const p = porSlug.get(s)!;
+              return (
+                <li>
+                  <a href={`/blog/${s}`}>
+                    <span class="t">{p.data.titulo}</span>
+                    <span class="d">{p.data.descripcion}</span>
+                  </a>
+                </li>
+              );
+            })}
+            {c.extra?.map((e) => (
+              <li class="extra"><a href={e.href}><span class="t">{e.texto}</span></a></li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))}
+
+    <aside class="guia-cta">
+      <div>
+        <h2>¿Prefieres ir al grano?</h2>
+        <p>Responde unas diez preguntas y te decimos qué necesita tu piel, en qué orden y qué evitar.</p>
+      </div>
+      <a class="btn" href="/test">Hacer el test de piel</a>
+    </aside>
+  </div>
+</Layout>
+
+<style>
+  .guia-hero{background:var(--mist);padding:72px 0 64px;border-bottom:1px solid var(--line)}
+  .gh-in{display:grid;grid-template-columns:1.3fr .7fr;gap:64px;align-items:end}
+  .guia-hero h1{margin-bottom:20px}
+  .guia-hero p{font-family:var(--serif);font-size:1.25rem;line-height:1.6;color:#3D5458;max-width:52ch}
+  .indice ol{list-style:none;counter-reset:c;border-top:1px solid rgba(34,54,58,.2)}
+  .indice li{counter-increment:c;border-bottom:1px solid rgba(34,54,58,.2)}
+  .indice a{display:flex;gap:14px;padding:10px 0;text-decoration:none;color:var(--ink);font-size:.98rem}
+  .indice a::before{content:counter(c);color:var(--teal);font-family:var(--serif);width:18px}
+  .indice a:hover{color:var(--teal)}
+
+  .caps{padding-top:40px;padding-bottom:96px}
+  .cap{padding:64px 0;border-bottom:1px solid var(--line);scroll-margin-top:20px}
+  .cap-head{display:grid;grid-template-columns:72px 1fr;gap:12px;margin-bottom:32px}
+  .cap-n{font-family:var(--serif);font-weight:300;font-size:3.4rem;line-height:1;color:var(--teal)}
+  .cap-head h2{margin-bottom:10px}
+  .cap-head p{color:var(--ink-soft);max-width:62ch;font-size:1.05rem}
+  .cap-body{display:grid;grid-template-columns:1fr;gap:40px}
+  .con-img .cap-body{grid-template-columns:.75fr 1.25fr}
+  .cap-img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
+  .cap-list{list-style:none;border-top:1px solid var(--line);align-self:start}
+  .cap-list a{display:block;padding:18px 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink)}
+  .cap-list .t{display:block;font-family:var(--serif);font-size:1.35rem;font-weight:400;line-height:1.3;transition:color .2s}
+  .cap-list .d{display:block;color:var(--ink-soft);font-size:.95rem;margin-top:4px;max-width:70ch}
+  .cap-list a:hover .t{color:var(--teal)}
+  .cap-list .extra .t{font-family:var(--sans);font-size:1rem;font-weight:600;color:var(--teal)}
+
+  .guia-cta{margin-top:72px;display:flex;justify-content:space-between;align-items:center;gap:32px;background:var(--blush);border-radius:18px;padding:44px}
+  .guia-cta h2{margin-bottom:8px}
+  .guia-cta p{color:#4D5F62}
+
+  @media(max-width:900px){
+    .gh-in{grid-template-columns:1fr;gap:36px}
+    .con-img .cap-body{grid-template-columns:1fr}
+    .cap-img{aspect-ratio:16/9}
+    .cap-head{grid-template-columns:48px 1fr}
+    .cap-n{font-size:2.4rem}
+    .guia-cta{flex-direction:column;align-items:flex-start;padding:32px 24px}
+  }
+</style>

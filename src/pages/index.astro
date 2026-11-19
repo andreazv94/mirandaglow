@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import PielHoy from '../components/PielHoy.tsx';
 
 const guias = (await getCollection('blog'))
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
@@ -25,7 +26,7 @@ const inci: Ing[] = [
         <p>Cuidado de la piel explicado por ingredientes. Sin marcas que paguen por salir y sin influencers.</p>
         <div class="hero-cta">
           <a class="btn" href="/test">Hacer el test de piel</a>
-          <a class="btn ghost" href="/blog">Leer las guías</a>
+          <a class="btn ghost" href="/guia">Leer la guía de la piel</a>
         </div>
       </div>
     </div>
@@ -38,6 +39,14 @@ const inci: Ing[] = [
       Miramos qué lleva cada producto y si hay estudios detrás. Ni modas, ni promesas milagro,
       ni contenido patrocinado.
     </p>
+  </section>
+
+  <!-- Tu piel hoy: consejos según el tiempo -->
+  <section class="hoy" id="piel-hoy">
+    <div class="wrap hoy-in">
+      <h2>Tu piel hoy</h2>
+      <PielHoy client:visible />
+    </div>
   </section>
 
   <!-- Cómo leer una etiqueta -->
@@ -91,7 +100,7 @@ const inci: Ing[] = [
         <li><h3>Ninguna marca paga por salir</h3><p>No hacemos contenido patrocinado ni aceptamos productos a cambio de reseñas.</p></li>
         <li><h3>Ingredientes antes que marcas</h3><p>Si hay una opción más barata que hace lo mismo, te la decimos.</p></li>
         <li><h3>Cuándo ir al médico</h3><p>Rosácea, acné fuerte, melasma o un lunar que cambia necesitan una dermatóloga. Lo avisamos.</p></li>
-        <li><h3>Cómo ganamos dinero</h3><p>Algunos enlaces son de afiliación: una pequeña comisión que a ti no te cuesta más.</p></li>
+        <li><h3>Sin promesas milagro</h3><p>Nada de fotos de antes y después ni resultados en días. La piel tarda semanas en cambiar y así lo contamos.</p></li>
       </ul>
     </div>
   </section>
@@ -100,7 +109,7 @@ const inci: Ing[] = [
   <section class="guias wrap">
     <div class="guias-head">
       <h2>Guías</h2>
-      <a href="/blog">Ver todas</a>
+      <a href="/guia">Ver la guía completa</a>
     </div>
     <ul>
       {guias.map((g) => (
@@ -139,6 +148,30 @@ const inci: Ing[] = [
 
   .manifesto{padding:120px 32px}
   .manifesto p{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.3;max-width:28ch;letter-spacing:-.01em;font-variation-settings:"opsz" 48}
+
+
+  /* Tu piel hoy */
+  .hoy{background:var(--mist);padding:96px 0}
+  .hoy-in{display:grid;grid-template-columns:.7fr 1.3fr;gap:64px;align-items:start}
+  :global(.ph-pedir p){color:#3D5458;font-size:1.08rem;max-width:52ch;margin-bottom:22px}
+  :global(.ph-acciones){display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  :global(.ph-form){display:flex;gap:8px}
+  :global(.ph-form input){font:inherit;padding:13px 18px;border:1px solid rgba(34,54,58,.3);border-radius:999px;background:var(--white);min-width:200px}
+  :global(.ph-error){color:var(--ambar)!important;margin-top:16px!important}
+  :global(.ph-priv){font-size:.85rem!important;color:var(--ink-soft)!important;margin-top:18px!important}
+  :global(.sr){position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  :global(.ph-res){display:grid;grid-template-columns:200px 1fr;gap:36px}
+  :global(.ph-lugar){font-size:.95rem;color:var(--ink-soft)}
+  :global(.ph-temp){font-family:var(--serif);font-weight:300;font-size:4.6rem;line-height:1;margin:6px 0 14px}
+  :global(.ph-datos dl){display:grid;gap:6px;font-size:.92rem}
+  :global(.ph-datos dl div){display:flex;justify-content:space-between;border-bottom:1px solid rgba(34,54,58,.15);padding-bottom:6px}
+  :global(.ph-datos dt){color:var(--ink-soft)}
+  :global(.ph-cambiar){margin-top:16px;background:none;border:none;color:var(--teal);text-decoration:underline;cursor:pointer;font:inherit;font-size:.88rem;padding:0}
+  :global(.ph-consejos){list-style:none;display:grid;gap:10px}
+  :global(.ph-consejos li){background:var(--white);border-radius:14px;padding:18px 22px;border-left:3px solid var(--aqua)}
+  :global(.ph-consejos li.ph-alto){border-left-color:var(--ambar)}
+  :global(.ph-consejos h3){font-family:var(--sans);font-size:1.02rem;font-weight:600;margin-bottom:4px;letter-spacing:0}
+  :global(.ph-consejos p){color:var(--ink-soft);font-size:.95rem}
 
   /* Etiqueta */
   .leer{background:var(--white)}
@@ -202,6 +235,10 @@ const inci: Ing[] = [
     .hero-in{padding-top:0}
     .hero-copy{padding:36px 0 56px}
     .manifesto{padding:72px 22px}
+    .hoy{padding:64px 0}
+    .hoy-in{grid-template-columns:1fr;gap:24px}
+    :global(.ph-res){grid-template-columns:1fr;gap:24px}
+    :global(.ph-form input){min-width:0;flex:1}
     .leer-in,.pasos{grid-template-columns:1fr;gap:44px;padding-top:72px;padding-bottom:72px}
     .pasos-img{order:-1}
     .reglas{padding:72px 0}

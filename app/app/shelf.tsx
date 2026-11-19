@@ -42,7 +42,6 @@ export default function Productos() {
         <Text style={s.kicker}>Próximamente</Text>
         <Text style={[s.p, { color: C.text }]}>Escanear un producto que ya tienes para saber en qué paso va →</Text>
       </Pressable>
-      <Text style={[s.p, { fontSize: 11 }]}>Algunos enlaces son de afiliación: si compras, Miranda Glow recibe una pequeña comisión sin coste para ti.</Text>
     </Screen>
   );
 }
