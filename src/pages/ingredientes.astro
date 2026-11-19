@@ -10,7 +10,7 @@ import { ingredientes } from '../data/ingredientes';
   <section class="lector wrap">
     <header class="lector-head">
       <h1>¿Qué lleva tu crema?</h1>
-      <p>Haz una foto a la lista de ingredientes y te decimos en segundos qué hace y qué conviene vigilar.</p>
+      <p>Escanea el código de barras o haz una foto a la lista de ingredientes: te decimos en segundos qué hace y si le va a tu piel.</p>
       <p class="small">Conocemos {ingredientes.length} ingredientes. <a href="/ingredientes/todos">Ver todos de la A a la Z</a>.</p>
     </header>
     <LectorIngredientes client:load />
@@ -33,6 +33,30 @@ import { ingredientes } from '../data/ingredientes';
   .lx-cam{width:46px;height:36px;border:2.5px solid var(--teal);border-radius:9px;position:relative;margin-bottom:6px}
   .lx-cam::before{content:'';position:absolute;width:14px;height:14px;border:2.5px solid var(--teal);border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
   .lx-cam::after{content:'';position:absolute;width:12px;height:5px;background:var(--teal);border-radius:2px 2px 0 0;left:8px;top:-7px}
+  .lx-dos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:640px){.lx-dos{grid-template-columns:1fr}.lx-dos .lx-foto{padding:22px 18px}}
+  .lx-esc{border-style:solid;border-color:var(--teal);background:#fff}
+  .lx-barras{display:flex;gap:3px;align-items:stretch;height:36px;margin-bottom:6px}
+  .lx-barras i{display:block;width:3px;background:var(--teal);border-radius:1px}
+  .lx-barras i:nth-child(2n){width:6px}.lx-barras i:nth-child(3n){width:2px}
+  .lx-aviso-cod{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center;justify-content:space-between;background:#FBF3E6;border-radius:16px;padding:16px 20px}
+  .lx-aviso-cod p{margin:0;flex:1 1 260px;line-height:1.5}
+  .lx-prod{margin:0 0 4px;font-size:.95rem;color:var(--teal)}
+  .lx-priv a{color:var(--teal)}
+  .esc{border:0;padding:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;inset:0;background:#0E1A1C;color:#fff}
+  .esc[open]{display:flex;flex-direction:column}
+  .esc::backdrop{background:#0E1A1C}
+  .esc-cam{position:relative;flex:1;min-height:0;overflow:hidden}
+  .esc-cam video{width:100%;height:100%;object-fit:cover;display:block}
+  .esc-marco{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+  .esc-marco i{width:min(78vw,420px);height:min(34vw,180px);border-radius:18px;box-shadow:0 0 0 100vmax rgba(14,26,28,.55);outline:3px solid #A9D8DC}
+  .esc-txt{position:absolute;left:0;right:0;bottom:22px;margin:0;text-align:center;font-size:1rem;padding:0 24px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+  .esc-cerrar{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--ink);font-size:1.6rem;line-height:1;cursor:pointer}
+  .esc-manual{padding:18px 20px calc(18px + env(safe-area-inset-bottom));background:#fff;color:var(--ink)}
+  .esc-manual label{display:block;font-size:.9rem;color:var(--ink-soft);margin-bottom:8px}
+  .esc-manual div{display:flex;gap:10px}
+  .esc-manual input{flex:1;min-width:0;font:inherit;font-size:1.05rem;letter-spacing:.04em;padding:12px 16px;border:1px solid var(--line);border-radius:999px}
+  .esc-err{color:#8A2433;font-size:.9rem;margin:8px 0 0}
   .lx-bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden}
   .lx-bar i{display:block;height:100%;background:var(--teal);transition:width .3s}
   .lx-err{color:var(--ambar);font-size:.92rem}

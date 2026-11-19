@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PIELES, paraTuPiel, type Piel } from '../lib/paraTuPiel';
 import { anadirCrema, leerCremas } from '../lib/cremas';
+import EscanerCodigo from './EscanerCodigo';
 import { analizarLista, limpiarOCR, tipoTxt, type Ingrediente, type Tipo } from '../data/ingredientes';
 import { fichaDeInci } from '../data/fichas';
 
@@ -108,6 +109,28 @@ export default function LectorIngredientes() {
   const conocidos = filas.filter((f) => f.ing);
 
   const [nombreCrema, setNombreCrema] = useState('');
+  const [escaner, setEscaner] = useState(false);
+  type Prod = { estado: 'buscando' | 'ok' | 'sin-inci' | 'no' | 'error'; ean: string; nombre?: string; marca?: string; cantidad?: string; url?: string };
+  const [prod, setProd] = useState<Prod | null>(null);
+
+  // Código de barras → ingredientes (nuestro servidor pregunta a Open Beauty Facts)
+  async function buscarCodigo(ean: string) {
+    setEscaner(false);
+    setOcr({ estado: 'no', pct: 0 });
+    setProd({ estado: 'buscando', ean });
+    try {
+      const r = await fetch(`/api/codigo/${ean}`);
+      if (!r.ok) throw new Error();
+      const d = await r.json();
+      if (d.encontrado && d.inci) {
+        setProd({ estado: 'ok', ean, nombre: d.nombre, marca: d.marca, cantidad: d.cantidad, url: d.url });
+        setNombreCrema([d.marca, d.nombre].filter(Boolean).join(' ').slice(0, 80));
+        setTexto(d.inci); setVerTexto(false); analizar(d.inci);
+      } else setProd({ estado: d.encontrado ? 'sin-inci' : 'no', ean, nombre: d.nombre, marca: d.marca });
+    } catch {
+      setProd({ estado: 'error', ean });
+    }
+  }
   const [guardada, setGuardada] = useState<string | null>(null);
 
   // /ingredientes?crema=ID abre una crema guardada
@@ -134,6 +157,7 @@ export default function LectorIngredientes() {
   async function leerFoto(file: File) {
     // La foto solo se muestra aquí, en tu navegador; no se sube a ningún servidor.
     if (ocr.foto) URL.revokeObjectURL(ocr.foto);
+    setProd(null);
     const url = URL.createObjectURL(file);
     setOcr({ estado: 'leyendo', pct: 0, foto: url });
     try {
@@ -225,11 +249,32 @@ export default function LectorIngredientes() {
     <div className="lx">
       <div className="lx-form">
         <div className="lx-entrada">
-          <button className="lx-foto" onClick={() => input.current?.click()} disabled={ocr.estado === 'leyendo'}>
-            <span className="lx-cam" aria-hidden="true" />
-            <b>{ocr.estado === 'leyendo' ? `Leyendo la etiqueta… ${ocr.pct} %` : 'Hacer una foto a la etiqueta'}</b>
-            <small>o subir una foto de la lista de ingredientes</small>
-          </button>
+          <div className="lx-dos">
+            <button className="lx-foto lx-esc" onClick={() => setEscaner(true)} disabled={prod?.estado === 'buscando'}>
+              <span className="lx-barras" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /></span>
+              <b>{prod?.estado === 'buscando' ? 'Buscando el producto…' : 'Escanear el código de barras'}</b>
+              <small>lo más rápido, si el producto es conocido</small>
+            </button>
+            <button className="lx-foto" onClick={() => input.current?.click()} disabled={ocr.estado === 'leyendo'}>
+              <span className="lx-cam" aria-hidden="true" />
+              <b>{ocr.estado === 'leyendo' ? `Leyendo la etiqueta… ${ocr.pct} %` : 'Foto de la lista de ingredientes'}</b>
+              <small>funciona con cualquier crema</small>
+            </button>
+          </div>
+          {escaner && <EscanerCodigo onCodigo={buscarCodigo} onCerrar={() => setEscaner(false)} />}
+          {prod && prod.estado !== 'ok' && prod.estado !== 'buscando' && (
+            <div className="lx-aviso-cod" role="status">
+              <p>
+                {prod.estado === 'no' && <><b>Aún no conocemos este producto</b> (código {prod.ean}). </>}
+                {prod.estado === 'sin-inci' && <><b>{[prod.marca, prod.nombre].filter(Boolean).join(' ') || 'Conocemos este producto'}</b>, pero nos falta su lista de ingredientes. </>}
+                {prod.estado === 'error' && <><b>No hemos podido buscarlo ahora.</b> Revisa la conexión o vuelve a intentarlo. </>}
+                {prod.estado !== 'error' && 'Hazle una foto a la lista de ingredientes y lo analizamos igual.'}
+              </p>
+              {prod.estado !== 'error'
+                ? <button className="btn" onClick={() => input.current?.click()}>Hacer la foto</button>
+                : <button className="btn" onClick={() => buscarCodigo(prod.ean)}>Reintentar</button>}
+            </div>
+          )}
           <input ref={input} type="file" accept="image/*" capture="environment" hidden
             onChange={(e) => { const f = e.target.files?.[0]; if (f) leerFoto(f); e.target.value = ''; }} />
           {ocr.estado === 'leyendo' && <div className="lx-bar"><i style={{ width: `${ocr.pct}%` }} /></div>}
@@ -277,7 +322,15 @@ export default function LectorIngredientes() {
               ? <button type="button" className="lx-mini" onClick={() => visor.current?.showModal()} aria-label="Ver tu foto en grande"><img src={ocr.foto} alt="" /><span className="lx-luz lx-luz-s"><i /><i /><i /></span></button>
               : <span className="lx-luz"><i /><i /><i /></span>}
             <div>
+              {prod?.estado === 'ok' && (
+                <p className="lx-prod">
+                  <b>{[prod.marca, prod.nombre].filter(Boolean).join(' · ') || `Código ${prod.ean}`}</b>{prod.cantidad && ` · ${prod.cantidad}`}
+                </p>
+              )}
               <h2>{veredicto.t}</h2><p>{veredicto.d}</p>
+              {prod?.estado === 'ok' && (
+                <small className="lx-priv">Ingredientes de <a href={prod.url} target="_blank" rel="noopener">Open Beauty Facts</a> (base de datos abierta, licencia ODbL). Compáralos con tu envase: las fórmulas cambian.</small>
+              )}
               {ocr.foto && <small className="lx-priv">{conocidos.length} ingredientes leídos de tu foto. Solo se ve en tu móvil: no la guardamos.</small>}
             </div>
           </div>

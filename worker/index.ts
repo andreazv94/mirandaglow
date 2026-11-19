@@ -20,6 +20,8 @@ export interface Env {
   EMAIL_ACTIVO?: string;
   /** Solo en local: devuelve el enlace en vez de enviarlo */
   DEV_ENLACE?: string;
+  /** Solo en local: productos de prueba por código (JSON) */
+  DEV_CODIGOS?: string;
 }
 
 // Lo que se puede guardar en la cuenta (las mismas claves que usan la web y la app)
@@ -70,6 +72,7 @@ async function tablas(db: D1Database) {
       usuario TEXT NOT NULL, clave TEXT NOT NULL, valor TEXT NOT NULL, t INTEGER NOT NULL,
       PRIMARY KEY (usuario, clave))`),
     db.prepare(`CREATE INDEX IF NOT EXISTS enlaces_email ON enlaces (email, creado)`),
+    db.prepare(`CREATE TABLE IF NOT EXISTS codigos (ean TEXT PRIMARY KEY, datos TEXT NOT NULL, t INTEGER NOT NULL)`),
   ]);
   tablasListas = true;
 }
@@ -130,6 +133,52 @@ function emailEnlace(url: string) {
   return { text, html };
 }
 
+// ---------- códigos de barras ----------
+// Preguntamos nosotros a Open Beauty Facts (base de datos abierta, licencia ODbL):
+// así no ven a la persona y guardamos la respuesta para ir más rápido.
+type Producto = { encontrado: boolean; nombre?: string; marca?: string; cantidad?: string; inci?: string; url?: string };
+const DIAS = 864e5;
+
+async function buscarCodigo(env: Env, ean: string): Promise<Response> {
+  const cache = await env.DB.prepare('SELECT datos, t FROM codigos WHERE ean = ?').bind(ean).first<{ datos: string; t: number }>();
+  if (cache) {
+    const d = JSON.parse(cache.datos) as Producto;
+    const vida = d.encontrado && d.inci ? 30 * DIAS : 1 * DIAS; // lo que no estaba, se vuelve a mirar al día siguiente
+    if (ahora() - cache.t < vida) return json({ ...d, cache: true }, 200, { 'cache-control': 'public, max-age=3600' });
+  }
+  if (env.DEV_CODIGOS) return json(JSON.parse(env.DEV_CODIGOS)[ean] || { encontrado: false });
+  let p: Producto = { encontrado: false };
+  try {
+    const r = await fetch(
+      `https://world.openbeautyfacts.org/api/v2/product/${ean}.json?fields=code,product_name,product_name_es,brands,quantity,ingredients_text,ingredients_text_es,ingredients_text_en,ingredients_text_fr`,
+      { headers: { 'user-agent': 'MirandaGlow/1.0 (https://mirandaglow.com; info@mirandaglow.com)' }, cf: { cacheTtl: 3600 } },
+    );
+    if (r.ok) {
+      const d = await r.json<{ status?: number; product?: Record<string, string> }>();
+      const pr = d.product;
+      if (d.status === 1 && pr) {
+        // la lista INCI suele estar en el campo general; si no, en el de algún idioma
+        const inci = [pr.ingredients_text, pr.ingredients_text_en, pr.ingredients_text_es, pr.ingredients_text_fr]
+          .map((x) => (x || '').trim()).find((x) => x.length > 10);
+        p = {
+          encontrado: true,
+          nombre: (pr.product_name_es || pr.product_name || '').trim() || undefined,
+          marca: (pr.brands || '').split(',')[0].trim() || undefined,
+          cantidad: pr.quantity || undefined,
+          inci,
+          url: `https://world.openbeautyfacts.org/product/${ean}`,
+        };
+      }
+    } else if (r.status !== 404) {
+      return error('fuente-no-disponible', 502);
+    }
+  } catch {
+    return error('fuente-no-disponible', 502);
+  }
+  await env.DB.prepare('INSERT OR REPLACE INTO codigos (ean, datos, t) VALUES (?, ?, ?)').bind(ean, JSON.stringify(p), ahora()).run();
+  return json(p, 200, { 'cache-control': 'public, max-age=3600' });
+}
+
 // ---------- rutas ----------
 async function api(req: Request, env: Env, url: URL): Promise<Response> {
   const ruta = url.pathname.replace(/\/+$/, '');
@@ -142,6 +191,10 @@ async function api(req: Request, env: Env, url: URL): Promise<Response> {
   }
 
   await tablas(env.DB);
+
+  // --- código de barras → ingredientes (Open Beauty Facts, con caché) ---
+  const mc = ruta.match(/^\/api\/codigo\/(\d{8,14})$/);
+  if (mc && metodo === 'GET') return buscarCodigo(env, mc[1]);
 
   // --- ¿quién soy y qué tengo guardado? ---
   if (ruta === '/api/me' && metodo === 'GET') {
