@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { buscarAprox, limpiarOCR, separar, tipoTxt, type Ingrediente, type Tipo } from '../data/ingredientes';
+import { analizarLista, limpiarOCR, tipoTxt, type Ingrediente, type Tipo } from '../data/ingredientes';
 import { fichaDeInci } from '../data/fichas';
 
 // Lista de ejemplo: un sérum inventado, no una marca real.
@@ -15,6 +15,46 @@ const HACE: Partial<Record<Tipo, string>> = {
   calmante: 'Calma', emoliente: 'Suaviza y nutre', filtro: 'Protege del sol', limpiador: 'Limpia',
 };
 
+/**
+ * Prepara la foto para leerla mejor: la letra de las etiquetas es diminuta,
+ * así que la agrandamos, la pasamos a gris y subimos el contraste.
+ */
+async function prepararFoto(file: File): Promise<HTMLCanvasElement | File> {
+  try {
+    const img = await createImageBitmap(file);
+    // fotos pequeñas: hasta ×3; fotos enormes del móvil: como mucho 3200 px de ancho
+    const escala = img.width < 2400 ? Math.min(3, 2400 / img.width) : Math.min(1, 3200 / img.width);
+    const w = Math.round(img.width * escala);
+    const h = Math.round(img.height * escala);
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d', { willReadFrequently: true })!;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, 0, 0, w, h);
+    const d = ctx.getImageData(0, 0, w, h);
+    const px = d.data;
+    // gris + histograma para estirar el contraste (ignorando el 1 % de cada extremo)
+    const hist = new Uint32Array(256);
+    for (let i = 0; i < px.length; i += 4) {
+      const g = (px[i] * 0.299 + px[i + 1] * 0.587 + px[i + 2] * 0.114) | 0;
+      px[i] = g; hist[g]++;
+    }
+    const total = w * h; let acc = 0; let lo = 0; let hi = 255;
+    for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc > total * 0.01) { lo = v; break; } }
+    acc = 0;
+    for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc > total * 0.01) { hi = v; break; } }
+    const r = Math.max(1, hi - lo);
+    for (let i = 0; i < px.length; i += 4) {
+      const g = Math.min(255, Math.max(0, ((px[i] - lo) * 255) / r));
+      px[i] = px[i + 1] = px[i + 2] = g;
+    }
+    ctx.putImageData(d, 0, 0);
+    return c;
+  } catch {
+    return file;
+  }
+}
+
 export default function LectorIngredientes() {
   const [texto, setTexto] = useState('');
   const [analizado, setAnalizado] = useState('');
@@ -26,7 +66,7 @@ export default function LectorIngredientes() {
   const input = useRef<HTMLInputElement>(null);
 
   const filas: Fila[] = useMemo(
-    () => separar(analizado).map((t, i) => ({ pos: i + 1, texto: t, ing: buscarAprox(t) })),
+    () => analizarLista(analizado).map((f, i) => ({ pos: i + 1, ...f })),
     [analizado],
   );
   const total = filas.length;
@@ -52,7 +92,7 @@ export default function LectorIngredientes() {
           if (m.status === 'recognizing text') setOcr((o) => ({ ...o, pct: Math.round(m.progress * 100) }));
         },
       });
-      const { data } = await worker.recognize(file);
+      const { data } = await worker.recognize(await prepararFoto(file));
       await worker.terminate();
       const limpio = limpiarOCR(data.text);
       setTexto(limpio);
@@ -84,7 +124,7 @@ export default function LectorIngredientes() {
     const poco = fuertes && l.every((f) => f.pos > arriba);
     verde.push({
       titulo: HACE[t]!,
-      texto: l.map((f) => f.ing!.n).join(', ') + (poco ? ' (en poca cantidad: van al final)' : ''),
+      texto: l.map((f) => f.ing!.n).join(', ') + (poco ? (l.length > 1 ? ' (en poca cantidad: van al final)' : ' (en poca cantidad: va al final)') : ''),
     });
   }
 
