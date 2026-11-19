@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { fichas } from '../data/fichas';
 
 // Genera /sitemap.xml automáticamente: páginas fijas + todos los artículos.
 // Más robusto que el plugin y sin dependencias extra.
@@ -11,6 +12,8 @@ export async function GET({ site }) {
     '/test',
     '/blog',
     '/ingredientes',
+    '/ingredientes/todos',
+    ...fichas.map((f) => `/ingredientes/${f.slug}`),
     '/sobre',
     '/aviso-legal',
     '/privacidad',

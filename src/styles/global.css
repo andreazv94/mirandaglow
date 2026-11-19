@@ -44,7 +44,7 @@ a{color:var(--teal)}
 /* NAV */
 .topbar{position:relative;z-index:5;border-bottom:1px solid var(--line);background:var(--pearl)}
 .topbar.over{position:absolute;inset:0 0 auto 0;background:transparent;border-color:rgba(34,54,58,.12)}
-nav{display:flex;align-items:center;justify-content:space-between;height:76px}
+.topbar nav{display:flex;align-items:center;justify-content:space-between;height:76px}
 .logo{font-family:var(--serif);font-size:1.6rem;font-weight:400;letter-spacing:-.01em;color:var(--ink);text-decoration:none;font-variation-settings:"opsz" 36}
 .navlinks{display:flex;gap:34px;align-items:center;font-size:.92rem}
 .navlinks a{color:var(--ink);text-decoration:none;opacity:.8}

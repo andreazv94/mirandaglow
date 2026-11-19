@@ -1,0 +1,92 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { ingredientes, tipoTxt } from '../../data/ingredientes';
+import { fichas, fichaDeInci } from '../../data/fichas';
+
+const lista = [...ingredientes].sort((a, b) => a.n.localeCompare(b.n, 'es', { sensitivity: 'base' }));
+const letraDe = (n: string) => {
+  const c = n[0].toUpperCase();
+  return /[A-Z]/.test(c) ? c : '#';
+};
+const grupos = new Map<string, typeof lista>();
+for (const i of lista) {
+  const l = letraDe(i.n);
+  grupos.set(l, [...(grupos.get(l) || []), i]);
+}
+const letras = [...grupos.keys()];
+const destacadas = [...fichas].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+---
+<Layout
+  title="Glosario de ingredientes de cosmética — Miranda Glow"
+  description={`Qué es cada ingrediente de tus cremas, explicado en lenguaje claro: ${ingredientes.length} ingredientes INCI de la A a la Z.`}
+>
+  <section class="glo wrap">
+    <header class="glo-head">
+      <h1>Ingredientes de la A a la Z</h1>
+      <p>Qué es cada cosa que aparece en la etiqueta de tus cremas, explicado en una frase. Los más importantes tienen su propia ficha.</p>
+      <a class="btn" href="/ingredientes">Analizar la lista de un producto</a>
+    </header>
+
+    <section class="fichas" aria-labelledby="fichas-h">
+      <h2 id="fichas-h">Fichas completas</h2>
+      <ul>
+        {destacadas.map((f) => <li><a href={`/ingredientes/${f.slug}`}>{f.nombre}</a></li>)}
+      </ul>
+    </section>
+
+    <nav class="letras" aria-label="Ir a la letra">
+      {letras.map((l) => <a href={`#letra-${l}`}>{l}</a>)}
+    </nav>
+
+    {letras.map((l) => (
+      <section class="grupo" id={`letra-${l}`}>
+        <h2>{l}</h2>
+        <dl>
+          {grupos.get(l)!.map((i) => {
+            const f = fichaDeInci(i.n);
+            return (
+              <div id={i.n.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
+                <dt>
+                  {f ? <a href={`/ingredientes/${f.slug}`}>{i.n}</a> : i.n}
+                  <span>{tipoTxt[i.tipo]}</span>
+                </dt>
+                <dd>
+                  {i.que}
+                  {i.embarazo === 'evitar' && <em class="t-emb"> Evitar en el embarazo.</em>}
+                  {i.embarazo === 'consultar' && <em class="t-emb"> Consultar en el embarazo.</em>}
+                  {i.alergeno && <em class="t-perf"> Alérgeno de perfume.</em>}
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
+      </section>
+    ))}
+  </section>
+</Layout>
+
+<style>
+  .glo{max-width:900px;padding-top:56px;padding-bottom:96px}
+  .glo-head{margin-bottom:48px}
+  .glo-head h1{margin-bottom:16px;font-size:clamp(2.6rem,5vw,4.4rem)}
+  .glo-head p{font-family:var(--serif);font-size:1.2rem;line-height:1.6;color:var(--ink-soft);max-width:58ch;margin-bottom:24px}
+  .fichas{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:28px 30px;margin-bottom:48px}
+  .fichas h2{font-size:1.6rem;margin-bottom:16px}
+  .fichas ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+  .fichas a{display:inline-block;padding:7px 14px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--ink);font-size:.93rem}
+  .fichas a:hover{border-color:var(--teal);color:var(--teal)}
+  .letras{position:sticky;top:0;z-index:2;background:var(--pearl);display:flex;flex-wrap:wrap;gap:4px;padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:12px}
+  .letras a{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;text-decoration:none;color:var(--ink);font-size:.92rem}
+  .letras a:hover{background:var(--mist)}
+  .grupo{padding-top:28px;scroll-margin-top:60px}
+  .grupo h2{font-size:2.4rem;color:var(--teal);margin-bottom:8px}
+  .grupo dl div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:20px;padding:14px 0;border-bottom:1px solid var(--line);scroll-margin-top:70px}
+  .grupo dt{font-weight:600;font-size:.98rem;display:flex;flex-direction:column;gap:2px}
+  .grupo dt a{color:var(--teal)}
+  .grupo dt span{font-weight:400;font-size:.82rem;color:var(--ink-soft)}
+  .grupo dd{color:var(--ink-soft);font-size:.95rem}
+  .grupo em{font-style:normal;font-weight:500}
+  .t-emb{color:var(--ambar)}
+  .t-perf{color:#8A4A5C}
+  @media(max-width:700px){.grupo dl div{grid-template-columns:1fr;gap:4px}}
+</style>

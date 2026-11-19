@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { buscar, separar, tipoTxt, type Ingrediente, type Tipo } from '../data/ingredientes';
+import { fichaDeInci } from '../data/fichas';
 
 // Lista de ejemplo: un sérum inventado, no una marca real.
 const EJEMPLO =
@@ -177,7 +178,9 @@ export default function LectorIngredientes() {
                 <span className="lx-pos">{f.pos}</span>
                 <div>
                   <p className="lx-n">
-                    {f.ing ? f.ing.n : f.texto}
+                    {f.ing && fichaDeInci(f.ing.n)
+                      ? <a href={`/ingredientes/${fichaDeInci(f.ing.n)!.slug}`}>{f.ing.n}</a>
+                      : f.ing ? f.ing.n : f.texto}
                     {f.ing && <span className="lx-tipo">{tipoTxt[f.ing.tipo]}</span>}
                   </p>
                   <p className="lx-que">{f.ing ? f.ing.que : 'Todavía no lo tenemos en nuestra base. Lo iremos añadiendo.'}</p>
