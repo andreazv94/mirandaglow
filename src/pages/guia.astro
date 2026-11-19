@@ -28,6 +28,18 @@ const total = new Set(capitulos.flatMap((c) => c.articulos).filter((s) => porSlu
     </div>
   </section>
 
+  <section class="wrap videos" aria-labelledby="vid-h">
+    <h2 id="vid-h">En vídeo, en menos de 20 segundos</h2>
+    <div class="vid-grid">
+      {[['protector-dos-dedos','Cuánto protector solar ponerte'],['orden-rutina','El orden de tu rutina'],['leer-etiqueta','Cómo leer una etiqueta']].map(([v, t]) => (
+        <figure>
+          <video src={`/video/${v}.mp4`} poster={`/video/${v}.jpg`} controls playsinline muted preload="none"></video>
+          <figcaption>{t}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
   <div class="wrap caps">
     {capitulos.map((c, n) => (
       <section class={`cap${c.imagen ? ' con-img' : ''}`} id={c.id}>
@@ -81,6 +93,12 @@ const total = new Set(capitulos.flatMap((c) => c.articulos).filter((s) => porSlu
   .indice a::before{content:counter(c);color:var(--teal);font-family:var(--serif);width:18px}
   .indice a:hover{color:var(--teal)}
 
+  .videos{padding-top:64px}
+  .videos h2{margin-bottom:24px;font-size:clamp(1.6rem,3vw,2.4rem)}
+  .vid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .vid-grid video{width:100%;aspect-ratio:1;border-radius:16px;background:var(--mist);display:block}
+  .vid-grid figcaption{margin-top:10px;font-weight:600}
+  @media(max-width:760px){.vid-grid{grid-template-columns:1fr}}
   .caps{padding-top:40px;padding-bottom:96px}
   .cap{padding:64px 0;border-bottom:1px solid var(--line);scroll-margin-top:20px}
   .cap-head{display:grid;grid-template-columns:72px 1fr;gap:12px;margin-bottom:32px}
