@@ -9,13 +9,27 @@ interface Props {
   description?: string;
   /** Cabecera transparente encima de una foto (portada) */
   overlay?: boolean;
+  /** Imagen al compartir (ruta en /public). Por defecto, /img/og.jpg */
+  image?: string;
+  /** 'article' en artículos y fichas */
+  type?: 'website' | 'article';
+  /** No mostrar en Google (cuenta, páginas privadas) */
+  noindex?: boolean;
+  /** Datos estructurados (schema.org) para Google */
+  jsonld?: Record<string, unknown> | Record<string, unknown>[];
 }
 const {
-  title = 'Miranda Glow — Tu rutina de skincare, hecha para ti',
+  title = 'Miranda Glow — Lee los ingredientes de tu crema y crea tu rutina',
   overlay = false,
-  description = 'Responde unas preguntas y recibe una rutina de cuidado facial pensada para tu piel, tu edad, tus hormonas y tus objetivos.',
+  description = 'Haz una foto a la etiqueta de tu crema y te decimos qué hace y si le va a tu piel. Test de piel, rutina personalizada y guía completa, sin marcas ni publicidad.',
+  image = '/img/og.jpg',
+  type = 'website',
+  noindex = false,
+  jsonld,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const imagen = new URL(image, Astro.site);
+const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
 ---
 <!DOCTYPE html>
 <html lang="es">
@@ -26,10 +40,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
-  <!-- Open Graph para que se vea bien al compartir en redes -->
+  {noindex && <meta name="robots" content="noindex, follow" />}
+  <meta name="theme-color" content="#F4F8F8" />
+  <!-- Open Graph: cómo se ve al compartir en WhatsApp, redes, etc. -->
+  <meta property="og:site_name" content="Miranda Glow" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:type" content={type} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={imagen} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="sitemap" href="/sitemap.xml" />
+  {datos.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
   <script is:inline src="/js/cuenta.js" defer></script>
 </head>
 <body>

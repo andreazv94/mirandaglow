@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { articulo, migas } from '../../lib/seo';
+import { fichas } from '../../data/fichas';
 
 // Genera una página estática por cada .mdx de src/content/blog
 export async function getStaticPaths() {
@@ -13,9 +15,36 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+// Enlaces internos: artículos parecidos y fichas de los ingredientes que se mencionan
+const todos = await getCollection('blog');
+const comun = (a: string[] = [], b: string[] = []) => a.filter((x) => b.includes(x)).length;
+const VACIAS = new Set(['piel', 'para', 'cómo', 'como', 'qué', 'que', 'rutina', 'skincare', 'cuidado', 'verdad', 'funciona', 'sirve', 'cada', 'tienes', 'tiene', 'paso', 'sobre', 'entre', 'hace', 'falta']);
+const palabras = (p: (typeof todos)[number]) =>
+  new Set(`${p.data.titulo} ${p.data.descripcion}`.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .split(/[^a-zñ]+/).filter((w) => w.length > 4 && !VACIAS.has(w)).map((w) => w.slice(0, 6)));
+const mias = palabras(post);
+const parecidos = todos
+  .filter((p) => p.slug !== post.slug)
+  .map((p) => ({ p, n: (p.data.concern && p.data.concern === post.data.concern ? 3 : 0) + comun(p.data.tipoPiel, post.data.tipoPiel) * 0.2 + [...palabras(p)].filter((w) => mias.has(w)).length }))
+  .sort((a, b) => b.n - a.n || b.p.data.fecha.valueOf() - a.p.data.fecha.valueOf() || a.p.slug.localeCompare(b.p.slug))
+  .slice(0, 3)
+  .map((x) => x.p);
+const texto = (post.body || '').toLowerCase();
+const mencionadas = fichas.filter((f) =>
+  [f.nombre, ...f.inci].some((n) => n.length > 3 && texto.includes(n.toLowerCase())),
+).slice(0, 8);
 const minutos = Math.max(2, Math.round((post.body || '').split(/\s+/).length / 220));
 ---
-<Layout title={`${post.data.titulo} — Miranda Glow`} description={post.data.descripcion}>
+<Layout
+  title={`${post.data.titulo} — Miranda Glow`}
+  description={post.data.descripcion}
+  type="article"
+  image={post.data.imagen || (post.data.video ? `/video/${post.data.video}.jpg` : undefined)}
+  jsonld={[
+    articulo({ titulo: post.data.titulo, descripcion: post.data.descripcion, ruta: `/blog/${post.slug}`, fecha: post.data.fecha, imagen: post.data.imagen, seccion: post.data.concern }),
+    migas([['Inicio', '/'], ['Guía de la piel', '/guia'], [post.data.titulo, `/blog/${post.slug}`]]),
+  ]}
+>
   <article class="article wrap">
     <header class="art-head">
       {post.data.concern && <a class="tag" href="/blog">{post.data.concern}</a>}
@@ -31,16 +60,30 @@ const minutos = Math.max(2, Math.round((post.body || '').split(/\s+/).length / 2
     )}
     {post.data.video ? (
       <video class="art-video" src={`/video/${post.data.video}.mp4`} poster={`/video/${post.data.video}.jpg`} controls playsinline muted preload="none"></video>
-    ) : post.data.imagen && <img class="art-img" src={post.data.imagen} alt="" />}
+    ) : post.data.imagen && <img class="art-img" src={post.data.imagen} alt="" width="1280" height="720" fetchpriority="high" />}
     <div class="prose">
       <Content />
     </div>
 
+    {mencionadas.length > 0 && (
+      <aside class="art-ings" aria-label="Ingredientes de este artículo">
+        <h2>Ingredientes que salen en este artículo</h2>
+        <ul>{mencionadas.map((f) => <li><a href={`/ingredientes/${f.slug}`}>{f.nombre}</a></li>)}</ul>
+      </aside>
+    )}
     <aside class="art-cta">
       <h3>¿Quieres una rutina hecha para tu piel?</h3>
       <p>Responde unas diez preguntas y te decimos qué usar, en qué orden y qué evitar.</p>
       <a class="btn" href="/test">Hacer el test de piel</a>
     </aside>
+    <nav class="art-mas" aria-label="Sigue leyendo">
+      <h2>Sigue leyendo</h2>
+      <ul>
+        {parecidos.map((p) => (
+          <li><a href={`/blog/${p.slug}`}><span>{p.data.concern}</span>{p.data.titulo}</a></li>
+        ))}
+      </ul>
+    </nav>
   </article>
 </Layout>
 
@@ -57,6 +100,16 @@ const minutos = Math.max(2, Math.round((post.body || '').split(/\s+/).length / 2
   .prose :global(table){width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.95rem;margin:24px 0 28px}
   .prose :global(th){text-align:left;font-weight:600;border-bottom:2px solid var(--ink);padding:10px 12px 10px 0}
   .prose :global(td){border-bottom:1px solid var(--line);padding:12px 12px 12px 0;vertical-align:top;color:#33494D}
+  .art-ings{margin:48px 0 0;padding-top:28px;border-top:1px solid var(--line)}
+  .art-ings h2,.art-mas h2{font-size:1.35rem;margin:0 0 14px}
+  .art-ings ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+  .art-ings a{display:inline-block;padding:8px 14px;border-radius:999px;background:var(--mist);color:var(--ink);text-decoration:none;font-size:.92rem}
+  .art-ings a:hover{background:var(--aqua)}
+  .art-mas{margin-top:56px}
+  .art-mas ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .art-mas a{display:block;height:100%;padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:var(--white);color:var(--ink);text-decoration:none;font-family:var(--serif);font-size:1.12rem;line-height:1.3}
+  .art-mas a:hover{border-color:var(--teal)}
+  .art-mas span{display:block;font-family:var(--sans);font-size:.8rem;color:var(--teal);margin-bottom:6px}
   .art-video{display:block;width:100%;max-width:560px;margin:-8px auto 44px;aspect-ratio:1;border-radius:18px;background:var(--mist)}
   .claves{background:var(--mist);border-radius:18px;padding:24px 28px;margin:0 0 44px;font-family:var(--sans)}
   .claves-t{font-weight:700;font-size:1.05rem;margin-bottom:12px}

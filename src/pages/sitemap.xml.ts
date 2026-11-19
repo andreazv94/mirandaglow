@@ -7,7 +7,8 @@ export async function GET({ site }) {
   const base = (site?.href || 'https://mirandaglow.com/').replace(/\/$/, '');
   const posts = await getCollection('blog');
 
-  const urls = [
+  const hoy = new Date().toISOString().slice(0, 10);
+  const urls: (string | [string, string])[] = [
     '/',
     '/test',
     '/blog',
@@ -19,12 +20,15 @@ export async function GET({ site }) {
     '/aviso-legal',
     '/privacidad',
     '/cookies',
-    ...posts.map((p) => `/blog/${p.slug}`),
+    ...posts.map((p): [string, string] => [`/blog/${p.slug}`, p.data.fecha.toISOString().slice(0, 10)]),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url><loc>${base}${u}</loc></url>`).join('\n')}
+${urls.map((u) => {
+  const [ruta, fecha] = Array.isArray(u) ? u : [u, hoy];
+  return `  <url><loc>${base}${ruta}</loc><lastmod>${fecha}</lastmod></url>`;
+}).join('\n')}
 </urlset>`;
 
   return new Response(xml, {

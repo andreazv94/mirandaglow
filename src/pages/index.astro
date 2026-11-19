@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import PielHoy from '../components/PielHoy.tsx';
+import { inicio } from '../lib/seo';
 
 const guias = (await getCollection('blog'))
   .sort((a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf())
@@ -16,7 +17,7 @@ const inci: Ing[] = [
   { n: 'Ethylhexylglycerin' }, { n: 'Linalool', t: 'ojo' }, { n: 'Limonene', t: 'ojo' },
 ];
 ---
-<Layout overlay>
+<Layout overlay jsonld={inicio()}>
   <!-- Portada: la foto manda -->
   <section class="hero">
     <img class="hero-img" src="/img/frasco.jpg" alt="Frasco de sérum sin etiqueta sobre una piedra clara, con gotas alrededor" />

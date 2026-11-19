@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import ProductoAfiliado from '../../components/ProductoAfiliado.astro';
 import { fichas, fichaPorSlug } from '../../data/fichas';
 import { buscar } from '../../data/ingredientes';
+import { articulo, migas } from '../../lib/seo';
 
 export function getStaticPaths() {
   return fichas.map((f) => ({ params: { slug: f.slug } }));
@@ -14,7 +15,10 @@ const embarazo = ings.some((i) => i!.embarazo === 'evitar') ? 'evitar' : ings.so
 const rel = (f.relacionados || []).map(fichaPorSlug).filter(Boolean);
 const titulo = `${f.nombre}: qué es, para qué sirve y cómo usarlo — Miranda Glow`;
 ---
-<Layout title={titulo} description={f.resumen}>
+<Layout title={titulo} description={f.resumen} type="article" jsonld={[
+  articulo({ titulo: `${f.nombre}: qué es, para qué sirve y cómo usarlo`, descripcion: f.resumen, ruta: `/ingredientes/${f.slug}`, seccion: 'Ingredientes' }),
+  migas([['Inicio', '/'], ['Ingredientes', '/ingredientes/todos'], [f.nombre, `/ingredientes/${f.slug}`]]),
+]}>
   <article class="ficha wrap">
     <a class="volver" href="/ingredientes/todos">Todos los ingredientes</a>
     <header>

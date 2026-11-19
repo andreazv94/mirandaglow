@@ -22,3 +22,4 @@ tokengit.txt
 # wrangler
 .wrangler/
 .dev.vars*
+!public/robots.txt
