@@ -9,7 +9,9 @@
     "directory": "./dist",
     "binding": "ASSETS",
     // solo /api pasa por el Worker; el resto se sirve directamente
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": ["/api/*"],
+    // páginas que no existen: nuestra página 404
+    "not_found_handling": "404-page"
   },
   "routes": [
     { "pattern": "mirandaglow.com", "custom_domain": true },
