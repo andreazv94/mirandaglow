@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { dayKey, itemsFor, saveHistory, stepKey, streak, type Moment } from '../lib/data';
 import { useRutina } from '../lib/useRutina';
+import { TiempoCard } from '../lib/TiempoCard';
 import { C, Chip, Screen, openProduct, s } from '../lib/ui';
 
 export default function Hoy() {
@@ -38,6 +39,8 @@ export default function Hoy() {
       </View>
 
       <View style={s.chips}>{rutina.res.perfil.map((p) => <Chip key={p} label={p} />)}</View>
+
+      <TiempoCard />
 
       {verAvisos && medicos.length > 0 && (
         <View style={s.warnCard}>

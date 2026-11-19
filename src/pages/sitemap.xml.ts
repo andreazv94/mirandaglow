@@ -11,6 +11,7 @@ export async function GET({ site }) {
     '/',
     '/test',
     '/blog',
+    '/guia',
     '/ingredientes',
     '/ingredientes/todos',
     ...fichas.map((f) => `/ingredientes/${f.slug}`),

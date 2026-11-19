@@ -22,6 +22,7 @@ const { Content } = await post.render();
       <p class="art-desc">{post.data.descripcion}</p>
       <time>Actualizado el {post.data.fecha.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
     </header>
+    {post.data.imagen && <img class="art-img" src={post.data.imagen} alt="" />}
     <div class="prose">
       <Content />
     </div>
@@ -42,6 +43,11 @@ const { Content } = await post.render();
   .art-head h1{font-size:clamp(2rem,4.4vw,2.9rem);margin-bottom:16px}
   .art-desc{font-family:var(--font-read);font-size:1.2rem;color:var(--ink-soft);line-height:1.55;margin-bottom:16px}
   .art-head time{font-size:.88rem;color:var(--ink-soft)}
+  .art-img{width:calc(100% + 120px);max-width:none;margin:-8px -60px 48px;aspect-ratio:16/9;object-fit:cover;border-radius:4px}
+  @media(max-width:860px){.art-img{width:100%;margin:-8px 0 36px}}
+  .prose :global(table){width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.95rem;margin:24px 0 28px}
+  .prose :global(th){text-align:left;font-weight:600;border-bottom:2px solid var(--ink);padding:10px 12px 10px 0}
+  .prose :global(td){border-bottom:1px solid var(--line);padding:12px 12px 12px 0;vertical-align:top;color:#33494D}
   .prose{font-family:var(--font-read);font-size:1.13rem;line-height:1.75;color:#33494D}
   .prose :global(h2){font-family:var(--serif);font-weight:400;font-size:1.9rem;letter-spacing:-.01em;line-height:1.15;margin:48px 0 14px;color:var(--ink)}
   .prose :global(h3){font-family:var(--sans);font-weight:600;font-size:1.05rem;margin:32px 0 10px;color:var(--ink)}
