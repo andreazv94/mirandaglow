@@ -27,7 +27,7 @@
     // Pon "1" cuando el envío de emails esté activado en Cloudflare
     "EMAIL_ACTIVO": "0",
     // ID de cliente de Google (es público). El secreto va en el panel: GOOGLE_CLIENT_SECRET
-    "GOOGLE_CLIENT_ID": ""
+    "GOOGLE_CLIENT_ID": "601961459084-2i84enhub4cbp18rkpb1cpcqdb8q4msc.apps.googleusercontent.com"
   },
   "keep_vars": true
 }
