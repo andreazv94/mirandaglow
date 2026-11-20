@@ -17,6 +17,7 @@ export async function GET({ site }) {
     '/ingredientes',
     '/ingredientes/todos',
     '/analisis',
+    '/comparar',
     ...analisis.map((a): [string, string] => [`/analisis/${a.slug}`, a.comprobado]),
     ...fichas.map((f) => `/ingredientes/${f.slug}`),
     '/sobre',

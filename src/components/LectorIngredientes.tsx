@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { PIELES, paraTuPiel, type Piel } from '../lib/paraTuPiel';
 import { anadirCrema, leerCremas } from '../lib/cremas';
 import EscanerCodigo from './EscanerCodigo';
+import { compartirTarjeta } from '../lib/tarjeta';
 import { analizarLista, limpiarOCR, tipoTxt, type Ingrediente, type Tipo } from '../data/ingredientes';
 import { fichaDeInci } from '../data/fichas';
 
@@ -142,6 +143,21 @@ export default function LectorIngredientes() {
     const c = id && leerCremas().find((x) => x.id === id);
     if (c) { setTexto(c.inci); setVerTexto(true); setNombreCrema(c.nombre); setGuardada(c.id); analizar(c.inci); }
   }, []);
+
+  const [compartiendo, setCompartiendo] = useState<string | null>(null);
+  async function compartir() {
+    setCompartiendo('Preparando la imagen…');
+    const rasgos = [piel, sensible && 'sensible', atopica && 'atópica', granitos && 'con granitos'].filter(Boolean) as string[];
+    const nombre = (prod?.estado === 'ok' && [prod.marca, prod.nombre].filter(Boolean).join(' ')) || nombreCrema.trim() || 'Mi crema';
+    const r = await compartirTarjeta({
+      titulo: nombre,
+      subtitulo: !resumen && rasgos.length ? `Para piel ${rasgos.join(', ')}` : undefined,
+      color: veredicto.c === 'verde' ? 'verde' : veredicto.c === 'naranja' ? 'naranja' : veredicto.c === 'rojo' ? 'rojo' : 'gris',
+      veredicto: resumen ? resumen.titulo : veredicto.t,
+      puntos: resumen ? resumen.puntos : [...rojo, ...naranja].slice(0, 4).map((x) => ({ ok: false, t: x.titulo })),
+    }).catch(() => 'error');
+    setCompartiendo(r === 'descargada' ? 'Imagen descargada: súbela a tus redes.' : r === 'error' ? 'No se ha podido crear la imagen.' : null);
+  }
 
   function guardarCrema() {
     const c = anadirCrema({ nombre: nombreCrema.trim() || 'Crema sin nombre', inci: analizado, veredicto: veredicto.c });
@@ -388,6 +404,12 @@ export default function LectorIngredientes() {
               })}
             </ol>
           </details>
+
+          <div className="lx-acc">
+            <button className="btn" onClick={compartir} disabled={compartiendo === 'Preparando la imagen…'}>Compartir resultado</button>
+            <a className="btn ghost" href={`/comparar?lista=${encodeURIComponent(analizado)}`}>Comparar con otra crema</a>
+            {compartiendo && <span role="status">{compartiendo}</span>}
+          </div>
 
           <div className="lx-guardar">
             {guardada ? (

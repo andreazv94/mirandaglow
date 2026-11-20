@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fases, questions, type Answers } from './quiz-logic';
 import { borrarCrema, leerCremas, type Crema } from '../lib/cremas';
+import { revisarRutina } from '../lib/rutina';
 
 type Estado = {
   usuario: { email: string; nombre: string | null; creado: number } | null;
@@ -161,6 +162,12 @@ export default function Cuenta() {
   }
 
   const fh = ciclo ? faseHoy(ciclo) : null;
+  const avisos = cremas.length ? revisarRutina(cremas, {
+    sensible: !!perfil?.sensible || answers?.sensible === 'muy',
+    atopica: !!perfil?.atopica,
+    embarazo: !!perfil?.embarazo || answers?.hormonas === 'embarazo' || answers?.hormonas === 'lactancia',
+    menor: answers?.edad === '15',
+  }) : [];
   const conCiclo = answers?.sexo !== 'hombre';
   const nombreTipo = respuesta(answers || {}, 'tipo');
 
@@ -285,6 +292,21 @@ export default function Cuenta() {
       {/* ---------- Mis cremas ---------- */}
       <section className="cu-sec" id="cremas">
         <h2>Mis cremas</h2>
+        {avisos.length > 0 && (
+          <div className="cu-avisos">
+            <h3>Tu rutina, revisada</h3>
+            <ul>
+              {avisos.map((a) => (
+                <li key={a.titulo} className={`cu-av-${a.nivel}`}>
+                  <b>{a.titulo}</b>
+                  <p>{a.texto}</p>
+                  <small>{a.cremas.join(' · ')}</small>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {cremas.length > 0 && avisos.length === 0 && <p className="cu-ok-rutina">Hemos revisado tus cremas juntas: no vemos choques entre ellas.</p>}
         {cremas.length ? (
           <ul className="cu-cremas">
             {cremas.map((c) => (
@@ -295,6 +317,7 @@ export default function Cuenta() {
                   <small>Guardada el {new Date(c.fecha + 'T12:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</small>
                 </div>
                 <a href={`/ingredientes?crema=${c.id}`}>Ver análisis</a>
+                <a href={`/comparar?ca=${c.id}`}>Comparar</a>
                 <button className="cu-link" onClick={() => quitarCrema(c.id)} aria-label={`Quitar ${c.nombre}`}>Quitar</button>
               </li>
             ))}
