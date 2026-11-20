@@ -74,7 +74,8 @@ export default function Cuenta() {
   useEffect(() => {
     const q = new URLSearchParams(location.search);
     const err = q.get('error');
-    if (err) setAviso({ tipo: 'error', texto: ERRORES[err] || ERRORES.servidor });
+    const motivo = q.get('motivo');
+    if (err) setAviso({ tipo: 'error', texto: (ERRORES[err] || ERRORES.servidor) + (motivo ? ` (código: ${motivo.replace(/[^a-z_-]/gi, '')})` : '') });
     if (q.get('borrada')) setAviso({ tipo: 'ok', texto: 'Tu cuenta y todos tus datos se han borrado.' });
     if (q.get('bienvenida')) setAviso({ tipo: 'ok', texto: 'Ya estás dentro. Lo que tenías en este navegador se ha guardado en tu cuenta.' });
     setToken(q.get('token'));

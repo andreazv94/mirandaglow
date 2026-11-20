@@ -361,7 +361,8 @@ async function api(req: Request, env: Env, url: URL): Promise<Response> {
     };
     const [state, verificador, consiente] = (leerCookie(req, 'mg_g') || '').split('.');
     const code = url.searchParams.get('code');
-    if (!code || !state || url.searchParams.get('state') !== state) return volver('?error=google');
+    if (url.searchParams.get('error')) return volver(`?error=google&motivo=${encodeURIComponent(url.searchParams.get('error')!)}`);
+    if (!code || !state || url.searchParams.get('state') !== state) return volver(`?error=google&motivo=${!state ? 'sin-cookie' : 'state'}`);
     const tok = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -369,12 +370,12 @@ async function api(req: Request, env: Env, url: URL): Promise<Response> {
         code, client_id: env.GOOGLE_CLIENT_ID!, client_secret: env.GOOGLE_CLIENT_SECRET!,
         redirect_uri: `${url.origin}/api/auth/google/vuelta`, grant_type: 'authorization_code', code_verifier: verificador,
       }),
-    }).then((r) => r.json<{ access_token?: string }>()).catch(() => ({} as { access_token?: string }));
-    if (!tok.access_token) return volver('?error=google');
+    }).then((r) => r.json<{ access_token?: string; error?: string; error_description?: string }>()).catch(() => ({ error: 'red' } as { access_token?: string; error?: string; error_description?: string }));
+    if (!tok.access_token) { console.error('google token', tok.error, tok.error_description); return volver(`?error=google&motivo=${encodeURIComponent(tok.error || 'token')}`); }
     const yo = await fetch('https://openidconnect.googleapis.com/v1/userinfo', { headers: { authorization: `Bearer ${tok.access_token}` } })
       .then((r) => r.json<{ sub?: string; email?: string; email_verified?: boolean; given_name?: string; name?: string }>())
       .catch(() => ({} as Record<string, never>));
-    if (!yo.sub || !yo.email || !yo.email_verified) return volver('?error=google');
+    if (!yo.sub || !yo.email || !yo.email_verified) return volver('?error=google&motivo=perfil');
     const u = await buscarOCrear(env, yo.email, consiente === '1', { nombre: yo.given_name || yo.name, googleSub: yo.sub });
     if (u === 'sin-consentimiento') return volver('?error=sin-consentimiento');
     return volver('?bienvenida=1', await abrirSesion(env, u.id));
