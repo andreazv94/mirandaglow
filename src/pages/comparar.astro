@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Comparador from '../components/Comparador.tsx';
+import { migas } from '../lib/seo';
+---
+<Layout
+  title="Comparar cremas: ¿la barata hace lo mismo? — Miranda Glow"
+  description="Pon dos cremas y te decimos en qué se parecen sus ingredientes, cuál sale más barata por ml y cuál le va mejor a tu piel."
+  jsonld={migas([['Inicio', '/'], ['Comparar cremas', '/comparar']])}
+>
+  <section class="wrap cmp">
+    <header>
+      <h1>¿La barata hace lo mismo?</h1>
+      <p>Pon dos cremas y te decimos en qué se parecen por dentro, cuál sale más barata por mililitro y cuál le va mejor a tu piel.</p>
+    </header>
+    <Comparador client:load />
+  </section>
+</Layout>
+<style is:global>
+  .cmp{padding-top:56px;padding-bottom:96px;max-width:1040px}
+  .cmp h1{font-size:clamp(2.4rem,6vw,4rem);margin:0 0 12px}
+  .cmp header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:60ch;margin:0 0 32px}
+  .cp-dos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:760px){.cp-dos{grid-template-columns:1fr}}
+  .cp-hueco{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:10px;align-content:start}
+  .cp-letra{margin:0;font-weight:600;color:var(--teal)}
+  .cp input,.cp select,.cp textarea{font:inherit;color:var(--ink);border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px 14px;width:100%;box-sizing:border-box}
+  .cp textarea{resize:vertical;font-size:.92rem}
+  .cp input:focus-visible,.cp select:focus-visible,.cp textarea:focus-visible,.cp button:focus-visible,.cp a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .cp-fuentes{display:flex;gap:8px;flex-wrap:wrap}
+  .cp-fuentes select{flex:1 1 180px;width:auto}
+  .cp-precio{display:flex;gap:12px;flex-wrap:wrap}
+  .cp-precio label{display:grid;gap:4px;font-size:.85rem;color:var(--ink-soft)}
+  .cp-precio span{display:flex;align-items:center;gap:6px;color:var(--ink)}
+  .cp-precio input{width:96px}
+  .cp-msg{margin:0;font-size:.88rem;color:#8A2433}
+  .cp-ayuda{color:var(--ink-soft);margin-top:20px}
+  .cp-res{margin-top:24px;display:grid;gap:18px}
+  .cp-cab{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:26px 28px}
+  .cp-cab h2{font-size:clamp(1.8rem,4vw,2.4rem);margin:14px 0 6px}
+  .cp-cab p{margin:0;color:var(--ink-soft)}
+  .cp-cab .cp-precio-res{margin-top:10px;color:var(--ink)}
+  .cp-medidor{height:10px;border-radius:10px;background:var(--mist);overflow:hidden}
+  .cp-medidor i{display:block;height:100%;background:var(--teal);border-radius:10px}
+  .cp-tabla{background:var(--white);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+  .cp-fila{display:grid;grid-template-columns:1fr 1.3fr 1.3fr;gap:12px;padding:12px 20px;border-top:1px solid var(--line);font-size:.95rem}
+  .cp-fila:first-child{border-top:0}
+  .cp-th{font-weight:600;background:var(--pearl)}
+  .cp-fila [role=rowheader]{color:var(--ink-soft)}
+  .cp-tres{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:760px){.cp-tres{grid-template-columns:1fr}.cp-fila{grid-template-columns:1fr 1fr 1fr;padding:12px 14px;font-size:.88rem}}
+  .cp-tres > div{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:20px}
+  .cp-tres h3{font-size:1.15rem;margin:0 0 10px}
+  .cp-ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.92rem}
+  .cp-ul li.k{font-weight:600}
+  .cp-ul small{font-weight:400;color:var(--ink-soft);margin-left:4px}
+  .cp-nada,.cp-nota{color:var(--ink-soft);font-size:.9rem;margin:0}
+  .cp-nada a{color:var(--teal)}
+  .cp-acc{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .cp-acc span{font-size:.9rem;color:var(--ink-soft)}
+</style>

@@ -80,7 +80,7 @@ const enLector = `/ingredientes?lista=${encodeURIComponent(a.inci)}`;
           {embarazo.length > 0 && <p><b>Embarazo:</b> lleva {embarazo.map((f) => f.ing!.n).join(', ')}. Consulta con tu médica.</p>}
         </div>
       )}
-      <p class="an-tu"><a class="btn" href={enLector}>Ver cómo le sienta a tu piel</a> <span>Ábrela en el lector y marca tu tipo de piel.</span></p>
+      <p class="an-tu"><a class="btn" href={enLector}>Ver cómo le sienta a tu piel</a> <a class="btn ghost" href={`/comparar?a=${a.slug}`}>Compararla con otra</a></p>
     </section>
 
     <div class="an-dos">

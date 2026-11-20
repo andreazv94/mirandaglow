@@ -62,12 +62,21 @@ import Cuenta from '../components/Cuenta.tsx';
   .cu-num{display:flex;align-items:center;gap:8px;color:var(--ink)}
   .cu-num input{width:84px}
   .cu-cremas{list-style:none;margin:0;padding:0;display:grid}
-  .cu-cremas li{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+  .cu-cremas li{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:14px 0;border-top:1px solid var(--line)}
   .cu-cremas li:first-child{border-top:0}
   .cu-cremas li > div{flex:1;min-width:0}
   .cu-cremas b{display:block}
   .cu-cremas small{color:var(--ink-soft)}
   .cu-cremas a{color:var(--teal);font-size:.92rem;white-space:nowrap}
+  .cu-avisos{background:var(--pearl);border-radius:18px;padding:18px 20px;margin-bottom:18px}
+  .cu-avisos h3{font-family:var(--serif);font-weight:400;font-size:1.35rem;margin:0 0 10px}
+  .cu-avisos ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .cu-avisos li{background:#fff;border-radius:14px;padding:12px 16px;border-left:5px solid #E8A54B}
+  .cu-avisos .cu-av-rojo{border-left-color:#E0606F}
+  .cu-avisos .cu-av-info{border-left-color:var(--aqua)}
+  .cu-avisos p{margin:4px 0;line-height:1.5}
+  .cu-avisos small{color:var(--ink-soft)}
+  .cu-ok-rutina{color:#1F5E40;background:#DDF1E7;border-radius:14px;padding:12px 16px;margin:0 0 14px}
   .cu-luz{width:14px;height:14px;border-radius:50%;flex:none;background:#C9D3D4}
   .cu-luz-verde{background:#55B98A}.cu-luz-naranja{background:#E8A54B}.cu-luz-rojo{background:#E0606F}
   .cu-datos p{color:var(--ink-soft);margin:0 0 16px}
