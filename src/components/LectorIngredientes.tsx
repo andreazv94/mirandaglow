@@ -420,7 +420,7 @@ export default function LectorIngredientes() {
 
           <div className="lx-guardar">
             {guardada ? (
-              <p><b>Guardada en tus cremas.</b> <a href="/cuenta#cremas">Ver mis cremas</a></p>
+              <p><b>Guardada en tus cremas.</b> <a href="/mi-rutina">Ver dónde va en tu rutina</a> · <a href="/cuenta#cremas">Mis cremas</a></p>
             ) : (
               <form onSubmit={(e) => { e.preventDefault(); guardarCrema(); }}>
                 <label htmlFor="lx-nombre">¿La tienes en casa? Guárdala para tenerla a mano</label>
