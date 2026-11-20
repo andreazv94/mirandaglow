@@ -5,6 +5,7 @@ import { paraTuPiel, type Piel } from '../lib/paraTuPiel';
 import { leerCremas, type Crema } from '../lib/cremas';
 import { tipoTxt } from '../data/ingredientes';
 import { analisis } from '../data/analisis';
+import { alternativaPorSlug } from '../data/alternativas';
 import EscanerCodigo from './EscanerCodigo';
 import { compartirTarjeta } from '../lib/tarjeta';
 
@@ -76,6 +77,8 @@ export default function Comparador() {
     if (a) setA({ ...vacio, nombre: a.nombre, inci: a.inci });
     if (c) setA({ ...vacio, nombre: c.nombre, inci: c.inci });
     if (b) setB({ ...vacio, nombre: b.nombre, inci: b.inci });
+    const al = q.get('alt') && alternativaPorSlug(q.get('alt')!);
+    if (al) { setA({ ...vacio, nombre: `${al.caro.marca} ${al.caro.nombre}`, inci: al.caro.inci }); setB({ ...vacio, nombre: `${al.barato.marca} ${al.barato.nombre}`, inci: al.barato.inci }); }
   }, []);
 
   const listo = A.inci.trim().length > 10 && B.inci.trim().length > 10;
