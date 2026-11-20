@@ -45,7 +45,7 @@ export const capitulos: Capitulo[] = [
     intro: 'Acné, rojeces, manchas, dermatitis, ojeras… Qué es cada cosa, qué puedes hacer en casa y cuándo hace falta una dermatóloga.',
     articulos: [
       'rutina-piel-acne', 'marcas-cicatrices-acne', 'rutina-piel-grasa', 'rutina-rosacea-piel-reactiva',
-      'dermatitis-atopica', 'dermatitis-seborreica', 'manchas-sol-melasma', 'ojeras-y-bolsas',
+      'acne-espalda-pecho-gimnasio', 'dermatitis-atopica', 'dermatitis-seborreica', 'manchas-sol-melasma', 'ojeras-y-bolsas',
     ],
   },
   {
@@ -54,7 +54,7 @@ export const capitulos: Capitulo[] = [
     intro: 'La piel cambia con la edad y con las hormonas. Qué necesita en la adolescencia, en cada década, en el ciclo menstrual, el embarazo y la menopausia.',
     imagen: '/img/crema.jpg',
     articulos: [
-      'skincare-adolescentes', 'piel-por-edades', 'piel-ciclo-menstrual', 'skincare-embarazo-lactancia',
+      'skincare-adolescentes', 'skincare-hijos-guia-padres', 'piel-por-edades', 'piel-ciclo-menstrual', 'skincare-embarazo-lactancia',
       'piel-menopausia', 'rutina-skincare-hombre', 'rutina-antiedad',
     ],
   },

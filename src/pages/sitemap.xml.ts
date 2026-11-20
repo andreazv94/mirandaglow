@@ -18,6 +18,8 @@ export async function GET({ site }) {
     '/ingredientes/todos',
     '/analisis',
     '/comparar',
+    '/mitos',
+    '/lunares',
     ...analisis.map((a): [string, string] => [`/analisis/${a.slug}`, a.comprobado]),
     ...fichas.map((f) => `/ingredientes/${f.slug}`),
     '/sobre',

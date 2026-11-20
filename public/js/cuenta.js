@@ -14,6 +14,9 @@
     ciclo: 'mirandaglow.ciclo',
     history: 'mirandaglow.history.v2',
     shelf: 'mirandaglow.shelf.v2',
+    lunares: 'mirandaglow.lunares',
+    diario: 'mirandaglow.diario',
+    sol: 'mirandaglow.sol',
   };
   var META = 'mirandaglow.sync';
   var conectado = false;

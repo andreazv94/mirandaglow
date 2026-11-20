@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Lunares from '../components/Lunares.tsx';
+import { migas } from '../lib/seo';
+const abcde = [
+  ['A', 'Asimetría', 'Si lo partes por la mitad, las dos mitades no son iguales.'],
+  ['B', 'Bordes', 'Irregulares, como dentados o borrosos, en lugar de redondos y nítidos.'],
+  ['C', 'Color', 'Varios colores o tonos en el mismo lunar: marrón, negro, rojo, blanco o azulado.'],
+  ['D', 'Diámetro', 'Más de 6 mm (como la goma de un lápiz), aunque los hay malos más pequeños.'],
+  ['E', 'Evolución', 'Cambia de tamaño, forma, color o altura, o empieza a picar, sangrar o hacer costra. Es la señal más importante.'],
+];
+---
+<Layout
+  title="Revisa tus lunares en casa: la regla ABCDE paso a paso — Miranda Glow"
+  description="Cómo revisarte los lunares una vez al mes con la regla ABCDE, qué cambios son señal de ir a la dermatóloga y un recordatorio mensual para tu calendario."
+  jsonld={migas([['Inicio', '/'], ['Revisa tus lunares', '/lunares']])}
+>
+  <section class="wrap lus">
+    <header>
+      <h1>Revisa tus lunares</h1>
+      <p>Cinco minutos al mes delante del espejo. Tú conoces tu piel mejor que nadie: lo que buscas son <b>cambios</b>.</p>
+      <p class="lus-aviso">Esto no es un diagnóstico. Solo una dermatóloga puede decir si un lunar es benigno. Ante cualquier duda, pide cita.</p>
+    </header>
+
+    <h2>La regla ABCDE</h2>
+    <ul class="lus-abc">
+      {abcde.map(([l, t, d]) => <li><span aria-hidden="true">{l}</span><div><h3>{t}</h3><p>{d}</p></div></li>)}
+    </ul>
+    <p class="lus-patito"><b>El patito feo.</b> Fíjate también en el lunar que no se parece a los demás que tienes. Si todos son pequeños y redondos y uno es distinto, ese es el que hay que enseñar.</p>
+
+    <h2>Tu revisión de este mes</h2>
+    <p class="lus-intro">Con buena luz, un espejo grande y otro de mano. Marca cada zona cuando la hayas mirado. Si te ayuda, hazte fotos con el móvil de los lunares que más te preocupan para compararlas el mes que viene: se quedan en tu móvil.</p>
+    <Lunares client:load />
+
+    <div class="lus-ya">
+      <h2>Pide cita pronto si…</h2>
+      <ul>
+        <li>Un lunar cumple alguna letra del ABCDE, sobre todo la E: ha cambiado.</li>
+        <li>Sangra, pica o hace costra sin haberte hecho daño.</li>
+        <li>Te sale un lunar nuevo a partir de los 30 o 35 años.</li>
+        <li>Tienes una herida que no se cura en un mes.</li>
+        <li>Tienes muchos lunares (más de 50), piel muy clara o familiares con melanoma: entonces conviene una revisión al año con la dermatóloga.</li>
+      </ul>
+      <p>Hay apps que dicen analizar lunares con una foto. No sustituyen a la consulta: pueden fallar en los dos sentidos.</p>
+    </div>
+    <p class="lus-mas">Más en nuestra guía <a href="/blog/lunares-piel-clara-proteccion-solar">Lunares, piel clara y protección solar</a>.</p>
+  </section>
+</Layout>
+<style is:global>
+  .lus{padding-top:56px;padding-bottom:96px;max-width:860px}
+  .lus h1{font-size:clamp(2.4rem,6vw,4rem);margin:0 0 12px}
+  .lus header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:56ch;margin:0 0 12px}
+  .lus header .lus-aviso{font-family:inherit;font-size:.95rem;background:var(--mist);color:var(--ink);border-radius:14px;padding:12px 16px}
+  .lus h2{font-size:clamp(1.7rem,4vw,2.3rem);margin:48px 0 16px}
+  .lus-abc{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .lus-abc li{display:flex;gap:18px;align-items:flex-start;background:var(--white);border:1px solid var(--line);border-radius:18px;padding:16px 20px}
+  .lus-abc span{font-family:var(--serif);font-size:2.4rem;line-height:1;color:var(--teal);width:36px;flex:none}
+  .lus-abc h3{margin:0 0 4px;font-size:1.15rem}
+  .lus-abc p{margin:0;line-height:1.55}
+  .lus-patito,.lus-intro{line-height:1.6;margin:16px 0 0}
+  .lu{display:grid;gap:16px;margin-top:16px}
+  .lu-estado p{margin:0;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+  .lu-zonas{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .lu-zonas label{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:12px 16px;cursor:pointer}
+  .lu-zonas label.on{background:#DDF1E7;border-color:#BFE3CF}
+  .lu-zonas input{width:20px;height:20px;accent-color:var(--teal)}
+  .lu button:disabled{opacity:.5;cursor:default}
+  .lu-rec{background:var(--pearl);border-radius:18px;padding:18px 20px}
+  .lu-rec h3{margin:0 0 4px;font-size:1.2rem}
+  .lu-rec p{margin:0 0 12px;color:var(--ink-soft)}
+  .lu-fila{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .lu-fila select{font:inherit;border:1px solid var(--line);border-radius:10px;padding:6px 8px;margin:0 4px}
+  .lu-ok{margin:0;color:#1F5E40}
+  .lu input:focus-visible,.lu button:focus-visible,.lu select:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .lus-ya{margin-top:48px;background:#FBE3E6;border-radius:22px;padding:24px 28px}
+  .lus-ya h2{margin:0 0 12px}
+  .lus-ya ul{margin:0 0 12px;padding-left:20px;line-height:1.7}
+  .lus-ya p{margin:0}
+  .lus-mas{margin-top:24px}
+  .lus-mas a,.lus-intro a{color:var(--teal)}
+</style>

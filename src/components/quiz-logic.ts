@@ -71,6 +71,7 @@ export const questions: Question[] = [
     { t: 'Tirantez aunque tenga brillos', v: 'deshidratacion', s: 'Piel deshidratada' },
     { t: 'Descamación o zonas ásperas', v: 'descamacion' },
     { t: 'Irritación por afeitado o depilación', v: 'afeitado' },
+    { t: 'Granitos en espalda, pecho o glúteos', v: 'cuerpo' },
   ]},
   { id: 'sol', q: '¿Cómo reacciona tu piel al sol?', opts: [
     { t: 'Me quemo siempre', v: 'I', s: 'Piel muy clara, a menudo con pecas' },
@@ -231,6 +232,12 @@ export function buildRoutine(todas: Answers): Resultado {
 
   let rutina = [...new Set(r)];
 
+  // Menores: tres pasos (limpiar, hidratar, proteger) y, si hay granitos, un solo tratamiento suave
+  if (menor) {
+    const trat = rutina.filter((p) => p.orden >= 2 && p.orden <= 3 && (p === P.niacin || p === P.bha || p === P.parches || p === P.calmante || p === P.postAfeitado));
+    rutina = [...rutina.filter((p) => p.orden === 1), ...(has('acne') ? trat.filter((p) => p !== P.postAfeitado).slice(0, 2) : []), ...trat.filter((p) => p === P.postAfeitado), ...rutina.filter((p) => p.orden >= 4)];
+  }
+
   // Quien empieza: como mucho un activo fuerte
   if (exp === 'novata') {
     const fuertes = rutina.filter((p) => FUERTES.includes(p.id));
@@ -281,6 +288,8 @@ export function buildRoutine(todas: Answers): Resultado {
     avisos.push({ tipo: 'info', texto: 'El melasma (manchas simétricas en mejillas, frente o labio superior) empeora con el sol y las hormonas. Sin protector solar diario ningún sérum funciona.' });
   if (menor)
     avisos.push({ tipo: 'info', texto: 'A tu edad la piel no necesita retinol ni ácidos fuertes. Si el acné te deja marcas o te agobia, pide cita con tu médico: hay tratamientos que funcionan muy bien.' });
+  if (has('cuerpo'))
+    avisos.push({ tipo: 'info', texto: 'Granitos en espalda o pecho: dúchate justo después de entrenar, lava la ropa de deporte cada vez y usa un gel con ácido salicílico o peróxido de benzoilo (deja la espuma 2 minutos). Si son granitos iguales que pican, puede ser foliculitis por hongos. Si la proteína whey te coincide con brotes, prueba a dejarla un mes. Lo tienes todo en nuestra guía de acné en el cuerpo.' });
   if (has('acne') && (horm === 'irregular'))
     avisos.push({ tipo: 'info', texto: 'Acné junto con reglas irregulares puede tener un origen hormonal (por ejemplo, ovario poliquístico). Coméntalo con tu ginecóloga o médico de cabecera.' });
 

@@ -73,6 +73,7 @@ export default function LectorIngredientes() {
   const input = useRef<HTMLInputElement>(null);
 
   const [atopica, setAtopica] = useState(false);
+  const [menor, setMenor] = useState(false);
   const listo = useRef(false);
 
   // Tu piel: lo último que marcaste aquí o, si no, tus respuestas del test (todo se queda en tu navegador)
@@ -80,11 +81,12 @@ export default function LectorIngredientes() {
     try {
       const g = JSON.parse(localStorage.getItem('mirandaglow.perfil') || 'null');
       if (g) {
-        setPiel(g.piel ?? null); setSensible(!!g.sensible); setAtopica(!!g.atopica); setGranitos(!!g.granitos); setEmbarazo(!!g.embarazo);
+        setPiel(g.piel ?? null); setSensible(!!g.sensible); setAtopica(!!g.atopica); setGranitos(!!g.granitos); setEmbarazo(!!g.embarazo); setMenor(!!g.menor);
       } else {
         const a = JSON.parse(localStorage.getItem('mirandaglow.answers.v2') || '{}');
         if (['seca', 'grasa', 'mixta', 'normal'].includes(a.tipo)) { setPiel(a.tipo); setDesdeTest(true); }
         if (a.sensible === 'muy') setSensible(true);
+        if (a.edad === '15') setMenor(true);
         if (a.hormonas === 'embarazo' || a.hormonas === 'lactancia') setEmbarazo(true);
         if (Array.isArray(a.problemas) && a.problemas.includes('acne')) setGranitos(true);
       }
@@ -230,6 +232,10 @@ export default function LectorIngredientes() {
     const p = { titulo: evitar ? 'No recomendado en el embarazo' : 'Consultar en el embarazo', texto: evitar ? 'Lleva ingredientes que no se recomiendan si estás embarazada o das el pecho.' : 'Pregunta a tu médica si estás embarazada o das el pecho.', quien: nombres(emb) };
     (embarazo ? rojo : naranja).push(p);
   }
+  if (menor) {
+    const fuertes = conocidos.filter((f) => /retin|adapalene|tretinoin/i.test(f.ing!.n) || (f.ing!.tipo === 'exfoliante' && !/salicyl|gluconolactone|lactobionic/i.test(f.ing!.n)));
+    if (fuertes.length) rojo.push({ titulo: 'No hace falta antes de los 18', texto: 'Retinoides y ácidos exfoliantes pueden irritar una piel joven. Si te preocupa el acné, mejor que lo vea tu médico.', quien: nombres(fuertes) });
+  }
   const perfume = conocidos.filter((f) => f.ing!.tipo === 'perfume' || f.ing!.alergeno);
   if (perfume.length) (delicada ? rojo : naranja).push({ titulo: 'Lleva perfume', texto: 'No aporta nada a la piel y puede irritar o dar alergia.', quien: nombres(perfume) });
   const alcohol = filas.find((f) => f.ing?.n === 'Alcohol Denat.');
@@ -324,6 +330,7 @@ export default function LectorIngredientes() {
             <label className={atopica ? 'on' : ''} title="Dermatitis atópica: seca, con picor y brotes"><input type="checkbox" checked={atopica} onChange={(e) => setAtopica(e.target.checked)} />Atópica</label>
             <label className={granitos ? 'on' : ''}><input type="checkbox" checked={granitos} onChange={(e) => setGranitos(e.target.checked)} />Granitos</label>
             <label className={embarazo ? 'on' : ''}><input type="checkbox" checked={embarazo} onChange={(e) => setEmbarazo(e.target.checked)} />Embarazo o lactancia</label>
+            <label className={menor ? 'on' : ''}><input type="checkbox" checked={menor} onChange={(e) => setMenor(e.target.checked)} />Menos de 18</label>
           </div>
           <p className="lx-ayuda">
             {desdeTest ? 'Lo hemos cogido de tu test. ' : ''}Puedes marcar varias. ¿No sabes tu tipo de piel? <a href="/test">Haz el test</a>.
@@ -381,7 +388,7 @@ export default function LectorIngredientes() {
           <div className="lx-cols">
             <Col c="verde" titulo="Lo que hace" l={verde} vacio="No reconocemos activos ni hidratantes en la lista." />
             <Col c="naranja" titulo="A vigilar" l={naranja} vacio="Nada que vigilar." />
-            <Col c="rojo" titulo="No te conviene" l={rojo} vacio={embarazo || delicada || granitos ? 'Nada para tu caso.' : 'Marca arriba tu caso para verlo.'} />
+            <Col c="rojo" titulo="No te conviene" l={rojo} vacio={embarazo || delicada || granitos || menor ? 'Nada para tu caso.' : 'Marca arriba tu caso para verlo.'} />
           </div>
 
           <details className="lx-det">
