@@ -1,0 +1,144 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { alternativas, alternativaPorSlug } from '../../data/alternativas';
+import { analizarLista } from '../../data/ingredientes';
+import { paraTuPiel } from '../../lib/paraTuPiel';
+import { comparar } from '../../lib/rutina';
+import { articulo, migas } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return alternativas.map((a) => ({ params: { slug: a.slug } }));
+}
+const a = alternativaPorSlug(Astro.params.slug!)!;
+const r = comparar(a.caro.inci, a.barato.inci);
+const pct = Math.round(r.parecido * 100);
+const filas = (inci: string) => analizarLista(inci).map((f, i) => ({ pos: i + 1, ...f }));
+const fA = filas(a.caro.inci), fB = filas(a.barato.inci);
+const perfume = (f: ReturnType<typeof filas>) => f.filter((x) => x.ing && (x.ing.tipo === 'perfume' || x.ing.alergeno)).length > 0;
+const pieles = [['Seca', 'seca'], ['Normal', 'normal'], ['Mixta', 'mixta'], ['Grasa', 'grasa']] as const;
+const pal = { bien: 'Le va bien', matices: 'Con matices', corta: 'No es lo ideal' };
+const V = { si: 'Sí, hace prácticamente lo mismo', casi: 'En lo principal, sí', no: 'No del todo' };
+const fecha = new Date(a.comprobado + 'T12:00:00');
+const fechaTxt = fecha.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+const titulo = `Alternativa barata a ${a.caro.marca} ${a.caro.nombre}: ${a.barato.marca} ${a.barato.nombre}`;
+const comparador = `/comparar?alt=${a.slug}`;
+const otras = alternativas.filter((x) => x.slug !== a.slug).slice(0, 4);
+---
+<Layout
+  title={`${titulo} — Miranda Glow`}
+  description={a.resumen}
+  type="article"
+  jsonld={[
+    articulo({ titulo, descripcion: a.resumen, ruta: `/alternativas/${a.slug}`, fecha, seccion: 'Alternativas baratas' }),
+    migas([['Inicio', '/'], ['Alternativas baratas', '/alternativas'], [`${a.caro.marca} ${a.caro.nombre}`, `/alternativas/${a.slug}`]]),
+  ]}
+>
+  <article class="al wrap">
+    <a class="volver" href="/alternativas">Todas las alternativas</a>
+    <header>
+      <p class="al-tipo">{a.tipo}</p>
+      <h1>¿Hay una alternativa barata a {a.caro.marca} {a.caro.nombre}?</h1>
+      <p class="al-res">{a.resumen}</p>
+    </header>
+
+    <div class="al-vs">
+      <div class="al-p caro"><span>La cara</span><b>{a.caro.marca}</b>{a.caro.nombre}</div>
+      <div class={`al-v v-${a.veredicto}`}>
+        <div class="al-med" role="img" aria-label={`Parecido en ingredientes clave: ${pct} %`}><i style={`width:${Math.max(pct, 3)}%`} /></div>
+        <p class="al-v-t">{V[a.veredicto]}</p>
+        <p class="al-v-s">Comparten el {pct} % de los ingredientes clave</p>
+      </div>
+      <div class="al-p barato"><span>La alternativa</span><b>{a.barato.marca}</b>{a.barato.nombre}</div>
+    </div>
+
+    <div class="al-dos">
+      <section><h2>En qué se parecen</h2><ul class="si">{a.iguales.map((x) => <li>{x}</li>)}</ul></section>
+      <section><h2>En qué se diferencian</h2><ul class="ojo">{a.diferencias.map((x) => <li>{x}</li>)}</ul></section>
+    </div>
+
+    <section class="al-sec">
+      <h2>¿Cuándo merece la pena la cara?</h2>
+      <ul>{a.merece.map((x) => <li>{x}</li>)}</ul>
+    </section>
+
+    <section class="al-sec">
+      <h2>Para cada tipo de piel</h2>
+      <div class="al-tabla" role="table">
+        <div role="row" class="al-f al-th"><span role="columnheader" /><span role="columnheader">{a.caro.marca}</span><span role="columnheader">{a.barato.marca}</span></div>
+        {pieles.map(([t, k]) => {
+          const x = paraTuPiel(fA, k), y = paraTuPiel(fB, k);
+          return <div role="row" class="al-f"><span role="rowheader">Piel {t.toLowerCase()}</span><span role="cell" class={`t-${x?.tono}`}>{x && pal[x.tono]}</span><span role="cell" class={`t-${y?.tono}`}>{y && pal[y.tono]}</span></div>;
+        })}
+        <div role="row" class="al-f"><span role="rowheader">Perfume</span><span role="cell">{perfume(fA) ? 'Sí' : 'No'}</span><span role="cell">{perfume(fB) ? 'Sí' : 'No'}</span></div>
+        <div role="row" class="al-f"><span role="rowheader">Ingredientes</span><span role="cell">{fA.length}</span><span role="cell">{fB.length}</span></div>
+      </div>
+      <p class="al-acc"><a class="btn" href={comparador}>Compararlas con tu piel y tus precios</a></p>
+    </section>
+
+    <section class="al-sec">
+      <h2>Lo que comparten</h2>
+      <p class="al-nota">Con el puesto en cada lista: cuanto más arriba, más cantidad.</p>
+      <ul class="al-com">{r.comunes.map((c) => <li><b>{c.n}</b> <small>{c.posA}.º en {a.caro.marca} · {c.posB}.º en {a.barato.marca}</small></li>)}</ul>
+    </section>
+
+    <section class="al-sec al-fuente">
+      <h2>De dónde salen las listas</h2>
+      <ul>
+        <li><a href={a.caro.fuente.url} rel="nofollow noopener" target="_blank">{a.caro.fuente.texto}</a></li>
+        <li><a href={a.barato.fuente.url} rel="nofollow noopener" target="_blank">{a.barato.fuente.texto}</a></li>
+      </ul>
+      <p>Comprobadas el {fechaTxt}. Las marcas cambian fórmulas y precios: mira siempre tu envase. Nadie nos paga por recomendar una u otra.</p>
+    </section>
+
+    <nav class="al-mas" aria-label="Más alternativas">
+      <h2>Más alternativas baratas</h2>
+      <ul>{otras.map((x) => <li><a href={`/alternativas/${x.slug}`}><span>{x.tipo}</span>{x.caro.marca} {x.caro.nombre}</a></li>)}</ul>
+    </nav>
+  </article>
+</Layout>
+<style>
+  .al{max-width:860px;padding-top:40px;padding-bottom:96px}
+  .volver{font-size:.9rem;color:var(--teal)}
+  header{margin:22px 0 28px}
+  .al-tipo{font-size:.9rem;color:var(--teal);margin:0 0 10px}
+  h1{font-size:clamp(2rem,4.6vw,3rem);margin:0 0 14px}
+  .al-res{font-family:var(--serif);font-size:1.25rem;line-height:1.5;color:var(--ink-soft);margin:0}
+  .al-vs{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:12px;align-items:stretch;margin-bottom:36px}
+  @media (max-width:680px){.al-vs{grid-template-columns:1fr}}
+  .al-p{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:18px 20px;line-height:1.35}
+  .al-p span{display:block;font-size:.8rem;color:var(--ink-soft);margin-bottom:6px}
+  .al-p b{display:block;font-family:var(--serif);font-weight:400;font-size:1.35rem}
+  .al-v{background:var(--mist);border-radius:20px;padding:20px;display:grid;align-content:center;gap:6px;text-align:center}
+  .al-med{height:10px;border-radius:10px;background:#fff;overflow:hidden}
+  .al-med i{display:block;height:100%;background:var(--teal)}
+  .al-v-t{font-family:var(--serif);font-size:1.4rem;margin:6px 0 0;line-height:1.2}
+  .al-v-s{font-size:.85rem;color:var(--ink-soft);margin:0}
+  .v-si{background:#DDF1E7}.v-casi{background:#FBEBD3}
+  .al-dos{display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+  @media (max-width:720px){.al-dos{grid-template-columns:1fr}}
+  h2{font-size:1.6rem;margin:0 0 12px}
+  section{margin-bottom:36px}
+  ul{padding-left:1.1em;line-height:1.6;margin:0}
+  li{margin-bottom:8px}
+  .si li::marker{color:#2E8A5F}.ojo li::marker{color:#B06F12}
+  .al-tabla{background:var(--white);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .al-f{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:11px 18px;border-top:1px solid var(--line);font-size:.95rem}
+  .al-f:first-child{border-top:0}
+  .al-th{font-weight:600;background:var(--pearl)}
+  .al-f [role=rowheader]{color:var(--ink-soft)}
+  .t-bien{color:#1F5E40}.t-matices{color:#7A4A08}.t-corta{color:#8A2433}
+  .al-acc{margin-top:16px}
+  .al-nota{color:var(--ink-soft);margin:0 0 12px}
+  .al-com{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+  .al-com li{background:var(--white);border:1px solid var(--line);border-radius:999px;padding:6px 14px;margin:0;font-size:.92rem}
+  .al-com small{color:var(--ink-soft);margin-left:4px}
+  .al-fuente{background:var(--pearl);border:1px solid var(--line);border-radius:18px;padding:20px 24px}
+  .al-fuente h2{font-size:1.2rem}
+  .al-fuente p,.al-fuente li{font-size:.9rem;color:var(--ink-soft)}
+  .al-fuente a{color:var(--teal)}
+  .al-mas ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .al-mas li{margin:0}
+  .al-mas a{display:block;height:100%;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--white);color:var(--ink);text-decoration:none;font-family:var(--serif);font-size:1.1rem;line-height:1.3}
+  .al-mas a:hover{border-color:var(--teal)}
+  .al-mas span{display:block;font-family:var(--sans);font-size:.78rem;color:var(--teal);margin-bottom:6px}
+</style>

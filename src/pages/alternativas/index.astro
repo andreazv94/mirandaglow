@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { alternativas } from '../../data/alternativas';
+import { comparar } from '../../lib/rutina';
+import { migas } from '../../lib/seo';
+const V = { si: 'Hace prácticamente lo mismo', casi: 'En lo principal, sí', no: 'No del todo' };
+---
+<Layout
+  title="Alternativas baratas a cremas caras (dupes) comparadas por ingredientes — Miranda Glow"
+  description="La Mer, SkinCeuticals, Paula's Choice, Vichy… Comparamos sus ingredientes con alternativas más baratas y te decimos en qué se parecen y en qué no."
+  jsonld={migas([['Inicio', '/'], ['Alternativas baratas', '/alternativas']])}
+>
+  <section class="wrap als">
+    <header>
+      <h1>Alternativas baratas</h1>
+      <p>Cremas caras y otras más baratas que hacen algo muy parecido. Comparamos ingrediente por ingrediente y te decimos también en qué no se parecen.</p>
+    </header>
+    <ul class="als-l">
+      {alternativas.map((a) => (
+        <li>
+          <a href={`/alternativas/${a.slug}`}>
+            <span class="als-t">{a.tipo}</span>
+            <span class="als-n"><b>{a.caro.marca} {a.caro.nombre}</b> → {a.barato.marca} {a.barato.nombre}</span>
+            <span class={`als-v v-${a.veredicto}`}>{V[a.veredicto]} · {Math.round(comparar(a.caro.inci, a.barato.inci).parecido * 100)} % de parecido</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="als-pie">¿Quieres comparar otras dos? Usa el <a href="/comparar">comparador de cremas</a>.</p>
+  </section>
+</Layout>
+<style>
+  .als{max-width:900px;padding-top:56px;padding-bottom:96px}
+  h1{font-size:clamp(2.4rem,6vw,4rem);margin:0 0 12px}
+  header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:56ch;margin:0 0 32px}
+  .als-l{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  .als-l a{display:grid;gap:6px;padding:20px 22px;border:1px solid var(--line);border-radius:20px;background:var(--white);color:var(--ink);text-decoration:none}
+  .als-l a:hover{border-color:var(--teal)}
+  .als-t{font-size:.82rem;color:var(--teal)}
+  .als-n{font-family:var(--serif);font-size:1.3rem;line-height:1.3}
+  .als-n b{font-weight:400}
+  .als-v{justify-self:start;font-size:.82rem;border-radius:999px;padding:3px 12px;background:var(--pearl)}
+  .v-si{background:#DDF1E7;color:#1F5E40}.v-casi{background:#FBEBD3;color:#7A4A08}
+  .als-pie{margin-top:24px}
+  .als-pie a{color:var(--teal)}
+</style>

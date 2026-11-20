@@ -9,6 +9,7 @@ const HERR: Record<string, { t: string; d: string }> = {
   '/sol': { t: 'El sol de hoy', d: 'Herramienta' },
   '/lunares': { t: 'Revisa tus lunares', d: 'Herramienta' },
   '/comparar': { t: 'Comparar cremas', d: 'Herramienta' },
+  '/alternativas': { t: 'Alternativas baratas', d: 'Comparativas' },
   '/ingredientes': { t: 'Lector de ingredientes', d: 'Herramienta' },
 };
 
@@ -49,6 +50,7 @@ function recomendar(raw: A, g: Record<string, Guia>): Rec[] {
   if (a.lunares === 'muchos' || a.sol === 'I') add('/lunares', 'Por tus lunares o tu piel clara');
   if (a.sensible === 'muy') add('/blog/rutina-rosacea-piel-reactiva', 'Porque tu piel reacciona fácil');
   if (a.experiencia === 'novata') add('/blog/rutina-principiantes', 'Para empezar con buen pie');
+  add('/alternativas', 'Antes de gastar en una crema cara');
   add('/comparar', 'Antes de comprar tu próxima crema');
   add('/ingredientes', 'Para revisar lo que ya tienes');
   return out.slice(0, 6);
