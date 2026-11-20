@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DiarioGranitos from '../components/DiarioGranitos.tsx';
+import { migas } from '../lib/seo';
+---
+<Layout
+  title="Diario de granitos: descubre qué te los provoca — Miranda Glow"
+  description="Apunta cada día tus granitos y lo que has hecho (gimnasio, proteína, sueño, estrés, ciclo) y te mostramos qué coincide con tus brotes."
+  jsonld={migas([['Inicio', '/'], ['Diario de granitos', '/diario']])}
+>
+  <section class="wrap dgs">
+    <header>
+      <h1>Diario de granitos</h1>
+      <p>Diez segundos al día. Con unas semanas verás qué coincide con tus brotes: el gimnasio, los batidos, dormir mal o tu ciclo.</p>
+      <p class="dgs-priv">Se guarda en tu navegador. Si <a href="/cuenta">entras con tu cuenta</a>, también se guarda allí para verlo en otros dispositivos.</p>
+    </header>
+    <DiarioGranitos client:load />
+  </section>
+</Layout>
+<style is:global>
+  .dgs{padding-top:56px;padding-bottom:96px;max-width:820px}
+  .dgs h1{font-size:clamp(2.4rem,6vw,4rem);margin:0 0 12px}
+  .dgs header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:56ch;margin:0 0 10px}
+  .dgs header .dgs-priv{font-family:inherit;font-size:.92rem}
+  .dgs a{color:var(--teal)}
+  .dg{display:grid;gap:22px;margin-top:20px}
+  .dg > section{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:22px 24px}
+  .dg h2{font-size:1.6rem;margin:0}
+  .dg h3{font-size:1.15rem;margin:16px 0 8px}
+  .dg-dia{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .dg-dia h2::first-letter{text-transform:uppercase}
+  .dg input[type=date],.dg-nota{font:inherit;border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:#fff}
+  .dg-nota{width:100%;box-sizing:border-box;margin-top:14px}
+  .dg-fase{margin:6px 0 0;color:var(--ink-soft)}
+  .dg-lab{margin:18px 0 8px;font-weight:600}
+  .dg-niv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .dg-niv button{font:inherit;border:2px solid transparent;background:var(--c);border-radius:14px;padding:12px 6px;cursor:pointer;color:var(--ink)}
+  .dg-niv button.on{border-color:var(--ink);font-weight:600}
+  .dg-fac{display:flex;flex-wrap:wrap;gap:8px}
+  .dg-fac label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;font-size:.92rem;background:#fff}
+  .dg-fac label.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .dg-fac input{position:absolute;opacity:0;pointer-events:none}
+  .dg-fac label:has(input:focus-visible){outline:2px solid var(--teal);outline-offset:2px}
+  .dg > section{min-width:0}
+  @media (max-width:520px){.dg > section{padding:18px 16px}.dg-niv button{font-size:.85rem;padding:12px 2px}.dg-barra{grid-template-columns:120px 1fr 52px}}
+  .dg-pie{display:flex;justify-content:space-between;align-items:center;margin-top:10px;min-height:24px;color:#1F5E40;font-size:.9rem}
+  .dg-borrar{font:inherit;font-size:.88rem;background:none;border:0;color:#8A2433;cursor:pointer;text-decoration:underline}
+  .dg-mapa{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;margin-top:14px}
+  .dg-mapa button{font:inherit;font-size:.8rem;aspect-ratio:1;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;color:var(--ink)}
+  .dg-mapa button.sel{outline:2px solid var(--ink);outline-offset:1px}
+  .dg-ley{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-soft);margin:12px 0 0}
+  .dg-ley i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:5px;vertical-align:-1px}
+  .dg-pat p{line-height:1.6}
+  .dg-ul{margin:12px 0;padding-left:20px;line-height:1.6;display:grid;gap:6px}
+  .dg-barra{display:grid;grid-template-columns:150px 1fr 60px;gap:10px;align-items:center;margin:6px 0;font-size:.92rem}
+  .dg-barra i{display:block;height:12px;border-radius:6px;background:var(--teal)}
+  .dg-barra small{color:var(--ink-soft)}
+  .dg-nota-p{font-size:.9rem;color:var(--ink-soft)}
+  .dg button:focus-visible,.dg input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+</style>
