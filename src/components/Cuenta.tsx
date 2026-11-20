@@ -307,6 +307,7 @@ export default function Cuenta() {
             </ul>
           </div>
         )}
+        {cremas.length > 0 && <p><a className="btn" href="/mi-rutina">Ver mi rutina de mañana y noche</a></p>}
         {cremas.length > 0 && avisos.length === 0 && <p className="cu-ok-rutina">Hemos revisado tus cremas juntas: no vemos choques entre ellas.</p>}
         {cremas.length ? (
           <ul className="cu-cremas">

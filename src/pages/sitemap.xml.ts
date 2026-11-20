@@ -19,6 +19,7 @@ export async function GET({ site }) {
     '/ingredientes/todos',
     '/analisis',
     '/comparar',
+    '/mi-rutina',
     '/alternativas',
     ...alternativas.map((a): [string, string] => [`/alternativas/${a.slug}`, a.comprobado]),
     '/mitos',

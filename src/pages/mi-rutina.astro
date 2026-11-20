@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MiRutina from '../components/MiRutina.tsx';
+import { migas } from '../lib/seo';
+---
+<Layout
+  title="Mi rutina: ordena las cremas que ya tienes — Miranda Glow"
+  description="Pon las cremas que tienes en casa y te decimos en qué orden usarlas por la mañana y por la noche, qué noches toca cada activo y qué te falta."
+  jsonld={migas([['Inicio', '/'], ['Mi rutina', '/mi-rutina']])}
+>
+  <section class="wrap mrs">
+    <header>
+      <h1>Mi rutina</h1>
+      <p>Con las cremas que ya tienes: en qué orden ponértelas, qué noches toca cada activo y qué te falta. Sin comprar nada nuevo.</p>
+    </header>
+    <MiRutina client:load />
+  </section>
+</Layout>
+<style is:global>
+  .mrs{max-width:920px;padding-top:56px;padding-bottom:96px}
+  .mrs h1{font-size:clamp(2.4rem,6vw,4rem);margin:0 0 12px}
+  .mrs header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:56ch;margin:0 0 28px}
+  .mrs a{color:var(--teal)}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .mr{display:grid;gap:18px}
+  .mr > section,.mr-dos > section{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:22px 24px;min-width:0}
+  .mr h2{font-size:1.6rem;margin:0 0 12px}
+  .mr-mis ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .mr-mis li{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;background:var(--pearl);border-radius:14px;padding:10px 14px}
+  .mr-mis li b{flex:1 1 180px;font-weight:500}
+  .mr select,.mr input,.mr textarea{font:inherit;border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:#fff;color:var(--ink);max-width:100%;box-sizing:border-box}
+  .mr-x{font:inherit;font-size:.85rem;background:none;border:0;color:#8A2433;text-decoration:underline;cursor:pointer}
+  .mr-ayuda{font-size:.88rem;color:var(--ink-soft);margin:10px 0 0}
+  .mr-add{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:16px}
+  .mr-add textarea{grid-column:1 / -1;grid-row:2}
+  .mr-add button{grid-column:2;grid-row:1}
+  .mr-vacio{color:var(--ink-soft);margin:0}
+  .mr-avisos{background:#FBEBD3;border-radius:18px;padding:14px 20px}
+  .mr-avisos p{margin:6px 0;line-height:1.5}
+  .mr-dos{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:720px){.mr-dos{grid-template-columns:1fr}}
+  .mr-col ol{list-style:none;counter-reset:p;margin:0;padding:0;display:grid;gap:10px}
+  .mr-col li{counter-increment:p;position:relative;padding:0 0 10px 40px;border-bottom:1px solid var(--line);display:grid;gap:2px}
+  .mr-col li:last-child{border-bottom:0}
+  .mr-col li::before{content:counter(p);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--mist);display:grid;place-items:center;font-size:.85rem;color:var(--teal)}
+  .mr-paso{font-size:.8rem;color:var(--teal)}
+  .mr-col b{font-weight:500}
+  .mr-cuando{justify-self:start;font-size:.8rem;background:#FBEBD3;color:#7A4A08;border-radius:999px;padding:2px 10px}
+  .mr-col small{color:var(--ink-soft);line-height:1.45}
+  .mr-sem ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+  @media (max-width:720px){.mr-sem ul{grid-template-columns:1fr}}
+  .mr-sem li{background:var(--mist);border-radius:12px;padding:10px;font-size:.85rem;line-height:1.35}
+  .mr-sem li.des{background:var(--pearl);color:var(--ink-soft)}
+  .mr-sem li span{display:block;font-weight:600;color:var(--ink);margin-bottom:4px}
+  .mr-falta{border-color:#F2C9CF!important}
+  .mr-falta ul{margin:0 0 10px;padding-left:20px;line-height:1.6}
+  .mr-falta p{margin:0}
+  .mr button:focus-visible,.mr select:focus-visible,.mr input:focus-visible,.mr textarea:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+</style>
