@@ -54,6 +54,7 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
   <link rel="sitemap" href="/sitemap.xml" />
   {datos.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
   <script is:inline src="/js/cuenta.js" defer></script>
+  <script is:inline src="/js/videos.js" defer></script>
 </head>
 <body>
   <div class="page">
