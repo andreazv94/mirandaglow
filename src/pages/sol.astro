@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SolDiario from '../components/SolDiario.tsx';
+import { migas } from '../lib/seo';
+---
+<Layout
+  title="Índice UV de hoy y cuándo ponerte protector — Miranda Glow"
+  description="Mira el índice UV de hoy hora a hora donde estés, cuánto protector ponerte, cuándo renovarlo y un recordatorio diario para no olvidarlo."
+  jsonld={migas([['Inicio', '/'], ['Sol de hoy', '/sol']])}
+>
+  <section class="wrap sds">
+    <header>
+      <h1>El sol de hoy</h1>
+      <p>Cuánto pega el sol donde estás, a qué horas protegerte y cuándo renovar. El protector solar es lo que más previene manchas, arrugas y cáncer de piel.</p>
+    </header>
+    <SolDiario client:load />
+    <p class="sds-mas">Más en <a href="/blog/proteccion-solar-facial">Protección solar facial: cuál elegir y cómo ponértelo</a>.</p>
+  </section>
+</Layout>
+<style is:global>
+  .sds{padding-top:56px;padding-bottom:96px;max-width:820px}
+  .sds h1{font-size:clamp(2.4rem,6vw,4rem);margin:0 0 12px}
+  .sds header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:56ch;margin:0 0 24px}
+  .sds a{color:var(--teal)}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .sd{display:grid;gap:18px}
+  .sd > section{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:22px 24px}
+  .sd h2{font-size:1.6rem;margin:0 0 6px}
+  .sd p{line-height:1.6}
+  .sd > section{min-width:0}
+  @media (max-width:520px){.sd > section{padding:18px 16px}.sd-barras small{font-size:.6rem}}
+  .sd-fila{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .sd-busca{display:flex;gap:8px;flex:1 1 240px;min-width:0;max-width:100%}
+  .sd input{font:inherit;border:1px solid var(--line);border-radius:999px;padding:11px 16px;background:#fff;flex:1;min-width:0}
+  .sd input[type=time]{border-radius:10px;padding:6px 10px;margin-left:4px;flex:none}
+  .sd-ops{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+  .sd-ops button{font:inherit;width:100%;text-align:left;background:var(--pearl);border:0;border-radius:12px;padding:10px 14px;cursor:pointer;color:var(--ink)}
+  .sd-estado{margin:10px 0 0;color:var(--ink-soft)}
+  .sd-donde{margin:0 0 10px;color:var(--ink-soft);font-size:.9rem}
+  .sd-cab{display:flex;gap:18px;align-items:center}
+  .sd-cab p{margin:0}
+  .sd-num{width:92px;height:92px;border-radius:24px;display:grid;place-items:center;align-content:center;flex:none;color:#1D2B2D}
+  .sd-num b{font-family:var(--serif);font-weight:400;font-size:2.6rem;line-height:1}
+  .sd-num span{font-size:.72rem}
+  .sd-consejo{background:var(--pearl);border-radius:14px;padding:12px 16px;margin:16px 0}
+  .sd-barras{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:3px;height:140px;align-items:end}
+  .sd-barras div{display:flex;flex-direction:column;justify-content:flex-end;height:100%;align-items:center;gap:4px}
+  .sd-barras i{display:block;width:100%;border-radius:6px 6px 2px 2px}
+  .sd-barras small{font-size:.7rem;color:var(--ink-soft)}
+  .sd-barras .ya small{color:var(--ink);font-weight:700}
+  .sd-fuente{font-size:.8rem;color:var(--ink-soft);margin:10px 0 0}
+  .sd-dedos{display:flex;gap:18px;align-items:center}
+  .sd-dedos p{margin:0}
+  @media (max-width:520px){.sd-dedos{flex-direction:column;align-items:flex-start}}
+  .sd button:focus-visible,.sd input:focus-visible,.sd a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .sds-mas{margin-top:24px}
+</style>

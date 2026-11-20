@@ -20,15 +20,15 @@ import { migas } from '../lib/seo';
   .cmp{padding-top:56px;padding-bottom:96px;max-width:1040px}
   .cmp h1{font-size:clamp(2.4rem,6vw,4rem);margin:0 0 12px}
   .cmp header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:60ch;margin:0 0 32px}
-  .cp-dos{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media (max-width:760px){.cp-dos{grid-template-columns:1fr}}
-  .cp-hueco{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:10px;align-content:start}
+  .cp-dos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+  @media (max-width:760px){.cp-dos{grid-template-columns:minmax(0,1fr)}}
+  .cp-hueco{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;grid-template-columns:minmax(0,1fr);min-width:0;gap:10px;align-content:start}
   .cp-letra{margin:0;font-weight:600;color:var(--teal)}
   .cp input,.cp select,.cp textarea{font:inherit;color:var(--ink);border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px 14px;width:100%;box-sizing:border-box}
   .cp textarea{resize:vertical;font-size:.92rem}
   .cp input:focus-visible,.cp select:focus-visible,.cp textarea:focus-visible,.cp button:focus-visible,.cp a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
   .cp-fuentes{display:flex;gap:8px;flex-wrap:wrap}
-  .cp-fuentes select{flex:1 1 180px;width:auto}
+  .cp-fuentes select{flex:1 1 180px;width:auto;min-width:0;max-width:100%}
   .cp-precio{display:flex;gap:12px;flex-wrap:wrap}
   .cp-precio label{display:grid;gap:4px;font-size:.85rem;color:var(--ink-soft)}
   .cp-precio span{display:flex;align-items:center;gap:6px;color:var(--ink)}

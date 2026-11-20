@@ -20,6 +20,8 @@ export async function GET({ site }) {
     '/comparar',
     '/mitos',
     '/lunares',
+    '/diario',
+    '/sol',
     ...analisis.map((a): [string, string] => [`/analisis/${a.slug}`, a.comprobado]),
     ...fichas.map((f) => `/ingredientes/${f.slug}`),
     '/sobre',
