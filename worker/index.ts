@@ -25,7 +25,7 @@ export interface Env {
 }
 
 // Lo que se puede guardar en la cuenta (las mismas claves que usan la web y la app)
-const CLAVES = new Set(['answers', 'perfil', 'cremas', 'ciclo', 'history', 'shelf']);
+const CLAVES = new Set(['answers', 'perfil', 'cremas', 'ciclo', 'history', 'shelf', 'lunares', 'diario', 'sol']);
 const MAX_VALOR = 200_000; // caracteres por clave
 const SESION_DIAS = 90;
 const COOKIE = 'mg_s';

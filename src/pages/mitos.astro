@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Mitos from '../components/Mitos.tsx';
+import { mitos } from '../data/mitos';
+import { migas } from '../lib/seo';
+const faq = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: mitos.map((m) => ({ '@type': 'Question', name: m.mito, acceptedAnswer: { '@type': 'Answer', text: `${{ falso: 'Falso', depende: 'Depende', cierto: 'Cierto' }[m.v]}. ${m.resp}` } })),
+};
+---
+<Layout
+  title="Mitos del cuidado de la piel: qué es verdad y qué no — Miranda Glow"
+  description="El protector en días nublados, el chocolate y los granitos, el colágeno en crema, los parabenos… Comprobamos los mitos más repetidos del skincare con fuentes."
+  jsonld={[migas([['Inicio', '/'], ['Mitos', '/mitos']]), faq]}
+>
+  <section class="wrap mts">
+    <header>
+      <h1>¿Mito o verdad?</h1>
+      <p>Lo que se repite en redes y en el baño de casa, comprobado con fuentes médicas. Busca el que hayas oído.</p>
+    </header>
+    <Mitos client:load />
+  </section>
+</Layout>
+<style is:global>
+  .mts{padding-top:56px;padding-bottom:96px;max-width:860px}
+  .mts h1{font-size:clamp(2.4rem,6vw,4rem);margin:0 0 12px}
+  .mts header p{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);max-width:56ch;margin:0 0 28px}
+  .mt-buscar{display:grid;gap:12px;position:sticky;top:0;background:var(--pearl);padding:12px 0;z-index:2}
+  .mt-buscar input{font:inherit;border:1px solid var(--line);border-radius:999px;padding:13px 20px;background:#fff;width:100%;box-sizing:border-box}
+  @media (max-width:600px){.mt-buscar{position:static}}
+  .mt-temas{display:flex;flex-wrap:wrap;gap:8px}
+  .mt-temas button{font:inherit;font-size:.9rem;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:7px 15px;cursor:pointer}
+  .mt-temas button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .mt input:focus-visible,.mt button:focus-visible,.mt a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .mt-n{color:var(--ink-soft);font-size:.9rem;margin:8px 0 14px}
+  .mt-lista{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+  .mt-lista li{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:22px 24px;scroll-margin-top:140px}
+  .mt-lista h2{font-size:1.4rem;margin:10px 0 8px;line-height:1.25}
+  .mt-lista p{margin:0;line-height:1.6}
+  .mt-v{display:inline-block;font-size:.85rem;font-weight:600;border-radius:999px;padding:4px 12px}
+  .mt-falso .mt-v{background:#FBE3E6;color:#8A2433}
+  .mt-depende .mt-v{background:#FBEBD3;color:#7A4A0E}
+  .mt-cierto .mt-v{background:#DDF1E7;color:#1F5E40}
+  .mt-pie{margin-top:10px!important;font-size:.85rem;color:var(--ink-soft)}
+  .mt-pie a{color:var(--teal)}
+  .mt-vacio{color:var(--ink-soft)}
+</style>
