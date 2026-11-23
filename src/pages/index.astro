@@ -4,6 +4,9 @@ import { getCollection } from 'astro:content';
 import PielHoy from '../components/PielHoy.tsx';
 import ParaTi from '../components/ParaTi.tsx';
 import { inicio } from '../lib/seo';
+import { ingredientes } from '../data/ingredientes';
+import { alternativas } from '../data/alternativas';
+import { analisis } from '../data/analisis';
 
 const todas = await getCollection('blog');
 const mapaGuias = Object.fromEntries(todas.map((p) => [p.slug, { titulo: p.data.titulo, tema: p.data.concern }]));
@@ -32,6 +35,7 @@ const inci: Ing[] = [
           <a class="btn" href="/test">Hacer el test de piel</a>
           <a class="btn ghost" href="/guia">Leer la guía de la piel</a>
         </div>
+        <p class="hero-conf">Gratis · Sin registro · Sin marcas patrocinadoras</p>
       </div>
     </div>
   </section>
@@ -43,6 +47,12 @@ const inci: Ing[] = [
       Miramos qué lleva cada producto y si hay estudios detrás. Ni modas, ni promesas milagro,
       ni contenido patrocinado.
     </p>
+    <dl class="cifras">
+      <div><dt>{ingredientes.length}</dt><dd>ingredientes explicados en el lector</dd></div>
+      <div><dt>{todas.length}</dt><dd>guías escritas con fuentes médicas</dd></div>
+      <div><dt>{analisis.length + alternativas.length}</dt><dd>cremas conocidas analizadas y comparadas</dd></div>
+      <div><dt>0</dt><dd>euros de marcas por salir aquí</dd></div>
+    </dl>
   </section>
 
   <!-- Herramientas -->
@@ -189,7 +199,14 @@ const inci: Ing[] = [
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
   .hero .btn.ghost{background:rgba(255,255,255,.55);backdrop-filter:blur(6px)}
 
-  .manifesto{padding:120px 32px}
+  .manifesto{padding:120px 32px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:72px;align-items:center}
+  .cifras{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0;border-top:1px solid var(--line)}
+  .cifras div{padding:24px 20px 24px 0;border-bottom:1px solid var(--line)}
+  .cifras div:nth-child(odd){border-right:1px solid var(--line)}
+  .cifras div:nth-child(even){padding-left:24px}
+  .cifras dt{font-family:var(--serif);font-size:clamp(2.4rem,4vw,3.4rem);line-height:1;color:var(--teal);font-weight:300}
+  .cifras dd{margin:10px 0 0;font-size:.92rem;line-height:1.45;color:var(--ink-soft)}
+  .hero-conf{max-width:none!important;margin:22px 0 0!important;font-size:.88rem!important;color:var(--ink-soft)!important;letter-spacing:.01em}
 
   /* Herramientas */
   .herr{background:var(--ink);color:#fff;padding:100px 0}
@@ -315,7 +332,7 @@ const inci: Ing[] = [
   @media(max-width:900px){
     .hero{min-height:auto;flex-direction:column;align-items:stretch}
     .hero-img{position:relative;height:56vh;animation:none;object-position:50% 30%}
-    .hero::after{display:none}
+    .hero::after{inset:0 0 auto 0;height:120px;background:linear-gradient(rgba(244,248,249,.92),rgba(244,248,249,0))}
     .parati{padding:64px 0}
     .herr{padding:64px 0}
     .herr ul{grid-template-columns:1fr 1fr;gap:10px}
@@ -326,7 +343,7 @@ const inci: Ing[] = [
     :global(.pt-lista){grid-template-columns:1fr}
     .hero-in{padding-top:0}
     .hero-copy{padding:36px 0 56px}
-    .manifesto{padding:72px 22px}
+    .manifesto{padding:72px 22px;grid-template-columns:1fr;gap:40px}
     .hoy{padding:64px 0}
     .hoy-in{grid-template-columns:1fr;gap:24px}
     :global(.ph-res){grid-template-columns:1fr;gap:24px}
