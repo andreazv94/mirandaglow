@@ -57,6 +57,7 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
   <script is:inline src="/js/videos.js" defer></script>
   <script is:inline>
     document.addEventListener('click', function (e) { document.querySelectorAll('details.menu[open]').forEach(function (d) { if (!d.contains(e.target)) d.removeAttribute('open'); }); });
+    document.addEventListener('DOMContentLoaded', function () { var h = document.querySelector('.topbar'); if (!h) return; var f = function () { h.classList.toggle('scrolled', scrollY > 8); }; addEventListener('scroll', f, { passive: true }); f(); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') document.querySelectorAll('details.menu[open]').forEach(function (d) { d.removeAttribute('open'); d.querySelector('summary').focus(); }); });
   </script>
 </head>
@@ -109,30 +110,43 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
 
     <footer>
       <div class="wrap">
-        <div class="foot-grid">
-          <a class="logo" href="/">Miranda Glow</a>
-          <div class="foot-links">
-            <a href="/test">Test de piel</a>
-            <a href="/guia">Guía de la piel</a>
-            <a href="/blog">Todos los artículos</a>
-            <a href="/ingredientes">Lector de ingredientes</a>
-            <a href="/analisis">Análisis de cremas</a>
-            <a href="/mi-rutina">Mi rutina</a>
-            <a href="/comparar">Comparar cremas</a>
-            <a href="/alternativas">Alternativas baratas</a>
-            <a href="/mitos">Mitos de la piel</a>
-            <a href="/lunares">Revisa tus lunares</a>
-            <a href="/diario">Diario de granitos</a>
-            <a href="/sol">El sol de hoy</a>
-            <a href="/app/">App</a>
-            <a href="/sobre">Quiénes somos</a>
-            <a href="/cuenta">Mi cuenta</a>
-            <a href="/aviso-legal">Aviso legal</a>
-            <a href="/privacidad">Privacidad</a>
-            <a href="/cookies">Cookies</a>
+        <div class="foot-top">
+          <div class="foot-marca">
+            <a class="logo" href="/">Miranda Glow</a>
+            <p>Cuidado de la piel explicado por ingredientes. Para chicas, chicos y quien sea.</p>
+            <a class="btn foot-btn" href="/test">Hacer el test de piel</a>
           </div>
+          <nav class="foot-cols" aria-label="Pie de página">
+            <div>
+              <p>Herramientas</p>
+              <a href="/ingredientes">Lector de ingredientes</a>
+              <a href="/mi-rutina">Mi rutina</a>
+              <a href="/comparar">Comparar cremas</a>
+              <a href="/diario">Diario de granitos</a>
+              <a href="/sol">El sol de hoy</a>
+              <a href="/lunares">Revisa tus lunares</a>
+            </div>
+            <div>
+              <p>Aprende</p>
+              <a href="/guia">Guía de la piel</a>
+              <a href="/blog">Todos los artículos</a>
+              <a href="/analisis">Análisis de cremas</a>
+              <a href="/alternativas">Alternativas baratas</a>
+              <a href="/mitos">Mitos de la piel</a>
+            </div>
+            <div>
+              <p>Miranda Glow</p>
+              <a href="/sobre">Quiénes somos</a>
+              <a href="/app/">App</a>
+              <a href="/cuenta">Mi cuenta</a>
+              <a href="/aviso-legal">Aviso legal</a>
+              <a href="/privacidad">Privacidad</a>
+              <a href="/cookies">Cookies</a>
+            </div>
+          </nav>
         </div>
         <p class="disc">Ninguna marca nos paga por aparecer. Esta web es informativa y no sustituye la consulta con una dermatóloga. En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables.</p>
+        <p class="foot-copy">© {new Date().getFullYear()} Miranda Glow</p>
       </div>
     </footer>
   </div>
