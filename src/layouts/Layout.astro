@@ -1,4 +1,5 @@
 ---
+import Marca from '../components/Marca.astro';
 import '@fontsource-variable/newsreader/opsz.css';
 import '@fontsource-variable/newsreader/opsz-italic.css';
 import '@fontsource-variable/hanken-grotesk';
@@ -37,6 +38,9 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
@@ -66,7 +70,7 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
     <header class={`topbar${overlay ? ' over' : ''}`}>
       <div class="wrap">
         <nav aria-label="Principal">
-          <a class="logo" href="/">Miranda Glow</a>
+          <a class="logo" href="/"><Marca />Miranda Glow</a>
           <div class="navlinks">
             <a href="/guia" class="hide-m">Guía de la piel</a>
             <a href="/ingredientes" class="hide-m">Lector</a>
@@ -112,7 +116,7 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
       <div class="wrap">
         <div class="foot-top">
           <div class="foot-marca">
-            <a class="logo" href="/">Miranda Glow</a>
+            <a class="logo" href="/"><Marca />Miranda Glow</a>
             <p>Cuidado de la piel explicado por ingredientes. Para chicas, chicos y quien sea.</p>
             <a class="btn foot-btn" href="/test">Hacer el test de piel</a>
           </div>
