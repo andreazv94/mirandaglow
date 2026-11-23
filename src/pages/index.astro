@@ -4,9 +4,6 @@ import { getCollection } from 'astro:content';
 import PielHoy from '../components/PielHoy.tsx';
 import ParaTi from '../components/ParaTi.tsx';
 import { inicio } from '../lib/seo';
-import { ingredientes } from '../data/ingredientes';
-import { alternativas } from '../data/alternativas';
-import { analisis } from '../data/analisis';
 
 const todas = await getCollection('blog');
 const mapaGuias = Object.fromEntries(todas.map((p) => [p.slug, { titulo: p.data.titulo, tema: p.data.concern }]));
@@ -29,30 +26,33 @@ const inci: Ing[] = [
     <video class="hero-img" data-auto="/video/portada.mp4" data-movil="/video/portada-movil.mp4" data-poster-movil="/video/portada-movil.jpg" poster="/video/portada.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
     <div class="hero-in wrap">
       <div class="hero-copy">
-        <h1>Lee la etiqueta,<br />no el anuncio.</h1>
-        <p>Cuidado de la piel explicado por ingredientes. Sin marcas que paguen por salir y sin influencers.</p>
+        <h1>Tu piel,<br />explicada sin líos.</h1>
+        <p>Para chicas y chicos que quieren cuidarse sin perderse entre cremas, modas y consejos de internet. Te ayudamos a entender qué necesita tu piel y qué te va de verdad.</p>
         <div class="hero-cta">
           <a class="btn" href="/test">Hacer el test de piel</a>
           <a class="btn ghost" href="/guia">Leer la guía de la piel</a>
         </div>
-        <p class="hero-conf">Gratis · Sin registro · Sin marcas patrocinadoras</p>
+        <p class="hero-conf">Gratis, sin registrarte y a tu ritmo.</p>
       </div>
     </div>
   </section>
 
-  <!-- Declaración -->
-  <section class="manifesto wrap">
-    <p>
-      Miranda Glow nace para que elijas tu rutina sabiendo lo que te pones en la cara.
-      Miramos qué lleva cada producto y si hay estudios detrás. Ni modas, ni promesas milagro,
-      ni contenido patrocinado.
-    </p>
-    <dl class="cifras">
-      <div><dt>{ingredientes.length}</dt><dd>ingredientes explicados en el lector</dd></div>
-      <div><dt>{todas.length}</dt><dd>guías escritas con fuentes médicas</dd></div>
-      <div><dt>{analisis.length + alternativas.length}</dt><dd>cremas conocidas analizadas y comparadas</dd></div>
-      <div><dt>0</dt><dd>euros de marcas por salir aquí</dd></div>
-    </dl>
+  <!-- ¿Te suena? -->
+  <section class="suena wrap" aria-labelledby="suena-h">
+    <h2 id="suena-h">¿Te suena?</h2>
+    <p class="suena-intro">Si alguna de estas frases podría ser tuya, estás en buen sitio. Empieza por donde te toque.</p>
+    <ul>
+      {[
+        ['Me salen granitos y ya no sé qué ponerme.', '/blog/rutina-piel-acne', 'Rutina para granitos'],
+        ['Tengo un montón de cremas y no sé en qué orden van.', '/mi-rutina', 'Ordenar mis cremas'],
+        ['Soy chico y nadie me ha explicado nada de esto.', '/blog/rutina-skincare-hombre', 'Empezar desde cero'],
+        ['Mi piel se pone roja o me pica con casi todo.', '/blog/rutina-rosacea-piel-reactiva', 'Cuidar una piel sensible'],
+        ['No quiero gastarme un dineral en una crema.', '/alternativas', 'Ver alternativas baratas'],
+        ['He visto una rutina en TikTok y no sé si es para mí.', '/test', 'Hacer el test de piel'],
+      ].map(([frase, url, cta]) => (
+        <li><a href={url}><span class="suena-f">«{frase}»</span><span class="suena-cta">{cta}</span></a></li>
+      ))}
+    </ul>
   </section>
 
   <!-- Herramientas -->
@@ -145,12 +145,12 @@ const inci: Ing[] = [
   <!-- Reglas -->
   <section class="reglas">
     <div class="wrap">
-      <h2>Nuestras reglas</h2>
+      <h2>Lo que te prometemos</h2>
       <ul>
-        <li><h3>Ninguna marca paga por salir</h3><p>No hacemos contenido patrocinado ni aceptamos productos a cambio de reseñas.</p></li>
-        <li><h3>Ingredientes antes que marcas</h3><p>Si hay una opción más barata que hace lo mismo, te la decimos.</p></li>
-        <li><h3>Cuándo ir al médico</h3><p>Rosácea, acné fuerte, melasma o un lunar que cambia necesitan una dermatóloga. Lo avisamos.</p></li>
-        <li><h3>Sin promesas milagro</h3><p>Nada de fotos de antes y después ni resultados en días. La piel tarda semanas en cambiar y así lo contamos.</p></li>
+        <li><h3>Hablarte claro</h3><p>Sin palabras raras ni letra pequeña. Si algo no funciona, te lo decimos, aunque sea famoso.</p></li>
+        <li><h3>Cuidar tu bolsillo</h3><p>Si una crema barata hace lo mismo que una cara, lo vas a saber.</p></li>
+        <li><h3>Decirte cuándo ir a la dermatóloga</h3><p>Hay cosas que una crema no arregla: acné fuerte, rojeces que no se van o un lunar que cambia. Te avisamos.</p></li>
+        <li><h3>Ir a tu ritmo</h3><p>Nada de milagros en una semana. La piel tarda en cambiar y te acompañamos mientras tanto.</p></li>
       </ul>
     </div>
   </section>
@@ -193,19 +193,22 @@ const inci: Ing[] = [
   .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(244,248,249,.9) 0,rgba(244,248,249,.72) 34%,rgba(244,248,249,0) 58%);pointer-events:none}
   .hero-img{object-position:50% 100%}
   .hero-in{position:relative;z-index:1;width:100%;display:flex;justify-content:flex-start;padding-top:clamp(110px,16vh,170px)}
-  .hero-copy{max-width:540px;padding:40px 0}
+  .hero-copy{max-width:640px;padding:40px 0}
+  .hero p{max-width:40ch!important}
   .hero h1{margin-bottom:24px}
   .hero p{font-size:1.12rem;max-width:36ch;margin-bottom:34px;color:var(--ink)}
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
   .hero .btn.ghost{background:rgba(255,255,255,.55);backdrop-filter:blur(6px)}
 
-  .manifesto{padding:120px 32px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:72px;align-items:center}
-  .cifras{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0;border-top:1px solid var(--line)}
-  .cifras div{padding:24px 20px 24px 0;border-bottom:1px solid var(--line)}
-  .cifras div:nth-child(odd){border-right:1px solid var(--line)}
-  .cifras div:nth-child(even){padding-left:24px}
-  .cifras dt{font-family:var(--serif);font-size:clamp(2.4rem,4vw,3.4rem);line-height:1;color:var(--teal);font-weight:300}
-  .cifras dd{margin:10px 0 0;font-size:.92rem;line-height:1.45;color:var(--ink-soft)}
+  .suena{padding:110px 32px}
+  .suena h2{margin-bottom:12px}
+  .suena-intro{font-family:var(--serif);font-size:1.25rem;color:var(--ink-soft);max-width:48ch;margin:0 0 36px}
+  .suena ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .suena a{display:flex;flex-direction:column;justify-content:space-between;gap:22px;height:100%;box-sizing:border-box;padding:26px 24px;border-radius:22px;background:var(--white);border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:border-color .2s,transform .2s}
+  .suena a:hover{border-color:var(--teal);transform:translateY(-2px)}
+  .suena a:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+  .suena-f{font-family:var(--serif);font-size:1.4rem;line-height:1.3}
+  .suena-cta{font-size:.9rem;font-weight:600;color:var(--teal)}
   .hero-conf{max-width:none!important;margin:22px 0 0!important;font-size:.88rem!important;color:var(--ink-soft)!important;letter-spacing:.01em}
 
   /* Herramientas */
@@ -247,7 +250,7 @@ const inci: Ing[] = [
   :global(.pt-pie a){color:var(--teal)}
   :global(.pt-vacio p){font-size:1.05rem;line-height:1.6;max-width:46ch;margin:0 0 20px}
   :global(.pt-hueco){min-height:200px}
-  .manifesto p{font-family:var(--serif);font-weight:300;font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.3;max-width:28ch;letter-spacing:-.01em;font-variation-settings:"opsz" 48}
+  @media(max-width:1100px) and (min-width:901px){.suena ul{grid-template-columns:1fr 1fr}}
 
 
   /* Tu piel hoy */
@@ -343,7 +346,9 @@ const inci: Ing[] = [
     :global(.pt-lista){grid-template-columns:1fr}
     .hero-in{padding-top:0}
     .hero-copy{padding:36px 0 56px}
-    .manifesto{padding:72px 22px;grid-template-columns:1fr;gap:40px}
+    .suena{padding:72px 22px}
+    .suena ul{grid-template-columns:1fr}
+    .suena-f{font-size:1.25rem}
     .hoy{padding:64px 0}
     .hoy-in{grid-template-columns:1fr;gap:24px}
     :global(.ph-res){grid-template-columns:1fr;gap:24px}

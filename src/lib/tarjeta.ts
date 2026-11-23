@@ -40,7 +40,7 @@ export async function dibujarTarjeta(t: Tarjeta): Promise<Blob> {
   ctx.fillStyle = C.fondo; ctx.fillRect(0, 0, W, H);
   // marca
   ctx.fillStyle = C.tinta; ctx.font = `400 46px ${serif}`; ctx.fillText('Miranda Glow', M, 130);
-  ctx.fillStyle = C.suave; ctx.font = `500 28px ${sans}`; ctx.fillText('Lee la etiqueta, no el anuncio.', M, 178);
+  ctx.fillStyle = C.suave; ctx.font = `500 28px ${sans}`; ctx.fillText('Tu piel, explicada sin líos.', M, 178);
 
   // tarjeta blanca
   const y0 = 240, alto = H - y0 - 170;
