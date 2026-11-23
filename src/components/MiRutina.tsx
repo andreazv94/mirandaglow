@@ -78,7 +78,7 @@ export default function MiRutina() {
             ))}
           </ul>
         ) : <p className="mr-vacio">Aún no tienes cremas guardadas. Añade las que usas aquí abajo o desde el <a href="/ingredientes">lector</a>.</p>}
-        <p className="mr-ayuda">Hemos adivinado para qué es cada una. Si no acertamos, cámbialo en el desplegable.</p>
+        {cremas.length > 0 && <p className="mr-ayuda">Hemos adivinado para qué es cada una. Si no acertamos, cámbialo en el desplegable.</p>}
         <form className="mr-add" onSubmit={anadir}>
           <input aria-label="Nombre de la crema" placeholder="Nombre (ej. Gel limpiador CeraVe)" value={nombre} onChange={(e) => setNombre(e.target.value)} />
           <textarea aria-label="Ingredientes" rows={2} placeholder="Pega sus ingredientes (opcional, pero así revisamos los activos)" value={inci} onChange={(e) => setInci(e.target.value)} />
