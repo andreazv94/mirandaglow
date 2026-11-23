@@ -73,8 +73,7 @@ a{color:var(--teal)}
 
 footer{background:var(--ink);color:#C9D9DB;padding:80px 0 40px;font-size:.92rem}
 footer .logo{color:var(--white);font-size:2.2rem}
-footer .logo-m{width:46px;height:46px}
-footer .logo-m path:nth-child(2){fill:#A9D8DC}
+footer .wm-s{color:#A9D8DC}
 .foot-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr);gap:48px}
 .foot-marca p{margin:14px 0 24px;max-width:34ch;line-height:1.6;color:#C9D9DB}
 .foot-btn{background:var(--white)!important;color:var(--ink)!important}
@@ -104,6 +103,11 @@ footer .logo-m path:nth-child(2){fill:#A9D8DC}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 
-.logo-m{width:34px;height:34px;flex:none;margin-top:-4px}
-@media(max-width:520px){.logo-m{width:28px;height:28px}.logo{gap:7px}}
-@media(max-width:420px){.logo{font-size:1.15rem;gap:5px}.logo-m{width:24px;height:24px}.navlinks{gap:12px}.navlinks .btn{padding:9px 13px;font-size:.84rem}}
+.wm{line-height:1.15;display:inline-block}
+.wm-i{position:relative;display:inline-block}
+.wm-s{position:absolute;width:.4em;height:.4em;left:50%;top:-.07em;transform:translateX(-50%);color:var(--teal);display:block}
+.wm-s svg{display:block;width:100%;height:100%}
+.topbar .logo:hover .wm-s{animation:brilla .9s ease}
+@keyframes brilla{50%{transform:translateX(-50%) scale(1.35) rotate(45deg)}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(max-width:420px){.logo{font-size:1.2rem}.navlinks{gap:12px}.navlinks .btn{padding:9px 13px;font-size:.84rem}}
