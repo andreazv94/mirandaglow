@@ -4,6 +4,15 @@ type Guia = { titulo: string; tema?: string };
 type Rec = { href: string; titulo: string; tipo: string; por: string };
 type A = Record<string, string | string[] | undefined>;
 
+const DESC: Record<string, string> = {
+  '/diario': 'Apunta tus granitos 10 segundos al día y descubre qué los provoca.',
+  '/sol': 'Índice UV de hoy donde estés y cuándo renovar el protector.',
+  '/lunares': 'Revisión guiada con la regla ABCDE y recordatorio mensual.',
+  '/comparar': 'Pon dos cremas y mira si la barata hace lo mismo.',
+  '/ingredientes': 'Haz una foto a la etiqueta y te decimos qué lleva.',
+  '/mi-rutina': 'Ordena tus cremas en mañana y noche.',
+  '/alternativas': 'Cremas caras y sus alternativas, comparadas.',
+};
 const HERR: Record<string, { t: string; d: string }> = {
   '/diario': { t: 'Diario de granitos', d: 'Herramienta' },
   '/sol': { t: 'El sol de hoy', d: 'Herramienta' },
@@ -55,7 +64,9 @@ function recomendar(raw: A, g: Record<string, Guia>): Rec[] {
   add('/alternativas', 'Antes de gastar en una crema cara');
   add('/comparar', 'Antes de comprar tu próxima crema');
   add('/ingredientes', 'Para revisar lo que ya tienes');
-  return out.slice(0, 6);
+  const herr = out.filter((r) => !r.href.startsWith('/blog/')).slice(0, 3);
+  const leer = out.filter((r) => r.href.startsWith('/blog/')).slice(0, 4);
+  return [...herr, ...leer];
 }
 
 export default function ParaTi({ guias }: { guias: Record<string, Guia> }) {
@@ -73,19 +84,43 @@ export default function ParaTi({ guias }: { guias: Record<string, Guia> }) {
       <a className="btn" href="/test">Hacer el test</a>
     </div>
   );
+  const herr = recs.filter((r) => !r.href.startsWith('/blog/'));
+  const leer = recs.filter((r) => r.href.startsWith('/blog/'));
   return (
     <>
-      <ul className="pt-lista">
-        {recs.map((r) => (
-          <li key={r.href}>
-            <a href={r.href}>
-              <span className="pt-por">{r.por}</span>
-              <span className="pt-tit">{r.titulo}</span>
-              <span className="pt-tipo">{r.tipo}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      {herr.length > 0 && (
+        <>
+          <h3 className="pt-sub">Herramientas para ti</h3>
+          <ul className="pt-herr">
+            {herr.map((r) => (
+              <li key={r.href}>
+                <a href={r.href}>
+                  <span className="pt-por">{r.por}</span>
+                  <span className="pt-tit">{r.titulo}</span>
+                  <span className="pt-desc">{DESC[r.href]}</span>
+                  <span className="pt-abrir">Abrir</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {leer.length > 0 && (
+        <>
+          <h3 className="pt-sub">Para leer</h3>
+          <ul className="pt-lista">
+            {leer.map((r) => (
+              <li key={r.href}>
+                <a href={r.href}>
+                  <span className="pt-por">{r.por}</span>
+                  <span className="pt-tit">{r.titulo}</span>
+                  <span className="pt-tipo">{r.tipo}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
       <p className="pt-pie">Según tu test. <a href="/test">Repetirlo</a></p>
     </>
   );

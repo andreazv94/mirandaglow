@@ -45,6 +45,28 @@ const inci: Ing[] = [
     </p>
   </section>
 
+  <!-- Herramientas -->
+  <section class="herr" aria-labelledby="herr-h">
+    <div class="wrap">
+      <h2 id="herr-h">Herramientas</h2>
+      <p class="herr-intro">Gratis, sin registrarte. Lo que guardes se queda en tu móvil, o en tu cuenta si entras.</p>
+      <ul>
+        {[
+          ['/ingredientes', 'Lector de ingredientes', 'Foto a la etiqueta o código de barras y te decimos qué lleva.'],
+          ['/mi-rutina', 'Mi rutina', 'Ordena tus cremas en mañana y noche, y qué te falta.'],
+          ['/comparar', 'Comparar cremas', 'Pon dos y mira si la barata hace lo mismo.'],
+          ['/alternativas', 'Alternativas baratas', 'La Mer, SkinCeuticals, Vichy… y sus dupes.'],
+          ['/diario', 'Diario de granitos', 'Descubre qué coincide con tus brotes.'],
+          ['/sol', 'El sol de hoy', 'Índice UV donde estés y cuándo renovar.'],
+          ['/lunares', 'Revisa tus lunares', 'La regla ABCDE, una vez al mes.'],
+          ['/mitos', 'Mitos de la piel', '¿Verdad o mentira? Comprobado con fuentes.'],
+        ].map(([u, a, b]) => (
+          <li><a href={u}><span class="herr-t">{a}</span><span class="herr-d">{b}</span></a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <!-- Recomendado para ti -->
   <section class="parati" aria-labelledby="pt-h">
     <div class="wrap pt-in">
@@ -110,25 +132,6 @@ const inci: Ing[] = [
     </figure>
   </section>
 
-  <!-- Herramientas -->
-  <section class="guias wrap" aria-labelledby="herr-h">
-    <div class="guias-head">
-      <h2 id="herr-h">Herramientas</h2>
-    </div>
-    <ul>
-      {[
-        ['/alternativas', 'Alternativas baratas', 'La Mer, SkinCeuticals, Vichy… y sus dupes'],
-        ['/mi-rutina', 'Mi rutina', 'Ordena las cremas que ya tienes'],
-        ['/comparar', 'Comparar cremas', '¿La barata hace lo mismo?'],
-        ['/diario', 'Diario de granitos', 'Descubre qué coincide con tus brotes'],
-        ['/sol', 'El sol de hoy', 'Índice UV y cuándo renovar el protector'],
-        ['/lunares', 'Revisa tus lunares', 'La regla ABCDE, una vez al mes'],
-      ].map(([u, a, b]) => (
-        <li><a href={u}><span class="g-tema">{a}</span><span class="g-tit">{b}</span></a></li>
-      ))}
-    </ul>
-  </section>
-
   <!-- Reglas -->
   <section class="reglas">
     <div class="wrap">
@@ -188,6 +191,17 @@ const inci: Ing[] = [
 
   .manifesto{padding:120px 32px}
 
+  /* Herramientas */
+  .herr{background:var(--ink);color:#fff;padding:100px 0}
+  .herr h2{color:#fff;margin-bottom:10px}
+  .herr-intro{color:#C9D9DB;font-size:1.05rem;margin:0 0 36px;max-width:56ch}
+  .herr ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .herr a{display:grid;gap:8px;align-content:start;height:100%;box-sizing:border-box;padding:24px 22px;border-radius:20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#fff;text-decoration:none;transition:background .2s,border-color .2s}
+  .herr a:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3)}
+  .herr a:focus-visible{outline:2px solid #9FD3D6;outline-offset:3px}
+  .herr-t{font-family:var(--serif);font-size:1.4rem;line-height:1.2}
+  .herr-d{font-size:.9rem;line-height:1.5;color:#C9D9DB}
+
   /* Para ti */
   .parati{background:var(--white);padding:110px 0}
   .pt-in{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:72px;align-items:center}
@@ -202,6 +216,16 @@ const inci: Ing[] = [
   :global(.pt-por){font-size:.82rem;color:var(--teal)}
   :global(.pt-tit){font-family:var(--serif);font-size:1.2rem;line-height:1.25}
   :global(.pt-tipo){font-size:.8rem;color:var(--ink-soft)}
+  :global(.pt-sub){font-family:var(--sans);font-size:.85rem;font-weight:600;color:var(--ink-soft);margin:0 0 10px}
+  :global(.pt-lista){margin-bottom:6px}
+  :global(.pt-herr){list-style:none;margin:0 0 26px;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+  :global(.pt-herr a){display:grid;gap:6px;align-content:start;height:100%;box-sizing:border-box;padding:20px;border-radius:18px;background:var(--ink);color:#fff;text-decoration:none;transition:transform .2s}
+  :global(.pt-herr a:hover){transform:translateY(-2px)}
+  :global(.pt-herr a:focus-visible){outline:2px solid var(--teal);outline-offset:3px}
+  :global(.pt-herr .pt-por){color:#9FD3D6}
+  :global(.pt-herr .pt-tit){font-size:1.35rem}
+  :global(.pt-desc){font-size:.88rem;line-height:1.45;color:#C9D9DB}
+  :global(.pt-abrir){justify-self:start;margin-top:6px;font-size:.85rem;font-weight:600;background:#fff;color:var(--ink);border-radius:999px;padding:6px 14px}
   :global(.pt-pie){margin:14px 0 0;font-size:.9rem;color:var(--ink-soft)}
   :global(.pt-pie a){color:var(--teal)}
   :global(.pt-vacio p){font-size:1.05rem;line-height:1.6;max-width:46ch;margin:0 0 20px}
@@ -293,6 +317,10 @@ const inci: Ing[] = [
     .hero-img{position:relative;height:56vh;animation:none;object-position:50% 30%}
     .hero::after{display:none}
     .parati{padding:64px 0}
+    .herr{padding:64px 0}
+    .herr ul{grid-template-columns:1fr 1fr;gap:10px}
+    .herr a{padding:18px 16px}
+    .herr-t{font-size:1.15rem}
     .pt-in{grid-template-columns:1fr;gap:28px}
     .pt-vid{aspect-ratio:4/3;max-height:none}
     :global(.pt-lista){grid-template-columns:1fr}

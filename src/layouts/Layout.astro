@@ -55,6 +55,10 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
   {datos.map((d) => <script type="application/ld+json" set:html={JSON.stringify(d)} />)}
   <script is:inline src="/js/cuenta.js" defer></script>
   <script is:inline src="/js/videos.js" defer></script>
+  <script is:inline>
+    document.addEventListener('click', function (e) { document.querySelectorAll('details.menu[open]').forEach(function (d) { if (!d.contains(e.target)) d.removeAttribute('open'); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') document.querySelectorAll('details.menu[open]').forEach(function (d) { d.removeAttribute('open'); d.querySelector('summary').focus(); }); });
+  </script>
 </head>
 <body>
   <div class="page">
@@ -64,11 +68,37 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
           <a class="logo" href="/">Miranda Glow</a>
           <div class="navlinks">
             <a href="/guia" class="hide-m">Guía de la piel</a>
-            <a href="/ingredientes" class="hide-m">Ingredientes</a>
-            <a href="/analisis" class="hide-m">Análisis</a>
-            <a href="/app/" class="hide-m">App</a>
-            <a href="/sobre" class="hide-m">Quiénes somos</a>
-            <a href="/cuenta" data-cuenta-link>Entrar</a>
+            <a href="/ingredientes" class="hide-m">Lector</a>
+            <details class="menu">
+              <summary><span class="hide-m">Herramientas</span><span class="solo-m">Menú</span></summary>
+              <div class="menu-panel">
+                <div>
+                  <p>Herramientas</p>
+                  <a href="/ingredientes">Lector de ingredientes</a>
+                  <a href="/mi-rutina">Mi rutina</a>
+                  <a href="/comparar">Comparar cremas</a>
+                  <a href="/diario">Diario de granitos</a>
+                  <a href="/sol">El sol de hoy</a>
+                  <a href="/lunares">Revisa tus lunares</a>
+                </div>
+                <div>
+                  <p>Aprende</p>
+                  <a href="/guia">Guía de la piel</a>
+                  <a href="/analisis">Análisis de cremas</a>
+                  <a href="/alternativas">Alternativas baratas</a>
+                  <a href="/mitos">Mitos de la piel</a>
+                  <a href="/blog">Todos los artículos</a>
+                </div>
+                <div>
+                  <p>Tú</p>
+                  <a href="/test">Test de piel</a>
+                  <a href="/cuenta" data-cuenta-link>Entrar</a>
+                  <a href="/app/">App</a>
+                  <a href="/sobre">Quiénes somos</a>
+                </div>
+              </div>
+            </details>
+            <a href="/cuenta" data-cuenta-link class="hide-m">Entrar</a>
             <a class="btn" href="/test">Hacer el test</a>
           </div>
         </nav>

@@ -50,6 +50,18 @@ a{color:var(--teal)}
 .navlinks a{color:var(--ink);text-decoration:none;opacity:.8}
 .navlinks a:hover{opacity:1}
 .navlinks .btn{opacity:1;color:var(--white)}
+.menu{position:relative}
+.menu summary{list-style:none;cursor:pointer;opacity:.8;display:flex;align-items:center;gap:6px}
+.menu summary::-webkit-details-marker{display:none}
+.menu summary::after{content:"";width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.menu[open] summary::after{transform:translateY(1px) rotate(-135deg)}
+.menu summary:hover,.menu[open] summary{opacity:1}
+.menu summary:focus-visible,.menu-panel a:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+.menu-panel{position:absolute;right:-120px;top:calc(100% + 18px);z-index:20;background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 40px rgba(34,54,58,.14);padding:22px 26px;display:grid;grid-template-columns:repeat(3,minmax(160px,1fr));gap:22px;width:max-content}
+.menu-panel p{margin:0 0 8px;font-size:.78rem;color:var(--teal)}
+.menu-panel a{display:block;padding:6px 0;opacity:1;font-size:.95rem;white-space:nowrap}
+.menu-panel a:hover{color:var(--teal)}
+.solo-m{display:none}
 
 .btn{font-family:var(--sans);font-size:.92rem;font-weight:500;letter-spacing:.01em;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--white);padding:15px 28px;border-radius:999px;text-decoration:none;display:inline-block;transition:background .2s,color .2s,border-color .2s}
 .btn:hover{background:var(--teal);border-color:var(--teal)}
@@ -67,6 +79,12 @@ footer .logo{color:var(--white);font-size:2.2rem}
 
 @media(max-width:860px){
   .navlinks .hide-m{display:none}
+  .solo-m{display:inline}
+  .menu{position:static}
+  .menu-panel{position:absolute;left:12px;right:12px;top:68px;width:auto;grid-template-columns:1fr 1fr;padding:20px 22px}
+  .menu-panel > div:last-child{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;column-gap:22px}
+  .menu-panel > div:last-child p{grid-column:1 / -1}
+  .menu-panel a{white-space:normal}
   .wrap{padding:0 22px}
 }
 @media(max-width:520px){
