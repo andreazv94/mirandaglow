@@ -12,6 +12,16 @@ export function getStaticPaths() {
 }
 
 const f = fichaPorSlug(Astro.params.slug!)!;
+// Cabecera visual por familia de ingrediente
+const FAMILIAS = [
+  { re: /^acido-(salicilico|glicolico|lactico|azelaico)$/, nombre: 'Exfoliante', tono: '#F3E6EA', video: 'mascarilla' },
+  { re: /^(ceramidas|centella-asiatica|pantenol|glicerina|urea|escualano)$/, nombre: 'Hidrata y repara', tono: '#E5EFEC', img: 'crema' },
+  { re: /^oxido-de-zinc$/, nombre: 'Protección solar', tono: '#F6EDDC', video: 'protector-dos-dedos' },
+  { re: /^(siliconas|perfume|alcohol-denat|parabenos)$/, nombre: 'Lo que pone la etiqueta', tono: '#ECEAF3', video: 'leer-etiqueta' },
+  { re: /^(vitamina-c|acido-tranexamico|alfa-arbutina)$/, nombre: 'Luminosidad y manchas', tono: '#F6EDDC', img: 'frasco' },
+  { re: /./, nombre: 'Activo', tono: '#E8EEF2', img: 'textura' },
+];
+const fam = FAMILIAS.find((x) => x.re.test(f.slug))!;
 const ings = f.inci.map((n) => buscar(n)).filter(Boolean);
 const embarazo = ings.some((i) => i!.embarazo === 'evitar') ? 'evitar' : ings.some((i) => i!.embarazo === 'consultar') ? 'consultar' : null;
 const rel = (f.relacionados || []).map(fichaPorSlug).filter(Boolean);
@@ -46,11 +56,19 @@ const faq = {
 ]}>
   <article class="ficha wrap">
     <a class="volver" href="/ingredientes/todos">Todos los ingredientes</a>
-    <header>
-      <h1>{f.nombre}</h1>
-      <p class="inci">En la etiqueta: {f.inci.join(', ')}</p>
-      <p class="resumen">{f.resumen}</p>
+    <header class="cab" style={`--tono:${fam.tono}`}>
+      <div class="cab-txt">
+        <span class="fam">{fam.nombre}</span>
+        <h1>{f.nombre}</h1>
+        <p class="inci">En la etiqueta: {f.inci.join(', ')}</p>
+      </div>
+      <div class="cab-media" aria-hidden="true">
+        {fam.video
+          ? <video data-auto={`/video/${fam.video}.mp4`} poster={`/video/${fam.video}.jpg`} muted loop playsinline preload="none"></video>
+          : <img src={`/img/${fam.img}.jpg`} alt="" loading="eager" decoding="async" />}
+      </div>
     </header>
+    <p class="resumen">{f.resumen}</p>
 
     <div class="vistazo" aria-label="De un vistazo">
       <div><h2>Para qué</h2><p>{f.paraQue.slice(0, 2).join(' ')}</p></div>
@@ -135,10 +153,15 @@ const faq = {
 </Layout>
 
 <style>
-  .ficha{max-width:780px;padding-top:56px;padding-bottom:96px}
+  .ficha{max-width:780px;padding-top:40px;padding-bottom:96px}
   .volver{display:inline-block;font-size:.9rem;color:var(--ink-soft);margin-bottom:28px}
-  header h1{margin-bottom:14px}
-  .inci{font-size:.9rem;color:var(--ink-soft);margin-bottom:22px}
+  .cab{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:center;background:var(--tono);border-radius:28px;padding:28px;margin-bottom:28px;overflow:hidden}
+  .cab h1{margin:10px 0 14px}
+  .fam{display:inline-block;font-size:.82rem;font-weight:600;color:var(--teal);background:rgba(255,255,255,.7);padding:5px 12px;border-radius:99px}
+  .inci{font-size:.9rem;color:var(--ink-soft)}
+  .cab-media{aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.5)}
+  .cab-media img,.cab-media video{width:100%;height:100%;object-fit:cover;display:block}
+  @media(max-width:640px){.cab{grid-template-columns:1fr;padding:20px;gap:18px}.cab-media{aspect-ratio:16/10;order:-1}}
   .resumen{font-family:var(--serif);font-size:1.4rem;line-height:1.5;font-weight:300;color:var(--ink)}
   .emb{margin-top:28px;padding:14px 18px;border-radius:12px;font-size:.97rem}
   .emb-evitar{background:#FBF1E4;color:var(--ambar);border:1px solid #EBD2AE}
