@@ -101,6 +101,13 @@ footer .wm-s{color:#A9D8DC}
   .navlinks{gap:16px;font-size:.88rem}
   .navlinks .btn{padding:9px 15px;white-space:nowrap}
 }
+@media(max-width:420px){
+  .navlinks{gap:12px;font-size:.84rem}
+  .logo{font-size:1.18rem}
+  .topbar nav{gap:10px}
+  .hide-xs{display:none}
+  .navlinks .btn::first-letter{text-transform:uppercase}
+}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 
 .wm{line-height:1.15;display:inline-block}
@@ -111,3 +118,4 @@ footer .wm-s{color:#A9D8DC}
 @keyframes brilla{50%{transform:translateX(-50%) scale(1.35) rotate(45deg)}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media(max-width:420px){.logo{font-size:1.2rem}.navlinks{gap:12px}.navlinks .btn{padding:9px 13px;font-size:.84rem}}
+@media(max-width:340px){.topbar .wrap{padding:0 14px}.navlinks{gap:9px}.logo{font-size:1.08rem}.navlinks .btn{padding:8px 12px}}

@@ -21,6 +21,8 @@ export type Ficha = {
   mito?: { dicen: string; realidad: string };
   productos?: string[];
   relacionados?: string[];
+  /** Si está de moda: por qué se habla de él ahora */
+  moda?: string;
 };
 
 export const fichas: Ficha[] = [
@@ -317,6 +319,124 @@ export const fichas: Ficha[] = [
     precauciones: ['Las ojeras marrones (pigmento) o por hueso mejoran poco con cosmética.'],
     productos: ['contorno'],
     relacionados: ['peptidos', 'vitamina-c'],
+  },
+  {
+    slug: 'pdrn',
+    nombre: 'PDRN',
+    moda: 'El ingrediente coreano del momento: lo verás como «ADN de salmón» en sérums y cremas.',
+    inci: ['Sodium DNA'],
+    resumen: 'Son trocitos de ADN, casi siempre de salmón (también los hay de fermentación o vegetales). En clínica se inyecta para reparar la piel; en crema hidrata y calma, pero aún hay poca prueba de que haga mucho más.',
+    paraQue: [
+      'Hidrata y deja la piel más jugosa y cómoda.',
+      'Ayuda a calmar la piel irritada o después de tratamientos.',
+      'Se le atribuye un efecto reparador, pero los estudios fuertes son con inyecciones, no con cremas.',
+    ],
+    comoUsar: ['Mañana o noche, después de limpiar y antes de la crema.', 'Combina con casi todo; no necesita pausas.'],
+    combinaBien: ['Ácido hialurónico', 'Ceramidas', 'Centella asiática', 'Péptidos'],
+    precauciones: [
+      'Si tienes alergia al pescado, mira de dónde sale el PDRN y haz una prueba en una zona pequeña antes.',
+      'En la etiqueta, el de salmón, el de fermentación y el vegetal se llaman igual (Sodium DNA), así que no siempre sabes cuál llevas.',
+    ],
+    mito: { dicen: 'Es como hacerte el tratamiento de la clínica, pero en casa.', realidad: 'El efecto que se ve en clínica es con inyecciones. En crema es un buen hidratante calmante; no esperes el mismo resultado.' },
+    relacionados: ['exosomas', 'peptidos', 'centella-asiatica'],
+  },
+  {
+    slug: 'exosomas',
+    nombre: 'Exosomas',
+    moda: 'Lo más hablado en redes este año, sobre todo en sérums «regeneradores».',
+    inci: [],
+    resumen: 'Son bolsitas diminutas que usan las células para mandarse mensajes. En la Unión Europea los de origen humano están prohibidos en cosmética, así que en tus cremas suelen ser vegetales o de fermentación. La idea es prometedora, pero la prueba en crema todavía es muy poca.',
+    paraQue: [
+      'Se venden para reparar, dar firmeza y luminosidad.',
+      'Pueden ayudar a la piel a recuperarse después de tratamientos.',
+      'Hoy por hoy, la mayoría de los estudios son de laboratorio o muy iniciales.',
+    ],
+    comoUsar: ['Como un sérum más, después de limpiar y antes de la crema.', 'No sustituye a lo que sí funciona: protector solar, retinoide e hidratante.'],
+    combinaBien: ['Ácido hialurónico', 'Péptidos', 'Niacinamida'],
+    precauciones: [
+      'No tienen un nombre fijo en la etiqueta: suelen aparecer como un extracto o un fermento, y el envase lo anuncia como «exosome».',
+      'Suelen ser caros. Si el presupuesto es justo, gástalo antes en protector solar y un buen retinoide.',
+    ],
+    relacionados: ['pdrn', 'peptidos', 'nad'],
+  },
+  {
+    slug: 'espiculas',
+    nombre: 'Espículas',
+    moda: 'Las de los «reedle shot» de TikTok: el «microneedling en bote».',
+    inci: ['Hydrolyzed Sponge'],
+    resumen: 'Agujitas microscópicas que salen de una esponja de agua dulce. Al extender el producto pinchan un poco la capa de fuera de la piel: exfolian y ayudan a que entren otros ingredientes. Pican, y eso es normal.',
+    paraQue: [
+      'Exfolian y mejoran la textura.',
+      'Ayudan a que penetren otros activos que van en el mismo producto.',
+      'Dan algo más de luminosidad.',
+    ],
+    comoUsar: [
+      'Por la noche, sobre la piel limpia y seca, sin frotar fuerte.',
+      'Empieza con la versión más suave (las de número bajo, tipo 50 o 100) y 2–3 noches por semana.',
+      'Protector solar cada mañana.',
+    ],
+    conCuidado: ['Retinol y ácidos exfoliantes: no la misma noche.', 'No la uses sobre granitos abiertos, heridas o piel quemada por el sol.'],
+    precauciones: ['Si tienes rosácea, dermatitis o la piel muy reactiva, mejor no.', 'Un picor que se va en unos minutos es normal; ardor que dura o rojez fuerte, no: lávate y déjalo.'],
+    relacionados: ['acido-glicolico', 'niacinamida', 'centella-asiatica'],
+  },
+  {
+    slug: 'ectoina',
+    nombre: 'Ectoína',
+    moda: 'La nueva favorita para piel sensible: suave y con más estudios que otras novedades.',
+    inci: ['Ectoin'],
+    resumen: 'Una molécula que fabrican bacterias que viven en sitios extremos (salinas, desiertos) para protegerse. En la piel retiene agua y la protege de la sequedad, la contaminación y la irritación.',
+    paraQue: ['Hidrata y refuerza la barrera.', 'Calma rojeces y tirantez.', 'Protege la piel frente a la contaminación y el ambiente seco.'],
+    comoUsar: ['Mañana y noche, en sérum o crema.', 'Apta para pieles sensibles, con rosácea o atópicas.'],
+    combinaBien: ['Ceramidas', 'Niacinamida', 'Retinol (ayuda a tolerarlo)', 'Protector solar'],
+    relacionados: ['ceramidas', 'betaglucano', 'pantenol'],
+  },
+  {
+    slug: 'betaglucano',
+    nombre: 'Betaglucano',
+    moda: 'Cada vez más buscado como alternativa calmante al ácido hialurónico.',
+    inci: ['Beta-Glucan'],
+    resumen: 'Un azúcar natural de la avena, las setas o la levadura. Hidrata como el ácido hialurónico y además calma. Muy bien tolerado.',
+    paraQue: ['Hidrata en profundidad.', 'Calma rojeces e irritación.', 'Ayuda a la piel a recuperarse tras sol, frío o activos fuertes.'],
+    comoUsar: ['Mañana y noche, antes de la crema.', 'Va bien en cualquier tipo de piel, también la sensible.'],
+    combinaBien: ['Ácido hialurónico', 'Ceramidas', 'Retinol', 'Ácidos exfoliantes'],
+    relacionados: ['acido-hialuronico', 'ectoina', 'centella-asiatica'],
+  },
+  {
+    slug: 'peptidos-de-cobre',
+    nombre: 'Péptidos de cobre',
+    moda: 'Vuelven a estar de moda en sérums de firmeza; los verás como GHK-Cu.',
+    inci: ['Copper Tripeptide-1'],
+    resumen: 'Un péptido unido a cobre que la piel tiene de forma natural. Ayuda a reparar y se asocia a más firmeza y elasticidad. Suele dar a los sérums un color azulado.',
+    paraQue: ['Ayuda a dar firmeza y elasticidad.', 'Favorece la reparación de la piel.', 'Mejora un poco la textura y las marcas.'],
+    comoUsar: ['Mañana o noche, después de limpiar.', 'Mejor en un momento distinto a la vitamina C pura y los ácidos.'],
+    combinaBien: ['Ácido hialurónico', 'Niacinamida', 'Ceramidas'],
+    conCuidado: ['Vitamina C pura (ácido ascórbico): úsala en otro momento del día.', 'Ácidos exfoliantes fuertes: no a la vez.', 'Retinol: mejor en noches alternas si notas irritación.'],
+    relacionados: ['peptidos', 'retinol', 'niacinamida'],
+  },
+  {
+    slug: 'nad',
+    nombre: 'NAD+',
+    moda: 'El ingrediente «longevity» que llega de los suplementos a las cremas.',
+    inci: ['Nicotinamide Adenine Dinucleotide'],
+    resumen: 'Una molécula que las células usan para producir energía y que baja con la edad. En crema se vende como antiedad «desde dentro», pero aún hay muy pocos estudios en la piel.',
+    paraQue: ['Se vende para dar energía a la piel y frenar el envejecimiento.', 'De momento, lo demostrado es poco: tómalo como un extra, no como la base.'],
+    comoUsar: ['Como un sérum más, mañana o noche.', 'Si buscas antiedad con pruebas, prioriza protector solar y retinoide.'],
+    combinaBien: ['Niacinamida', 'Péptidos', 'Ácido hialurónico'],
+    relacionados: ['niacinamida', 'exosomas', 'pdrn'],
+  },
+  {
+    slug: 'acido-kojico',
+    nombre: 'Ácido kójico',
+    moda: 'Muy de moda en jabones y sérums para manchas y para igualar el tono.',
+    inci: ['Kojic Acid'],
+    resumen: 'Sale de la fermentación de un hongo (el mismo del sake). Frena la producción de melanina, así que ayuda a aclarar manchas. Puede irritar.',
+    paraQue: ['Aclara manchas y marcas de granitos.', 'Ayuda a igualar el tono.'],
+    comoUsar: ['Una vez al día, mejor por la noche, y ve subiendo poco a poco.', 'Protector solar cada mañana, sin excusas: si no, las manchas vuelven.'],
+    concentracion: 'En cosmética suele ir hasta el 1 %.',
+    combinaBien: ['Niacinamida', 'Ácido azelaico', 'Vitamina C', 'Protector solar'],
+    conCuidado: ['Ácidos exfoliantes y retinol: no la misma noche al principio.'],
+    precauciones: ['Puede dar rojez, picor o alergia. Haz una prueba en una zona pequeña.', 'Los jabones «aclarantes» de internet sin marca ni lista de ingredientes, mejor no.'],
+    relacionados: ['acido-tranexamico', 'alfa-arbutina', 'vitamina-c'],
   },
 ];
 

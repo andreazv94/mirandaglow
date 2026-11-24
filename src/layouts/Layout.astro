@@ -73,7 +73,7 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
           <a class="logo" href="/"><Marca /></a>
           <div class="navlinks">
             <a href="/guia" class="hide-m">Guía de la piel</a>
-            <a href="/ingredientes" class="hide-m">Lector</a>
+            <a href="/ingredientes/todos" class="nav-ing">Ingredientes</a>
             <details class="menu">
               <summary><span class="hide-m">Herramientas</span><span class="solo-m">Menú</span></summary>
               <div class="menu-panel">
@@ -88,6 +88,7 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
                 </div>
                 <div>
                   <p>Aprende</p>
+                  <a href="/ingredientes/todos">Ingredientes de la A a la Z</a>
                   <a href="/guia">Guía de la piel</a>
                   <a href="/analisis">Análisis de cremas</a>
                   <a href="/alternativas">Alternativas baratas</a>
@@ -104,7 +105,7 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
               </div>
             </details>
             <a href="/cuenta" data-cuenta-link class="hide-m">Entrar</a>
-            <a class="btn" href="/test">Hacer el test</a>
+            <a class="btn" href="/test"><span class="hide-xs">Hacer el </span>test</a>
           </div>
         </nav>
       </div>

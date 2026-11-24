@@ -14,11 +14,11 @@ export function getStaticPaths() {
 const f = fichaPorSlug(Astro.params.slug!)!;
 // Cabecera visual por familia de ingrediente
 const FAMILIAS = [
-  { re: /^acido-(salicilico|glicolico|lactico|azelaico)$/, nombre: 'Exfoliante', tono: '#F3E6EA', video: 'mascarilla' },
-  { re: /^(ceramidas|centella-asiatica|pantenol|glicerina|urea|escualano)$/, nombre: 'Hidrata y repara', tono: '#E5EFEC', img: 'crema' },
+  { re: /^(acido-(salicilico|glicolico|lactico|azelaico)|espiculas)$/, nombre: 'Exfoliante', tono: '#F3E6EA', video: 'mascarilla' },
+  { re: /^(ceramidas|centella-asiatica|pantenol|glicerina|urea|escualano|ectoina|betaglucano)$/, nombre: 'Hidrata y repara', tono: '#E5EFEC', img: 'crema' },
   { re: /^oxido-de-zinc$/, nombre: 'Protección solar', tono: '#F6EDDC', video: 'protector-dos-dedos' },
   { re: /^(siliconas|perfume|alcohol-denat|parabenos)$/, nombre: 'Lo que pone la etiqueta', tono: '#ECEAF3', video: 'leer-etiqueta' },
-  { re: /^(vitamina-c|acido-tranexamico|alfa-arbutina)$/, nombre: 'Luminosidad y manchas', tono: '#F6EDDC', img: 'frasco' },
+  { re: /^(vitamina-c|acido-tranexamico|alfa-arbutina|acido-kojico)$/, nombre: 'Luminosidad y manchas', tono: '#F6EDDC', img: 'frasco' },
   { re: /./, nombre: 'Activo', tono: '#E8EEF2', img: 'textura' },
 ];
 const fam = FAMILIAS.find((x) => x.re.test(f.slug))!;
@@ -27,8 +27,9 @@ const embarazo = ings.some((i) => i!.embarazo === 'evitar') ? 'evitar' : ings.so
 const rel = (f.relacionados || []).map(fichaPorSlug).filter(Boolean);
 const titulo0 = `${f.nombre}: para qué sirve, beneficios y cómo usarlo`;
 const descripcion = `${f.resumen} Cómo usarlo, con qué combinarlo y precauciones.`;
-const base = f.nombre.charAt(0).toLowerCase() + f.nombre.slice(1);
-const art = /^(ceramidas|siliconas)$/.test(base) ? 'las' : /^(péptidos|parabenos)$/.test(base) ? 'los' : /^vitamina|a$/.test(base.split(' ')[0]) ? 'la' : 'el';
+const base = /^[A-Z]{2}/.test(f.nombre) ? f.nombre : f.nombre.charAt(0).toLowerCase() + f.nombre.slice(1);
+const ART: Record<string, string> = { exosomas: 'los', espiculas: 'las', 'peptidos-de-cobre': 'los' };
+const art = ART[f.slug] ?? (/^[A-Z]{2}/.test(f.nombre) ? 'el' : (/^(ceramidas|siliconas)$/.test(base) ? 'las' : /^(péptidos|parabenos)$/.test(base) ? 'los' : /^vitamina|a$/.test(base.split(' ')[0]) ? 'la' : 'el'));
 const minus = `${art} ${base}`;
 const titulo = art.endsWith('s') ? `${f.nombre}: para qué sirven, beneficios y cómo usarlos` : titulo0;
 // Cremas de la web que lo llevan
@@ -58,9 +59,10 @@ const faq = {
     <a class="volver" href="/ingredientes/todos">Todos los ingredientes</a>
     <header class="cab" style={`--tono:${fam.tono}`}>
       <div class="cab-txt">
-        <span class="fam">{fam.nombre}</span>
+        <span class="fam">{fam.nombre}</span>{f.moda && <span class="fam moda">De moda</span>}
         <h1>{f.nombre}</h1>
-        <p class="inci">En la etiqueta: {f.inci.join(', ')}</p>
+        <p class="inci">{f.inci.length ? `En la etiqueta: ${f.inci.join(', ')}` : 'En la etiqueta: no tiene un nombre fijo'}</p>
+        {f.moda && <p class="por-que">{f.moda}</p>}
       </div>
       <div class="cab-media" aria-hidden="true">
         {fam.video
@@ -159,6 +161,8 @@ const faq = {
   .cab h1{margin:10px 0 14px}
   .fam{display:inline-block;font-size:.82rem;font-weight:600;color:var(--teal);background:rgba(255,255,255,.7);padding:5px 12px;border-radius:99px}
   .inci{font-size:.9rem;color:var(--ink-soft)}
+  .moda{margin-left:6px;background:var(--ink);color:#fff}
+  .por-que{margin-top:12px;font-size:.95rem;color:var(--ink)}
   .cab-media{aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.5)}
   .cab-media img,.cab-media video{width:100%;height:100%;object-fit:cover;display:block}
   @media(max-width:640px){.cab{grid-template-columns:1fr;padding:20px;gap:18px}.cab-media{aspect-ratio:16/10;order:-1}}
