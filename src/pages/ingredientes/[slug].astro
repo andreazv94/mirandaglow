@@ -4,6 +4,8 @@ import ProductoAfiliado from '../../components/ProductoAfiliado.astro';
 import { fichas, fichaPorSlug } from '../../data/fichas';
 import { buscar } from '../../data/ingredientes';
 import { articulo, migas } from '../../lib/seo';
+import { analisis } from '../../data/analisis';
+import { alternativas } from '../../data/alternativas';
 
 export function getStaticPaths() {
   return fichas.map((f) => ({ params: { slug: f.slug } }));
@@ -13,10 +15,33 @@ const f = fichaPorSlug(Astro.params.slug!)!;
 const ings = f.inci.map((n) => buscar(n)).filter(Boolean);
 const embarazo = ings.some((i) => i!.embarazo === 'evitar') ? 'evitar' : ings.some((i) => i!.embarazo === 'consultar') ? 'consultar' : null;
 const rel = (f.relacionados || []).map(fichaPorSlug).filter(Boolean);
-const titulo = `${f.nombre}: qué es, para qué sirve y cómo usarlo — Miranda Glow`;
+const titulo0 = `${f.nombre}: para qué sirve, beneficios y cómo usarlo`;
+const descripcion = `${f.resumen} Cómo usarlo, con qué combinarlo y precauciones.`;
+const base = f.nombre.charAt(0).toLowerCase() + f.nombre.slice(1);
+const art = /^(ceramidas|siliconas)$/.test(base) ? 'las' : /^(péptidos|parabenos)$/.test(base) ? 'los' : /^vitamina|a$/.test(base.split(' ')[0]) ? 'la' : 'el';
+const minus = `${art} ${base}`;
+const titulo = art.endsWith('s') ? `${f.nombre}: para qué sirven, beneficios y cómo usarlos` : titulo0;
+// Cremas de la web que lo llevan
+const nombresInci = f.inci.map((n) => n.toLowerCase());
+const lleva = (inci: string) => inci.toLowerCase().split(',').map((x) => x.trim()).some((x) => nombresInci.includes(x));
+const cremas = [
+  ...analisis.filter((a) => lleva(a.inci)).map((a) => ({ href: `/analisis/${a.slug}`, nombre: `${a.marca} ${a.nombre}` })),
+  ...alternativas.flatMap((a) => [a.caro, a.barato].filter((p) => lleva(p.inci)).map((p) => ({ href: `/alternativas/${a.slug}`, nombre: `${p.marca} ${p.nombre}` }))),
+].filter((c, i, l) => l.findIndex((x) => x.nombre === c.nombre) === i).slice(0, 8);
+const embTxt = embarazo === 'evitar' ? `No. ${minus.charAt(0).toUpperCase() + minus.slice(1)} no se ${art.endsWith('s') ? 'recomiendan' : 'recomienda'} en el embarazo ni en la lactancia.` : embarazo === 'consultar' ? 'Consúltalo antes con tu médico o tu farmacéutica.' : 'En principio sí: no tiene restricciones conocidas en el embarazo. Ante la duda, pregunta a tu médico.';
+const faq = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: `¿Para qué sirve${art.endsWith('s') ? 'n' : ''} ${minus}?`, acceptedAnswer: { '@type': 'Answer', text: f.paraQue.join(' ') } },
+    { '@type': 'Question', name: `¿Cómo se usa${art.endsWith('s') ? 'n' : ''} ${minus}?`, acceptedAnswer: { '@type': 'Answer', text: f.comoUsar.join(' ') } },
+    ...(f.combinaBien ? [{ '@type': 'Question', name: `¿Con qué se puede${art.endsWith('s') ? 'n' : ''} combinar ${minus}?`, acceptedAnswer: { '@type': 'Answer', text: `Combina bien con ${f.combinaBien.join(', ')}.${f.conCuidado ? ' Con cuidado: ' + f.conCuidado.join('; ') + '.' : ''}` } }] : []),
+    { '@type': 'Question', name: `¿Se puede${art.endsWith('s') ? 'n' : ''} usar ${minus} en el embarazo?`, acceptedAnswer: { '@type': 'Answer', text: embTxt } },
+  ],
+};
 ---
-<Layout title={titulo} description={f.resumen} type="article" jsonld={[
-  articulo({ titulo: `${f.nombre}: qué es, para qué sirve y cómo usarlo`, descripcion: f.resumen, ruta: `/ingredientes/${f.slug}`, seccion: 'Ingredientes' }),
+<Layout title={titulo} description={descripcion} type="article" jsonld={[
+  faq,
+  articulo({ titulo, descripcion, ruta: `/ingredientes/${f.slug}`, seccion: 'Ingredientes' }),
   migas([['Inicio', '/'], ['Ingredientes', '/ingredientes/todos'], [f.nombre, `/ingredientes/${f.slug}`]]),
 ]}>
   <article class="ficha wrap">
@@ -41,12 +66,12 @@ const titulo = `${f.nombre}: qué es, para qué sirve y cómo usarlo — Miranda
 
     <div class="cuerpo">
       <section>
-        <h2>Para qué sirve</h2>
+        <h2>Para qué sirve{art.endsWith('s') ? 'n' : ''} {minus}</h2>
         <ul>{f.paraQue.map((x) => <li>{x}</li>)}</ul>
       </section>
 
       <section>
-        <h2>Cómo usarlo</h2>
+        <h2>Cómo usar {minus}</h2>
         <ul>{f.comoUsar.map((x) => <li>{x}</li>)}</ul>
         {f.concentracion && <p class="conc"><strong>Concentración habitual.</strong> {f.concentracion}</p>}
       </section>
@@ -55,6 +80,18 @@ const titulo = `${f.nombre}: qué es, para qué sirve y cómo usarlo — Miranda
         <section class="combos">
           {f.combinaBien && <div><h3>Combina bien con</h3><ul>{f.combinaBien.map((x) => <li>{x}</li>)}</ul></div>}
           {f.conCuidado && <div><h3>Con cuidado</h3><ul>{f.conCuidado.map((x) => <li>{x}</li>)}</ul></div>}
+        </section>
+      )}
+
+      <section>
+        <h2>¿Se puede usar en el embarazo?</h2>
+        <p class="emb">{embTxt}</p>
+      </section>
+
+      {cremas.length > 0 && (
+        <section>
+          <h2>Cremas que hemos analizado y {art.endsWith('s') ? (art === 'las' ? 'las' : 'los') : (art === 'la' ? 'la' : 'lo')} llevan</h2>
+          <ul>{cremas.map((c) => <li><a href={c.href}>{c.nombre}</a></li>)}</ul>
         </section>
       )}
 
@@ -115,6 +152,8 @@ const titulo = `${f.nombre}: qué es, para qué sirve y cómo usarlo — Miranda
   .cuerpo{margin-top:24px}
   section{padding:32px 0;border-bottom:1px solid var(--line)}
   section h2{font-size:1.8rem;margin-bottom:16px}
+  .emb{font-family:var(--serif);font-size:1.12rem;line-height:1.6;color:#33494D;margin:0}
+  li a{color:var(--teal)}
   section h3{font-family:var(--sans);font-weight:600;font-size:1rem;margin-bottom:10px}
   ul{list-style:none}
   li{position:relative;padding-left:22px;margin-bottom:10px;font-family:var(--serif);font-size:1.12rem;line-height:1.6;color:#33494D}
