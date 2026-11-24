@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { herramientas } from '../data/herramientas';
+---
+<Layout title="Herramientas gratis para cuidar tu piel — Miranda Glow" description="Test de piel, lector de ingredientes, comparador de cremas, diario de granitos, índice UV y más. Gratis y sin registrarte.">
+  <section class="hz wrap">
+    <h1>Herramientas</h1>
+    <p class="intro">Gratis y sin registrarte. Lo que guardes se queda en tu móvil, o en tu cuenta si entras.</p>
+    <ul>
+      {herramientas.map(([u, a, b]) => <li><a href={u}><span class="t">{a}</span><span class="d">{b}</span></a></li>)}
+    </ul>
+  </section>
+</Layout>
+<style>
+  .hz{padding-top:56px;padding-bottom:96px}
+  .hz h1{margin-bottom:12px}
+  .intro{font-family:var(--serif);font-size:1.2rem;color:var(--ink-soft);margin-bottom:36px;max-width:56ch}
+  ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
+  a{display:grid;gap:6px;height:100%;box-sizing:border-box;padding:22px;border-radius:20px;background:var(--white);border:1px solid var(--line);text-decoration:none;color:var(--ink)}
+  a:hover{border-color:var(--teal)}
+  .t{font-family:var(--serif);font-size:1.35rem;line-height:1.2}
+  .d{font-size:.92rem;color:var(--ink-soft);line-height:1.5}
+</style>

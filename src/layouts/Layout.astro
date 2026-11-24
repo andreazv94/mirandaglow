@@ -75,29 +75,23 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
             <a href="/guia" class="hide-m">Guía de la piel</a>
             <a href="/ingredientes/todos" class="nav-ing">Ingredientes</a>
             <details class="menu">
-              <summary><span class="hide-m">Herramientas</span><span class="solo-m">Menú</span></summary>
+              <summary>Menú</summary>
               <div class="menu-panel">
                 <div>
                   <p>Herramientas</p>
-                  <a href="/ingredientes">Lector de ingredientes</a>
-                  <a href="/mi-rutina">Mi rutina</a>
-                  <a href="/comparar">Comparar cremas</a>
-                  <a href="/diario">Diario de granitos</a>
-                  <a href="/sol">El sol de hoy</a>
-                  <a href="/lunares">Revisa tus lunares</a>
+                  <a href="/test"><b>Test de piel</b><small>Tu tipo de piel y tu rutina</small></a>
+                  <a href="/ingredientes"><b>Lector de ingredientes</b><small>Qué lleva tu crema</small></a>
+                  <a href="/mi-rutina"><b>Mi rutina</b><small>Ordena tus productos</small></a>
+                  <a href="/herramientas" class="mas">Ver todas las herramientas</a>
                 </div>
                 <div>
                   <p>Aprende</p>
-                  <a href="/ingredientes/todos">Ingredientes de la A a la Z</a>
-                  <a href="/guia">Guía de la piel</a>
-                  <a href="/analisis">Análisis de cremas</a>
-                  <a href="/alternativas">Alternativas baratas</a>
-                  <a href="/mitos">Mitos de la piel</a>
-                  <a href="/blog">Todos los artículos</a>
+                  <a href="/ingredientes/todos"><b>Ingredientes</b><small>De la A a la Z y los de moda</small></a>
+                  <a href="/guia"><b>Guía de la piel</b><small>Empieza por aquí</small></a>
+                  <a href="/analisis"><b>Cremas analizadas</b><small>Y sus alternativas baratas</small></a>
+                  <a href="/blog" class="mas">Todos los artículos</a>
                 </div>
-                <div>
-                  <p>Tú</p>
-                  <a href="/test">Test de piel</a>
+                <div class="menu-pie">
                   <a href="/cuenta" data-cuenta-link>Entrar</a>
                   <a href="/app/">App</a>
                   <a href="/sobre">Quiénes somos</a>
@@ -133,6 +127,7 @@ const datos = jsonld ? (Array.isArray(jsonld) ? jsonld : [jsonld]) : [];
             </div>
             <div>
               <p>Aprende</p>
+              <a href="/ingredientes/todos">Ingredientes</a>
               <a href="/guia">Guía de la piel</a>
               <a href="/blog">Todos los artículos</a>
               <a href="/analisis">Análisis de cremas</a>
