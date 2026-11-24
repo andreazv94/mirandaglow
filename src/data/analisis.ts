@@ -53,7 +53,6 @@ export const analisis: Analisis[] = [
       'Aqua, Paraffinum Liquidum, Cera Microcristallina, Glycerin, Lanolin Alcohol (Eucerit®), Paraffin, Panthenol, Magnesium Sulfate, Decyl Oleate, Octyldodecanol, Aluminum Stearates, Citric Acid, Magnesium Stearate, Limonene, Geraniol, Hydroxycitronellal, Linalool, Citronellol, Benzyl Benzoate, Cinnamyl Alcohol, Parfum',
     fuentes: [
       { texto: 'Nivea (web oficial, ficha de NIVEA Creme lata)', url: 'https://nivea.co.za/products/nivea-creme-tin-150ml-60010510006300147.html' },
-      { texto: 'Druni (lista en español del pack NIVEA Creme 150 ml)', url: 'https://www.druni.es/lata-100-anos-azul-nivea-pack-body-clasicos' },
     ],
     comprobado: '2026-11-19',
     bueno: [
