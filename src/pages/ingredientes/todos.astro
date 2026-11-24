@@ -14,6 +14,7 @@ for (const i of lista) {
   grupos.set(l, [...(grupos.get(l) || []), i]);
 }
 const letras = [...grupos.keys()];
+const deModa = fichas.filter((f) => f.moda);
 const destacadas = [...fichas].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 ---
 <Layout
@@ -27,10 +28,24 @@ const destacadas = [...fichas].sort((a, b) => a.nombre.localeCompare(b.nombre, '
       <a class="btn" href="/ingredientes">Analizar la lista de un producto</a>
     </header>
 
+    <label class="busca">
+      <span class="sr-only">Buscar un ingrediente</span>
+      <input id="busca" type="search" placeholder="Busca un ingrediente: retinol, PDRN, niacinamida…" autocomplete="off" />
+    </label>
+    <p id="sin" class="sin" hidden>No lo tenemos todavía. Prueba con el nombre que pone en la etiqueta o <a href="/ingredientes">pega la lista entera en el lector</a>.</p>
+
+    <section class="moda-sec" aria-labelledby="moda-h">
+      <h2 id="moda-h">Los que están de moda</h2>
+      <p>Lo que más ves en redes ahora mismo, y lo que de verdad se sabe de cada uno.</p>
+      <ul>
+        {deModa.map((f) => <li data-busca={`${f.nombre} ${f.inci.join(' ')}`.toLowerCase()}><a href={`/ingredientes/${f.slug}`}><b>{f.nombre}</b><span>{f.moda}</span></a></li>)}
+      </ul>
+    </section>
+
     <section class="fichas" aria-labelledby="fichas-h">
       <h2 id="fichas-h">Fichas completas</h2>
       <ul>
-        {destacadas.map((f) => <li><a href={`/ingredientes/${f.slug}`}>{f.nombre}</a></li>)}
+        {destacadas.map((f) => <li data-busca={`${f.nombre} ${f.inci.join(' ')}`.toLowerCase()}><a href={`/ingredientes/${f.slug}`}>{f.nombre}</a></li>)}
       </ul>
     </section>
 
@@ -45,7 +60,7 @@ const destacadas = [...fichas].sort((a, b) => a.nombre.localeCompare(b.nombre, '
           {grupos.get(l)!.map((i) => {
             const f = fichaDeInci(i.n);
             return (
-              <div id={i.n.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
+              <div id={i.n.toLowerCase().replace(/[^a-z0-9]+/g, '-')} data-busca={`${i.n} ${(i.alias || []).join(' ')} ${i.que}`.toLowerCase()}>
                 <dt>
                   {f ? <a href={`/ingredientes/${f.slug}`}>{i.n}</a> : i.n}
                   <span>{tipoTxt[i.tipo]}</span>
@@ -63,6 +78,21 @@ const destacadas = [...fichas].sort((a, b) => a.nombre.localeCompare(b.nombre, '
       </section>
     ))}
   </section>
+  <script>
+    const q = document.getElementById('busca') as HTMLInputElement;
+    const sin = document.getElementById('sin')!;
+    const norm = (t: string) => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const items = [...document.querySelectorAll<HTMLElement>('[data-busca]')].map((el) => [el, norm(el.dataset.busca!)] as const);
+    q.addEventListener('input', () => {
+      const t = norm(q.value.trim());
+      let n = 0;
+      for (const [el, txt] of items) { const ok = !t || txt.includes(t); el.hidden = !ok; if (ok) n++; }
+      document.querySelectorAll<HTMLElement>('.grupo').forEach((g) => { g.hidden = !!t && !g.querySelector('[data-busca]:not([hidden])'); });
+      document.querySelectorAll<HTMLElement>('.moda-sec,.fichas').forEach((g) => { g.hidden = !!t && !g.querySelector('[data-busca]:not([hidden])'); });
+      (document.querySelector('.letras') as HTMLElement).hidden = !!t;
+      sin.hidden = n > 0;
+    });
+  </script>
 </Layout>
 
 <style>
@@ -70,6 +100,17 @@ const destacadas = [...fichas].sort((a, b) => a.nombre.localeCompare(b.nombre, '
   .glo-head{margin-bottom:48px}
   .glo-head h1{margin-bottom:16px;font-size:clamp(2.6rem,5vw,4.4rem)}
   .glo-head p{font-family:var(--serif);font-size:1.2rem;line-height:1.6;color:var(--ink-soft);max-width:58ch;margin-bottom:24px}
+  .busca input{width:100%;font:inherit;font-size:1.05rem;padding:16px 20px;border:1px solid var(--line);border-radius:999px;background:var(--white);margin-bottom:28px}
+  .busca input:focus{outline:2px solid var(--teal);outline-offset:2px}
+  .sin{margin:-12px 0 28px;color:var(--ink-soft)}
+  .moda-sec{background:var(--ink);color:#fff;border-radius:22px;padding:28px 30px;margin-bottom:24px}
+  .moda-sec h2{font-size:1.6rem;color:#fff;margin-bottom:6px}
+  .moda-sec>p{color:rgba(255,255,255,.75);margin-bottom:18px}
+  .moda-sec ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:10px}
+  .moda-sec a{display:flex;flex-direction:column;gap:4px;height:100%;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.08);color:#fff;text-decoration:none}
+  .moda-sec a:hover{background:rgba(255,255,255,.16)}
+  .moda-sec span{font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.4}
+  [hidden]{display:none!important}
   .fichas{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:28px 30px;margin-bottom:48px}
   .fichas h2{font-size:1.6rem;margin-bottom:16px}
   .fichas ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
