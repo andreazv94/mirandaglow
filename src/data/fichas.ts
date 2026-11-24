@@ -116,7 +116,6 @@ export const fichas: Ficha[] = [
     concentracion: 'En casa, entre el 5 % y el 10 %. Los peelings más fuertes, mejor en consulta.',
     conCuidado: ['Retinol y otros ácidos: no la misma noche.', 'Piel sensible o con rosácea: mejor ácido láctico o mandélico.'],
     precauciones: ['Pica un poco al aplicarlo; si arde o enrojece mucho, retíralo.', 'Aumenta la sensibilidad al sol.'],
-    productos: ['aha'],
     relacionados: ['acido-lactico', 'acido-salicilico', 'retinol'],
   },
   {
@@ -198,7 +197,6 @@ export const fichas: Ficha[] = [
     paraQue: ['Calma el escozor y las rojeces.', 'Hidrata.', 'Ayuda a recuperar la piel tras el afeitado, el sol o los activos.'],
     comoUsar: ['Mañana y noche, sin límites.'],
     concentracion: 'Entre el 1 % y el 5 %.',
-    productos: ['calmante'],
     relacionados: ['centella-asiatica', 'ceramidas', 'glicerina'],
   },
   {

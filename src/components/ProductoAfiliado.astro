@@ -18,22 +18,33 @@ const { id } = Astro.props;
 const p = getProducto(id);
 ---
 {p ? (
+  <>
   <a
     class="prod-card"
     href={p.url}
     target="_blank"
-    rel="sponsored nofollow noopener"
+    rel="nofollow noopener"
   >
     <span class="prod-body">
-      <span class="prod-cat">{p.categoria}{p.natural && <span class="prod-nat">natural</span>}</span>
+      <span class="prod-cat">{p.categoria}<span class="prod-cp">{p.alternativa ? 'Fácil de encontrar' : 'Mejor calidad-precio'}</span></span>
       <span class="prod-name">{p.nombre}</span>
       <span class="prod-desc">{p.descripcion}</span>
     </span>
     <span class="prod-side">
-      <span class="prod-price">{p.precio}</span>
       <span class="prod-cta">Ver en {p.tienda}</span>
     </span>
   </a>
+  {p.alternativa && (
+    <a class="prod-card prod-alt" href={p.alternativa.url} target="_blank" rel="nofollow noopener">
+      <span class="prod-body">
+        <span class="prod-cat">Menos conocida, igual de buena</span>
+        <span class="prod-name">{p.alternativa.nombre}</span>
+        <span class="prod-desc">{p.alternativa.descripcion}</span>
+      </span>
+      <span class="prod-side"><span class="prod-cta">Ver en {p.alternativa.tienda}</span></span>
+    </a>
+  )}
+  </>
 ) : (
   <span style="color:#c00">[Producto «{id}» no encontrado en productos.ts]</span>
 )}
@@ -44,11 +55,12 @@ const p = getProducto(id);
     padding:16px 20px;margin:22px 0;text-decoration:none;color:var(--ink)}
   .prod-card:hover{border-color:var(--ink);border-left-color:var(--acento)}
   .prod-cat{display:block;font-size:.85rem;color:var(--ink-soft)}
-  .prod-nat{margin-left:8px;color:var(--salvia)}
+  .prod-cp{margin-left:8px;font-size:.78rem;font-weight:600;color:#1F5E40;background:#DDF1E7;border-radius:999px;padding:2px 9px}
   .prod-name{display:block;font-weight:600;font-size:1.08rem;margin:2px 0}
   .prod-desc{display:block;font-size:.93rem;color:var(--ink-soft);line-height:1.45}
   .prod-side{text-align:right;white-space:nowrap}
   .prod-price{display:block;font-weight:600}
   .prod-cta{display:block;font-size:.88rem;color:var(--acento);margin-top:2px}
+  .prod-alt{margin-top:-12px;border-left-color:var(--aqua);background:var(--pearl)}
   @media(max-width:640px){.prod-card{grid-template-columns:1fr}.prod-side{text-align:left}}
 </style>
