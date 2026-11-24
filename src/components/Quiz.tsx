@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { buildRoutine, fases, visibleQuestions, type Answers } from './quiz-logic';
 import type { Producto } from '../data/productos';
 
@@ -58,16 +58,29 @@ export default function Quiz() {
       <div className="rutina-bloque">
         <div className="rb-head"><h3>{titulo}</h3></div>
         {lista.map((p, i) => (
-          <a key={p.id} className="prod" href={p.url} target="_blank" rel="sponsored nofollow noopener">
+          <Fragment key={p.id}>
+          <a className="prod" href={p.url} target="_blank" rel="nofollow noopener">
             <span className="stepn">{p.orden === 6 ? 'Extra' : i + 1}</span>
             <span className="pinfo">
-              <span className="cat">{p.categoria}{p.natural && <span className="nat-badge">natural</span>}</span>
+              <span className="cat">{p.categoria}<span className="nat-badge">{p.alternativa ? 'Fácil de encontrar' : 'Mejor calidad-precio'}</span></span>
               <b>{p.nombre}</b>
               <span className="d">{p.descripcion}</span>
               <span className="freq">{p.frecuencia}</span>
             </span>
-            <span className="price">{p.precio}<small>Ver en {p.tienda}</small></span>
+            <span className="price"><small>Ver en {p.tienda}</small></span>
           </a>
+          {p.alternativa && (
+            <a className="prod prod-alt" href={p.alternativa.url} target="_blank" rel="nofollow noopener">
+              <span className="stepn" aria-hidden="true">o</span>
+              <span className="pinfo">
+                <span className="cat">Menos conocida, igual de buena</span>
+                <b>{p.alternativa.nombre}</b>
+                <span className="d">{p.alternativa.descripcion}</span>
+              </span>
+              <span className="price"><small>Ver en {p.alternativa.tienda}</small></span>
+            </a>
+          )}
+          </Fragment>
         ))}
       </div>
     );
@@ -204,6 +217,7 @@ function Styles() {
       .aviso.medico b{display:block;color:var(--ambar);margin-bottom:2px}
       .rutina-bloque{margin:34px 0}
       .rb-head h3{font-size:1.35rem;margin-bottom:12px}
+      .prod-alt{background:var(--pearl)!important;border-left:3px solid var(--aqua)!important;margin-top:-4px}
       .prod{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:start;background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;margin-bottom:8px;text-decoration:none;color:var(--ink)}
       .prod:hover{border-color:var(--ink)}
       .prod .stepn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--acento);color:var(--acento);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem}
