@@ -1,4 +1,5 @@
 ---
+import { herramientas } from '../data/herramientas';
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import PielHoy from '../components/PielHoy.tsx';
@@ -61,16 +62,7 @@ const inci: Ing[] = [
       <h2 id="herr-h">Herramientas</h2>
       <p class="herr-intro">Gratis, sin registrarte. Lo que guardes se queda en tu móvil, o en tu cuenta si entras.</p>
       <ul>
-        {[
-          ['/ingredientes', 'Lector de ingredientes', 'Foto a la etiqueta o código de barras y te decimos qué lleva.'],
-          ['/mi-rutina', 'Mi rutina', 'Ordena tus cremas en mañana y noche, y qué te falta.'],
-          ['/comparar', 'Comparar cremas', 'Pon dos y mira si la barata hace lo mismo.'],
-          ['/alternativas', 'Alternativas baratas', 'La Mer, SkinCeuticals, Vichy… y sus dupes.'],
-          ['/diario', 'Diario de granitos', 'Descubre qué coincide con tus brotes.'],
-          ['/sol', 'El sol de hoy', 'Índice UV donde estés y cuándo renovar.'],
-          ['/lunares', 'Revisa tus lunares', 'La regla ABCDE, una vez al mes.'],
-          ['/mitos', 'Mitos de la piel', '¿Verdad o mentira? Comprobado con fuentes.'],
-        ].map(([u, a, b]) => (
+        {herramientas.filter(([u]) => u !== '/test').map(([u, a, b]) => (
           <li><a href={u}><span class="herr-t">{a}</span><span class="herr-d">{b}</span></a></li>
         ))}
       </ul>

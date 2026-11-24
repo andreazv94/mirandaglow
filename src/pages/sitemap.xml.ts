@@ -23,6 +23,7 @@ export async function GET({ site }) {
     '/alternativas',
     ...alternativas.map((a): [string, string] => [`/alternativas/${a.slug}`, a.comprobado]),
     '/mitos',
+    '/herramientas',
     '/lunares',
     '/diario',
     '/sol',

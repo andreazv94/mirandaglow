@@ -36,7 +36,7 @@ const destacadas = [...fichas].sort((a, b) => a.nombre.localeCompare(b.nombre, '
 
     <section class="moda-sec" aria-labelledby="moda-h">
       <h2 id="moda-h">Los que están de moda</h2>
-      <p>Lo que más ves en redes ahora mismo, y lo que de verdad se sabe de cada uno.</p>
+      <p>Lo que más ves en redes ahora mismo, y lo que de verdad se sabe de cada uno. <a href="/blog/ingredientes-de-moda">Cuáles funcionan y cuáles son humo</a></p>
       <ul>
         {deModa.map((f) => <li data-busca={`${f.nombre} ${f.inci.join(' ')}`.toLowerCase()}><a href={`/ingredientes/${f.slug}`}><b>{f.nombre}</b><span>{f.moda}</span></a></li>)}
       </ul>
@@ -106,6 +106,7 @@ const destacadas = [...fichas].sort((a, b) => a.nombre.localeCompare(b.nombre, '
   .moda-sec{background:var(--ink);color:#fff;border-radius:22px;padding:28px 30px;margin-bottom:24px}
   .moda-sec h2{font-size:1.6rem;color:#fff;margin-bottom:6px}
   .moda-sec>p{color:rgba(255,255,255,.75);margin-bottom:18px}
+  .moda-sec>p a{color:#9FD3D6;font-weight:600}
   .moda-sec ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:10px}
   .moda-sec a{display:flex;flex-direction:column;gap:4px;height:100%;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.08);color:#fff;text-decoration:none}
   .moda-sec a:hover{background:rgba(255,255,255,.16)}

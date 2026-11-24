@@ -21,6 +21,8 @@ const FAMILIAS = [
   { re: /^(vitamina-c|acido-tranexamico|alfa-arbutina|acido-kojico)$/, nombre: 'Luminosidad y manchas', tono: '#F6EDDC', img: 'frasco' },
   { re: /./, nombre: 'Activo', tono: '#E8EEF2', img: 'textura' },
 ];
+const LEER: Record<string, [string, string]> = { pdrn: ['/blog/pdrn-vs-retinol', 'PDRN o retinol: cuál elegir'], retinol: ['/blog/pdrn-vs-retinol', 'PDRN o retinol: cuál elegir'], espiculas: ['/blog/espiculas-son-seguras', '¿Son seguras las espículas?'], exosomas: ['/blog/exosomas-que-son', 'Exosomas: si merecen la pena'] };
+const leer = LEER[f.slug] ?? (f.moda ? ['/blog/ingredientes-de-moda', 'Ingredientes de moda: cuáles funcionan'] : null);
 const fam = FAMILIAS.find((x) => x.re.test(f.slug))!;
 const ings = f.inci.map((n) => buscar(n)).filter(Boolean);
 const embarazo = ings.some((i) => i!.embarazo === 'evitar') ? 'evitar' : ings.some((i) => i!.embarazo === 'consultar') ? 'consultar' : null;
@@ -63,6 +65,7 @@ const faq = {
         <h1>{f.nombre}</h1>
         <p class="inci">{f.inci.length ? `En la etiqueta: ${f.inci.join(', ')}` : 'En la etiqueta: no tiene un nombre fijo'}</p>
         {f.moda && <p class="por-que">{f.moda}</p>}
+        {leer && <a class="leer" href={leer[0]}>Lee: {leer[1]}</a>}
       </div>
       <div class="cab-media" aria-hidden="true">
         {fam.video
@@ -163,6 +166,7 @@ const faq = {
   .inci{font-size:.9rem;color:var(--ink-soft)}
   .moda{margin-left:6px;background:var(--ink);color:#fff}
   .por-que{margin-top:12px;font-size:.95rem;color:var(--ink)}
+  .leer{display:inline-block;margin-top:12px;font-weight:600;color:var(--teal)}
   .cab-media{aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.5)}
   .cab-media img,.cab-media video{width:100%;height:100%;object-fit:cover;display:block}
   @media(max-width:640px){.cab{grid-template-columns:1fr;padding:20px;gap:18px}.cab-media{aspect-ratio:16/10;order:-1}}

@@ -59,9 +59,14 @@ a{color:var(--teal)}
 .menu[open] summary::after{transform:translateY(1px) rotate(-135deg)}
 .menu summary:hover,.menu[open] summary{opacity:1}
 .menu summary:focus-visible,.menu-panel a:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
-.menu-panel{position:absolute;right:-120px;top:calc(100% + 18px);z-index:20;background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 40px rgba(34,54,58,.14);padding:22px 26px;display:grid;grid-template-columns:repeat(3,minmax(160px,1fr));gap:22px;width:max-content}
+.menu-panel{position:absolute;right:-120px;top:calc(100% + 18px);z-index:20;background:var(--white);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 40px rgba(34,54,58,.14);padding:22px 26px;display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:8px 30px;width:max-content}
 .menu-panel p{margin:0 0 8px;font-size:.78rem;color:var(--teal)}
-.menu-panel a{display:block;padding:6px 0;opacity:1;font-size:.95rem;white-space:nowrap}
+.menu-panel a{display:block;padding:7px 0;opacity:1;font-size:.95rem;white-space:nowrap}
+.menu-panel b{display:block;font-weight:600}
+.menu-panel small{display:block;font-size:.8rem;color:var(--ink-soft);margin-top:1px}
+.menu-panel .mas{color:var(--teal);font-size:.88rem;margin-top:4px}
+.menu-pie{grid-column:1 / -1;display:flex;gap:22px;border-top:1px solid var(--line);padding-top:12px;margin-top:6px}
+.menu-pie a{font-size:.88rem;color:var(--ink-soft)}
 .menu-panel a:hover{color:var(--teal)}
 .solo-m{display:none}
 
@@ -90,9 +95,7 @@ footer .wm-s{color:#A9D8DC}
   .navlinks .hide-m{display:none}
   .solo-m{display:inline}
   .menu{position:static}
-  .menu-panel{position:absolute;left:12px;right:12px;top:68px;width:auto;grid-template-columns:1fr 1fr;padding:20px 22px}
-  .menu-panel > div:last-child{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;column-gap:22px}
-  .menu-panel > div:last-child p{grid-column:1 / -1}
+  .menu-panel{position:absolute;left:12px;right:12px;top:68px;width:auto;grid-template-columns:1fr;padding:20px 22px;max-height:calc(100vh - 90px);overflow:auto}
   .menu-panel a{white-space:normal}
   .wrap{padding:0 22px}
 }
