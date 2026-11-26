@@ -27,13 +27,23 @@ const fam = FAMILIAS.find((x) => x.re.test(f.slug))!;
 const ings = f.inci.map((n) => buscar(n)).filter(Boolean);
 const embarazo = ings.some((i) => i!.embarazo === 'evitar') ? 'evitar' : ings.some((i) => i!.embarazo === 'consultar') ? 'consultar' : null;
 const rel = (f.relacionados || []).map(fichaPorSlug).filter(Boolean);
-const titulo0 = `${f.nombre}: para qué sirve, beneficios y cómo usarlo`;
-const descripcion = `${f.resumen} Cómo usarlo, con qué combinarlo y precauciones.`;
+// Nombre en inglés: mucha gente lo busca así (Search Console: «glycolic acid», «niacinamide beneficios»)
+const EN: Record<string, string> = {
+  niacinamida: 'niacinamide', 'acido-hialuronico': 'hyaluronic acid', 'vitamina-c': 'vitamin C', 'acido-salicilico': 'salicylic acid',
+  'acido-glicolico': 'glycolic acid', 'acido-lactico': 'lactic acid', 'acido-azelaico': 'azelaic acid', ceramidas: 'ceramides',
+  peptidos: 'peptides', 'centella-asiatica': 'centella asiatica, cica', pantenol: 'panthenol, vitamina B5', glicerina: 'glycerin',
+  escualano: 'squalane', 'oxido-de-zinc': 'zinc oxide', 'acido-tranexamico': 'tranexamic acid', 'alfa-arbutina': 'alpha arbutin',
+  cafeina: 'caffeine', ectoina: 'ectoin', betaglucano: 'beta-glucan', 'peptidos-de-cobre': 'GHK-Cu, copper peptides', 'acido-kojico': 'kojic acid',
+};
+const en = EN[f.slug];
+const corto = en ? `${f.nombre} (${en.split(',')[0]})` : f.nombre;
+const titulo0 = `${corto}: para qué sirve, beneficios y cómo usarlo`;
+const descripcion = `${en ? `${f.nombre} (${en}): ` : ''}${f.resumen} Cómo usarlo, con qué combinarlo y precauciones.`;
 const base = /^[A-Z]{2}/.test(f.nombre) ? f.nombre : f.nombre.charAt(0).toLowerCase() + f.nombre.slice(1);
 const ART: Record<string, string> = { exosomas: 'los', espiculas: 'las', 'peptidos-de-cobre': 'los' };
 const art = ART[f.slug] ?? (/^[A-Z]{2}/.test(f.nombre) ? 'el' : (/^(ceramidas|siliconas)$/.test(base) ? 'las' : /^(péptidos|parabenos)$/.test(base) ? 'los' : /^vitamina|a$/.test(base.split(' ')[0]) ? 'la' : 'el'));
 const minus = `${art} ${base}`;
-const titulo = art.endsWith('s') ? `${f.nombre}: para qué sirven, beneficios y cómo usarlos` : titulo0;
+const titulo = art.endsWith('s') ? `${corto}: para qué sirven, beneficios y cómo usarlos` : titulo0;
 // Cremas de la web que lo llevan
 const nombresInci = f.inci.map((n) => n.toLowerCase());
 const lleva = (inci: string) => inci.toLowerCase().split(',').map((x) => x.trim()).some((x) => nombresInci.includes(x));
@@ -63,6 +73,7 @@ const faq = {
       <div class="cab-txt">
         <span class="fam">{fam.nombre}</span>{f.moda && <span class="fam moda">De moda</span>}
         <h1>{f.nombre}</h1>
+        {en && <p class="en">También lo verás como <i>{en}</i></p>}
         <p class="inci">{f.inci.length ? `En la etiqueta: ${f.inci.join(', ')}` : 'En la etiqueta: no tiene un nombre fijo'}</p>
         {f.moda && <p class="por-que">{f.moda}</p>}
         {leer && <a class="leer" href={leer[0]}>Lee: {leer[1]}</a>}
@@ -146,6 +157,11 @@ const faq = {
       <a class="btn" href="/ingredientes">Abrir el lector de ingredientes</a>
     </aside>
 
+    <section class="sec preguntas">
+      <h2>Preguntas frecuentes</h2>
+      {faq.mainEntity.map((q) => <details><summary>{q.name}</summary><p>{q.acceptedAnswer.text}</p></details>)}
+    </section>
+
     {rel.length > 0 && (
       <nav class="rel" aria-label="Ingredientes relacionados">
         <h2>Relacionados</h2>
@@ -165,6 +181,10 @@ const faq = {
   .fam{display:inline-block;font-size:.82rem;font-weight:600;color:var(--teal);background:rgba(255,255,255,.7);padding:5px 12px;border-radius:99px}
   .inci{font-size:.9rem;color:var(--ink-soft)}
   .moda{margin-left:6px;background:var(--ink);color:#fff}
+  .preguntas details{border-bottom:1px solid var(--line);padding:14px 0}
+  .preguntas summary{cursor:pointer;font-weight:600}
+  .preguntas details p{margin-top:8px;color:var(--ink-soft)}
+  .en{margin:-6px 0 8px;color:var(--ink-soft);font-size:.95rem}
   .por-que{margin-top:12px;font-size:.95rem;color:var(--ink)}
   .leer{display:inline-block;margin-top:12px;font-weight:600;color:var(--teal)}
   .cab-media{aspect-ratio:4/5;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.5)}
